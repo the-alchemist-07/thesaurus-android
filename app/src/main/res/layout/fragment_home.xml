@@ -51,13 +51,15 @@
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardSearch"
+        style="@style/Widget.Material3.CardView.Elevated"
         android:layout_width="match_parent"
         android:layout_height="@dimen/large_margin"
         android:layout_marginHorizontal="@dimen/common_margin"
         android:layout_marginTop="@dimen/double_common_margin"
+        android:clickable="true"
+        android:focusable="true"
         app:cardCornerRadius="@dimen/common_margin"
         app:cardElevation="@dimen/half_common_margin"
-        style="@style/Widget.Material3.CardView.Elevated"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/guideline">
@@ -94,10 +96,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/double_common_margin"
-        android:textAlignment="center"
         android:layout_marginTop="@dimen/double_common_margin"
         android:text="@string/app_tagline"
+        android:textAlignment="center"
         android:textColor="@color/dark_text"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cardSearch" />
