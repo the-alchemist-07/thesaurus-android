@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Thesaurus</string>
+    <string name="app_tagline">Find definitions, synonyms, and acronyms of any English word</string>
 </resources>

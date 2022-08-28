@@ -3,9 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/100524/AndroidStudioProjects/Thesaurus/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1605" />
+        <entry key="..\:/Users/100524/AndroidStudioProjects/Thesaurus/app/src/main/res/drawable/dr_home_background_grey.xml" value="0.1605" />
+        <entry key="..\:/Users/100524/AndroidStudioProjects/Thesaurus/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1605" />
+        <entry key="..\:/Users/100524/AndroidStudioProjects/Thesaurus/app/src/main/res/drawable/ic_search_grey_24.xml" value="0.1605" />
         <entry key="..\:/Users/100524/AndroidStudioProjects/Thesaurus/app/src/main/res/layout/activity_home.xml" value="0.22604166666666667" />
         <entry key="..\:/Users/100524/AndroidStudioProjects/Thesaurus/app/src/main/res/layout/activity_main.xml" value="0.22604166666666667" />
-        <entry key="..\:/Users/100524/AndroidStudioProjects/Thesaurus/app/src/main/res/layout/fragment_home.xml" value="0.1" />
+        <entry key="..\:/Users/100524/AndroidStudioProjects/Thesaurus/app/src/main/res/layout/fragment_home.xml" value="0.176" />
         <entry key="..\:/Users/100524/AndroidStudioProjects/Thesaurus/app/src/main/res/layout/fragment_notifications.xml" value="0.1" />
         <entry key="..\:/Users/100524/AndroidStudioProjects/Thesaurus/app/src/main/res/menu/bottom_nav_menu.xml" value="0.22604166666666667" />
       </map>

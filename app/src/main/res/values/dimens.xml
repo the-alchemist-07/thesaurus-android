@@ -4,4 +4,6 @@
     <dimen name="half_common_margin">8dp</dimen>
     <dimen name="quarter_common_margin">4dp</dimen>
     <dimen name="double_common_margin">32dp</dimen>
+    <dimen name="large_margin">52dp</dimen>
+    <dimen name="margin_top">10dp</dimen>
 </resources>
