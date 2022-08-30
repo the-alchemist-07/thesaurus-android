@@ -3,12 +3,15 @@
     <color name="green_secondary">#FF00D7E3</color>
     <color name="green_primary">#09868E</color>
     <color name="green_primary_dark">#FF00565B</color>
+    <color name="green_900">#004D40</color>
     <color name="yellow_secondary">#FFF59D</color>
     <color name="yellow_primary">#FFE5F33C</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
+    <color name="transparent">#00FFFFFF</color>
     <color name="grey_background">#FFE2DECD</color>
     <color name="light_text">#8C8C8C</color>
     <color name="dark_text">#3C3C3C</color>
+    <color name="translucent_white">#36BBBBBB</color>
 </resources>

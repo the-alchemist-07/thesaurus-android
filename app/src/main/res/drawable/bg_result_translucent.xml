@@ -4,10 +4,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <solid
-        android:color="@color/grey_background"/>
+        android:color="@color/translucent_white" />
 
     <corners
-        android:topLeftRadius="@dimen/common_margin"
-        android:topRightRadius="@dimen/common_margin"/>
+        android:topRightRadius="@dimen/half_common_margin"
+        android:bottomRightRadius="@dimen/half_common_margin"/>
 
 </shape>
