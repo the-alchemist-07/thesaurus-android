@@ -1,4 +1,4 @@
-package com.mashood.thesaurus.home.ui
+package com.mashood.thesaurus
 
 import android.animation.ObjectAnimator
 import androidx.appcompat.app.AppCompatActivity
