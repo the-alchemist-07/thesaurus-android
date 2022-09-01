@@ -13,10 +13,22 @@
         <action
             android:id="@+id/action_homeFragment_to_searchFragment"
             app:destination="@id/searchFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_bookmarksFragment"
+            app:destination="@id/bookmarksFragment" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.mashood.thesaurus.search.ui.SearchFragment"
         android:label="fragment_search"
         tools:layout="@layout/fragment_search" />
+    <fragment
+        android:id="@+id/bookmarksFragment"
+        android:name="com.mashood.thesaurus.bookmark.ui.BookmarksFragment"
+        android:label="fragment_bookmarks"
+        tools:layout="@layout/fragment_bookmarks" >
+        <action
+            android:id="@+id/action_bookmarksFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
+    </fragment>
 </navigation>

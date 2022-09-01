@@ -23,6 +23,10 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             cardSearch.setOnClickListener {
                 findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSearchFragment())
             }
+
+            btnBookmarks.setOnClickListener {
+                findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToBookmarksFragment())
+            }
         }
     }
 

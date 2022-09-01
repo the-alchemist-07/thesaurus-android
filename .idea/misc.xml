@@ -9,6 +9,8 @@
         <entry key="..\:/Users/100524/AndroidStudioProjects/Thesaurus/app/src/main/res/drawable/bg_img_button.xml" value="0.1605" />
         <entry key="..\:/Users/100524/AndroidStudioProjects/Thesaurus/app/src/main/res/drawable/bg_primary_gradient.xml" value="0.1605" />
         <entry key="..\:/Users/100524/AndroidStudioProjects/Thesaurus/app/src/main/res/drawable/bg_result_translucent.xml" value="0.1605" />
+        <entry key="..\:/Users/100524/AndroidStudioProjects/Thesaurus/app/src/main/res/drawable/bg_selectable_secondary.xml" value="0.1485" />
+        <entry key="..\:/Users/100524/AndroidStudioProjects/Thesaurus/app/src/main/res/drawable/bg_selectable_white.xml" value="0.1485" />
         <entry key="..\:/Users/100524/AndroidStudioProjects/Thesaurus/app/src/main/res/drawable/dr_home_background_grey.xml" value="0.1605" />
         <entry key="..\:/Users/100524/AndroidStudioProjects/Thesaurus/app/src/main/res/drawable/dr_selectable_background.xml" value="0.1605" />
         <entry key="..\:/Users/100524/AndroidStudioProjects/Thesaurus/app/src/main/res/drawable/ic_close_grey_24.xml" value="0.1605" />
@@ -16,9 +18,11 @@
         <entry key="..\:/Users/100524/AndroidStudioProjects/Thesaurus/app/src/main/res/drawable/ic_search_grey_24.xml" value="0.1605" />
         <entry key="..\:/Users/100524/AndroidStudioProjects/Thesaurus/app/src/main/res/layout/activity_home.xml" value="0.22604166666666667" />
         <entry key="..\:/Users/100524/AndroidStudioProjects/Thesaurus/app/src/main/res/layout/activity_main.xml" value="0.22604166666666667" />
+        <entry key="..\:/Users/100524/AndroidStudioProjects/Thesaurus/app/src/main/res/layout/fragment_bookmarks.xml" value="0.22604166666666667" />
         <entry key="..\:/Users/100524/AndroidStudioProjects/Thesaurus/app/src/main/res/layout/fragment_home.xml" value="0.176" />
         <entry key="..\:/Users/100524/AndroidStudioProjects/Thesaurus/app/src/main/res/layout/fragment_notifications.xml" value="0.1" />
         <entry key="..\:/Users/100524/AndroidStudioProjects/Thesaurus/app/src/main/res/layout/fragment_search.xml" value="0.22604166666666667" />
+        <entry key="..\:/Users/100524/AndroidStudioProjects/Thesaurus/app/src/main/res/layout/item_bookmark.xml" value="0.22604166666666667" />
         <entry key="..\:/Users/100524/AndroidStudioProjects/Thesaurus/app/src/main/res/layout/item_meanings.xml" value="0.22604166666666667" />
         <entry key="..\:/Users/100524/AndroidStudioProjects/Thesaurus/app/src/main/res/layout/item_single_list.xml" value="0.22604166666666667" />
         <entry key="..\:/Users/100524/AndroidStudioProjects/Thesaurus/app/src/main/res/menu/bottom_nav_menu.xml" value="0.22604166666666667" />
