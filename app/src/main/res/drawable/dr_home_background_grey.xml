@@ -7,7 +7,7 @@
         android:color="@color/grey_background"/>
 
     <corners
-        android:topLeftRadius="@dimen/common_margin"
-        android:topRightRadius="@dimen/common_margin"/>
+        android:topLeftRadius="@dimen/main_card_corner_radius"
+        android:topRightRadius="@dimen/main_card_corner_radius"/>
 
 </shape>

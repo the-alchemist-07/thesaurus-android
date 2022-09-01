@@ -1,14 +1,18 @@
 package com.mashood.thesaurus.search.domain.model
 
+import android.os.Parcelable
 import androidx.annotation.Keep
+import kotlinx.parcelize.Parcelize
+import kotlinx.parcelize.RawValue
 
 @Keep
+@Parcelize
 data class SearchResponse(
-    val meanings: List<MeaningModel>,
-    val phonetics: List<PhoneticModel>,
+    val meanings: @RawValue List<MeaningModel>,
+    val phonetics: @RawValue List<PhoneticModel>,
     val sourceUrls: List<String>,
     val word: String
-) {
+): Parcelable {
 
     data class MeaningModel(
         val antonyms: List<String>,

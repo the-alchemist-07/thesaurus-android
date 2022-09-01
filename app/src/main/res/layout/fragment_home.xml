@@ -108,13 +108,13 @@
         android:id="@+id/btnBookmarks"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_selectable_secondary"
-        android:src="@drawable/ic_bookmarks_black_24"
+        android:background="@drawable/bg_selectable_primary"
+        android:src="@drawable/ic_bookmarks_white_24"
         android:padding="@dimen/common_margin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginBottom="@dimen/common_margin"
         tools:ignore="ContentDescription" />
-    
+
 </androidx.constraintlayout.widget.ConstraintLayout>
