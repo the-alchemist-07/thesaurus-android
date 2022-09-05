@@ -4,11 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="@dimen/half_common_margin"
     android:background="@drawable/bg_selectable_white"
     android:clickable="true"
     android:focusable="true"
-    android:paddingHorizontal="@dimen/quarter_common_margin"
+    android:paddingHorizontal="@dimen/margin_top"
     android:paddingVertical="@dimen/margin_top">
 
     <com.google.android.material.card.MaterialCardView

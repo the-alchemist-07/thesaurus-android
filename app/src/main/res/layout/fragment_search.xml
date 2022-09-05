@@ -74,6 +74,7 @@
                     android:singleLine="true"
                     android:textColor="@color/black"
                     android:textColorHint="@color/light_text"
+                    android:textCursorDrawable="@null"
                     android:textSize="17sp"
                     tools:ignore="HardcodedText"
                     tools:text="Phenomena" />
@@ -180,8 +181,8 @@
                 android:id="@+id/btnBookmark"
                 android:layout_width="38dp"
                 android:layout_height="38dp"
-                android:background="@drawable/dr_selectable_background"
                 android:layout_margin="@dimen/common_margin"
+                android:background="@drawable/dr_selectable_background"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:lottie_autoPlay="false"

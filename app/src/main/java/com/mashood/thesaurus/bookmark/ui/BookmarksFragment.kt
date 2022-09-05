@@ -1,10 +1,10 @@
 package com.mashood.thesaurus.bookmark.ui
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -24,6 +24,7 @@ class BookmarksFragment : Fragment(R.layout.fragment_bookmarks),
     private lateinit var binding: FragmentBookmarksBinding
     private val viewModel by viewModels<BookmarkViewModel>()
     private val bookmarkAdapter: BookmarkAdapter by lazy { BookmarkAdapter(this) }
+    private var bookmarksList: List<SearchResponse> = emptyList()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -38,6 +39,32 @@ class BookmarksFragment : Fragment(R.layout.fragment_bookmarks),
         binding.apply {
             btnBack.setOnClickListener {
                 findNavController().navigateUp()
+            }
+
+            etSearch.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+                override fun afterTextChanged(word: Editable?) {
+                    if (word.toString().isNotBlank()) {
+                        btnClear.visibility = View.VISIBLE
+                        //new array list that will hold the filtered data
+                        val filteredBookmarks: MutableList<SearchResponse> = mutableListOf()
+                        if (bookmarksList.isNotEmpty()) {
+                            for (bookmark in bookmarksList) {
+                                if (bookmark.word.lowercase().contains(word.toString().lowercase())) {
+                                    filteredBookmarks.add(bookmark)
+                                }
+                            }
+                        }
+                        bookmarkAdapter.submitList(filteredBookmarks)
+                    } else {
+                        btnClear.visibility = View.GONE
+                    }
+                }
+            })
+
+            btnClear.setOnClickListener {
+                etSearch.text?.clear()
             }
         }
     }
@@ -65,7 +92,8 @@ class BookmarksFragment : Fragment(R.layout.fragment_bookmarks),
     }
 
     private fun handleBookmarksList(bookmarks: List<SearchResponse>) {
-        bookmarkAdapter.submitList(bookmarks)
+        bookmarksList = bookmarks
+        bookmarkAdapter.submitList(bookmarksList)
     }
 
     override fun onItemClicked(data: SearchResponse) {

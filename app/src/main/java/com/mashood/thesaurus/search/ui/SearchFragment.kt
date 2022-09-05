@@ -7,7 +7,6 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
@@ -24,7 +23,6 @@ import com.mashood.thesaurus.R
 import com.mashood.thesaurus.databinding.FragmentSearchBinding
 import com.mashood.thesaurus.search.domain.model.SearchResponse
 import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.launch
 import java.io.IOException
 
@@ -65,6 +63,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     private fun setListeners() {
         with(binding) {
             btnClear.setOnClickListener {
+                unBookmarkWord()
                 etSearch.setText("")
             }
 
@@ -173,25 +172,37 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
             btnBookmark.setOnClickListener {
                 if (!isBookmarked) {
-                    btnBookmark.speed = 3f
-                    isBookmarked = true
-                    btnBookmark.setMinFrame(0)
-                    btnBookmark.setMaxFrame(50)
-                    btnBookmark.playAnimation()
+                    bookmarkWord()
                     if (searchResultData != null) {
                         viewModel.addToBookmarks(searchResultData!!)
                     }
                 } else {
-                    btnBookmark.speed = 1F
-                    isBookmarked = false
-                    btnBookmark.setMinFrame(50)
-                    btnBookmark.setMaxFrame(74)
-                    btnBookmark.playAnimation()
+                    unBookmarkWord()
                     if (searchResultData != null) {
                         viewModel.removeFromBookmarks(searchResultData!!)
                     }
                 }
             }
+        }
+    }
+
+    private fun bookmarkWord() {
+        binding.apply {
+            btnBookmark.speed = 3f
+            isBookmarked = true
+            btnBookmark.setMinFrame(0)
+            btnBookmark.setMaxFrame(50)
+            btnBookmark.playAnimation()
+        }
+    }
+
+    private fun unBookmarkWord() {
+        binding.apply {
+            btnBookmark.speed = 1F
+            isBookmarked = false
+            btnBookmark.setMinFrame(50)
+            btnBookmark.setMaxFrame(74)
+            btnBookmark.playAnimation()
         }
     }
 
@@ -204,6 +215,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                         is SearchState.Loading -> showLoading(true)
                         is SearchState.SearchSuccess -> handleSearchSuccess(it.searchResponse)
                         is SearchState.Error -> showError(it.message)
+                        is SearchState.CheckBookmarked -> handleBookmarkedWord(it.isBookmarked)
                         is SearchState.Idle -> Unit
                     }
                 }
@@ -319,6 +331,18 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     private fun showError(error: String) {
         showLoading(false)
         Toast.makeText(requireContext(), error, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun handleBookmarkedWord(isBookmarked: Boolean) {
+        if (isBookmarked) {
+            binding.apply {
+                btnBookmark.speed = 3f
+                this@SearchFragment.isBookmarked = true
+                btnBookmark.setMinFrame(0)
+                btnBookmark.setMaxFrame(50)
+                btnBookmark.playAnimation()
+            }
+        }
     }
 
     private fun hideKeyboard() {

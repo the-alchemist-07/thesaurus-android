@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
         splashScreen.setOnExitAnimationListener { splashScreenView ->
             val slideBack = ObjectAnimator.ofFloat(
                 splashScreenView.view,
-                View.TRANSLATION_Y,
+                View.TRANSLATION_X,
                 0f,
                 -splashScreenView.view.height.toFloat()
             ).apply {

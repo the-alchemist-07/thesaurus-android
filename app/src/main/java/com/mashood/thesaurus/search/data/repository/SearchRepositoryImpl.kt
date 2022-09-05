@@ -4,7 +4,6 @@ import com.mashood.thesaurus.app.common.Constants.GENERIC_ERROR_MESSAGE
 import com.mashood.thesaurus.app.common.Constants.NO_INTERNET_ERROR_MESSAGE
 import com.mashood.thesaurus.app.common.Constants.SERVER_ERROR
 import com.mashood.thesaurus.app.common.Resource
-import com.mashood.thesaurus.bookmark.data.source.BookmarkDao
 import com.mashood.thesaurus.search.data.service.SearchService
 import com.mashood.thesaurus.search.domain.model.SearchResponse
 import com.mashood.thesaurus.search.domain.repository.SearchRepository
@@ -44,6 +43,7 @@ class SearchRepositoryImpl @Inject constructor(
                 emit(Resource.Error(NO_INTERNET_ERROR_MESSAGE))
             }
     }
+
 
 
     companion object {
