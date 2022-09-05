@@ -1,5 +1,6 @@
 package com.mashood.thesaurus.search.ui
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mashood.thesaurus.app.common.Resource
@@ -18,11 +19,15 @@ import javax.inject.Inject
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     private val searchRepository: SearchRepository,
-    private val bookmarkDao: BookmarkDao
+    private val bookmarkDao: BookmarkDao,
+    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
     private val _searchState = MutableStateFlow<SearchState>(SearchState.Idle)
     val searchState = _searchState.asStateFlow()
+
+    private val wordData = savedStateHandle.get<SearchResponse>("wordData")
+    fun getWordData() = wordData
 
 
     fun checkKeyword(keyword: String) = viewModelScope.launch {

@@ -21,7 +21,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private fun setListeners() {
         binding.apply {
             cardSearch.setOnClickListener {
-                findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSearchFragment())
+                findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSearchFragment(null))
             }
 
             btnBookmarks.setOnClickListener {

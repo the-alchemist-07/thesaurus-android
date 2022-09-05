@@ -53,6 +53,15 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         with(binding) {
             etSearch.showSoftInputOnFocus
             etSearch.requestFocus()
+
+            // Get word passed from bookmarks list
+            val wordData = viewModel.getWordData()
+            if (wordData != null) {
+                etSearch.setText(wordData.word)
+                handleSearchSuccess(wordData)
+                bookmarkWord()
+                btnClear.visibility = View.VISIBLE
+            }
         }
     }
 

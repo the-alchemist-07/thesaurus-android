@@ -51,7 +51,9 @@ class BookmarksFragment : Fragment(R.layout.fragment_bookmarks),
                         val filteredBookmarks: MutableList<SearchResponse> = mutableListOf()
                         if (bookmarksList.isNotEmpty()) {
                             for (bookmark in bookmarksList) {
-                                if (bookmark.word.lowercase().contains(word.toString().lowercase())) {
+                                if (bookmark.word.lowercase()
+                                        .contains(word.toString().lowercase())
+                                ) {
                                     filteredBookmarks.add(bookmark)
                                 }
                             }
@@ -97,7 +99,11 @@ class BookmarksFragment : Fragment(R.layout.fragment_bookmarks),
     }
 
     override fun onItemClicked(data: SearchResponse) {
-//        TODO("Not yet implemented")
+        findNavController().navigate(
+            BookmarksFragmentDirections.actionBookmarksFragmentToSearchFragment(
+                data
+            )
+        )
     }
 
 }
