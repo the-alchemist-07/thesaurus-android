@@ -176,6 +176,18 @@
                 app:layout_constraintTop_toBottomOf="@id/tvWord"
                 tools:text="/fəˈnɒmɪnən/" />
 
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/btnBookmark"
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:background="@drawable/dr_selectable_background"
+                android:layout_margin="@dimen/common_margin"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:lottie_autoPlay="false"
+                app:lottie_fileName="bookmark.json"
+                app:lottie_loop="false" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.card.MaterialCardView>

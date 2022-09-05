@@ -39,6 +39,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     private var audioUrl: String? = null
     private var isPlaying = false
     private var searchResultData: SearchResponse? = null
+    private var isBookmarked: Boolean = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -169,6 +170,28 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                 override fun onTabReselected(tab: TabLayout.Tab?) {}
                 override fun onTabUnselected(tab: TabLayout.Tab?) {}
             })
+
+            btnBookmark.setOnClickListener {
+                if (!isBookmarked) {
+                    btnBookmark.speed = 3f
+                    isBookmarked = true
+                    btnBookmark.setMinFrame(0)
+                    btnBookmark.setMaxFrame(50)
+                    btnBookmark.playAnimation()
+                    if (searchResultData != null) {
+                        viewModel.addToBookmarks(searchResultData!!)
+                    }
+                } else {
+                    btnBookmark.speed = 1F
+                    isBookmarked = false
+                    btnBookmark.setMinFrame(50)
+                    btnBookmark.setMaxFrame(74)
+                    btnBookmark.playAnimation()
+                    if (searchResultData != null) {
+                        viewModel.removeFromBookmarks(searchResultData!!)
+                    }
+                }
+            }
         }
     }
 

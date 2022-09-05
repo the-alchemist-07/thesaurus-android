@@ -3,6 +3,7 @@ package com.mashood.thesaurus.search.ui
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mashood.thesaurus.app.common.Resource
+import com.mashood.thesaurus.search.domain.model.SearchResponse
 import com.mashood.thesaurus.search.domain.repository.SearchRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -34,6 +35,12 @@ class SearchViewModel @Inject constructor(
                 is Resource.Error -> _searchState.emit(SearchState.Error(it.error))
             }
         }
+    }
+
+    fun addToBookmarks(data: SearchResponse) = viewModelScope.launch {
+    }
+
+    fun removeFromBookmarks(data: SearchResponse) = viewModelScope.launch {
     }
 
     companion object {
