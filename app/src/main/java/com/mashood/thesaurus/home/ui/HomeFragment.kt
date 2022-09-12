@@ -23,13 +23,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private fun setListeners() {
         binding.apply {
             cardSearch.setOnClickListener {
-
                 val direction = HomeFragmentDirections.actionHomeFragmentToSearchFragment(null)
                 val extras = FragmentNavigatorExtras(
                     binding.cardSearch to binding.cardSearch.transitionName
                 )
                 findNavController().navigate(direction, extras)
-//                findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSearchFragment(null))
             }
 
             btnBookmarks.setOnClickListener {
@@ -38,7 +36,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     binding.cardSearch to binding.cardSearch.transitionName
                 )
                 findNavController().navigate(direction, extras)
-//                findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToBookmarksFragment())
             }
         }
     }
