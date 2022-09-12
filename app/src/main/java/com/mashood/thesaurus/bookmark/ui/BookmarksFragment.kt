@@ -11,6 +11,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.transition.ChangeBounds
 import com.mashood.thesaurus.R
 import com.mashood.thesaurus.databinding.FragmentBookmarksBinding
 import com.mashood.thesaurus.search.domain.model.SearchResponse
@@ -29,6 +30,14 @@ class BookmarksFragment : Fragment(R.layout.fragment_bookmarks),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentBookmarksBinding.bind(view)
+
+        // Customize the transitions
+        sharedElementEnterTransition = ChangeBounds().apply {
+            duration = 700
+        }
+        sharedElementReturnTransition = ChangeBounds().apply {
+            duration = 300
+        }
 
         setupRecyclerView()
         observeState()

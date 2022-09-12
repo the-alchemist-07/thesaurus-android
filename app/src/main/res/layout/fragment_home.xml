@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
+    android:animateLayoutChanges="true"
     tools:context=".home.ui.HomeFragment">
 
     <ImageView
@@ -57,6 +58,7 @@
         android:layout_marginTop="@dimen/double_common_margin"
         android:clickable="true"
         android:focusable="true"
+        android:transitionName="@string/anim_search"
         app:cardCornerRadius="@dimen/common_margin"
         app:cardElevation="@dimen/half_common_margin"
         app:layout_constraintEnd_toEndOf="parent"
@@ -108,13 +110,13 @@
         android:id="@+id/btnBookmarks"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/common_margin"
         android:background="@drawable/bg_selectable_primary"
-        android:src="@drawable/ic_bookmarks_white_24"
         android:padding="@dimen/common_margin"
+        android:src="@drawable/ic_bookmarks_white_24"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="@dimen/common_margin"
         tools:ignore="ContentDescription" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

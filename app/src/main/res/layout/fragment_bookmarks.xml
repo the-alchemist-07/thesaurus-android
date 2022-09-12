@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
+    android:animateLayoutChanges="true"
     tools:context=".bookmark.ui.BookmarksFragment">
 
     <ImageView
@@ -41,6 +42,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/common_margin"
         android:layout_marginTop="@dimen/common_margin"
+        android:transitionName="@string/anim_search"
         app:cardCornerRadius="@dimen/half_common_margin"
         app:cardElevation="@dimen/quarter_common_margin"
         app:layout_constraintEnd_toEndOf="parent"
