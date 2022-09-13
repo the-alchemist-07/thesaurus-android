@@ -1,0 +1,2 @@
+# Thesaurus
+English Thesaurus app
