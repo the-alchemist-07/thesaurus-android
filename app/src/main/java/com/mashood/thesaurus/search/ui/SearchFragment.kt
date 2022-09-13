@@ -12,13 +12,13 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.transition.ChangeBounds
-import androidx.transition.TransitionInflater
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import com.mashood.thesaurus.R
@@ -82,8 +82,13 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     private fun setListeners() {
         with(binding) {
             btnClear.setOnClickListener {
-                unBookmarkWord()
-                etSearch.setText("")
+                if (progressBar.isVisible) {
+                    Snackbar.make(root, "Loading in progress!", Snackbar.LENGTH_SHORT).show()
+                }
+                else {
+                    unBookmarkWord()
+                    etSearch.setText("")
+                }
             }
 
             btnBack.setOnClickListener {

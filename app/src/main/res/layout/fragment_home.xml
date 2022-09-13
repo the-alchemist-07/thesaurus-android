@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
     android:animateLayoutChanges="true"
+    android:background="@color/white"
     tools:context=".home.ui.HomeFragment">
 
     <ImageView
@@ -59,7 +59,7 @@
         android:clickable="true"
         android:focusable="true"
         android:transitionName="@string/anim_search"
-        app:cardCornerRadius="@dimen/common_margin"
+        app:cardCornerRadius="@dimen/half_common_margin"
         app:cardElevation="@dimen/half_common_margin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -84,10 +84,9 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="@dimen/margin_top"
                 android:layout_weight="1"
-                android:text="Search a word"
+                android:text="@string/search_hint"
                 android:textColor="@color/light_text"
-                android:textSize="16sp"
-                tools:ignore="HardcodedText" />
+                android:textSize="16sp" />
 
         </LinearLayout>
 

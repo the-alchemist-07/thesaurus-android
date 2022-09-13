@@ -1,11 +1,12 @@
 <resources>
     <string name="app_name">Thesaurus</string>
-    <string name="app_tagline">Find definitions, synonyms, and acronyms of any English word</string>
+    <string name="app_tagline">Find definitions, synonyms, and antonyms of any English word</string>
     <string name="search">Search</string>
     <string name="definitions">Definitions</string>
     <string name="synonyms">Synonyms</string>
     <string name="antonyms">Antonyms</string>
     <string name="bookmarks">Bookmarks</string>
+    <string name="search_hint">Search a word</string>
 
     <string name="anim_search">search_animation</string>
 </resources>

@@ -1,7 +1,6 @@
 package com.mashood.thesaurus.home.ui
 
 import android.os.Bundle
-import android.transition.Fade
 import androidx.fragment.app.Fragment
 import android.view.View
 import androidx.navigation.fragment.FragmentNavigatorExtras

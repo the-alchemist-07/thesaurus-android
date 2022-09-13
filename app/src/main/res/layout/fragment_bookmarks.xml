@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
     android:animateLayoutChanges="true"
+    android:background="@color/white"
     tools:context=".bookmark.ui.BookmarksFragment">
 
     <ImageView
@@ -53,17 +53,25 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingHorizontal="@dimen/common_margin">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_search_grey_24"
+                tools:ignore="ContentDescription" />
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etSearch"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/half_common_margin"
                 android:layout_marginVertical="@dimen/quarter_common_margin"
-                android:layout_marginStart="@dimen/half_common_margin"
                 android:layout_weight="1"
                 android:background="@null"
-                android:hint="Search by word"
+                android:hint="@string/search_hint"
                 android:imeOptions="actionSearch"
                 android:maxLines="1"
                 android:paddingHorizontal="@dimen/quarter_common_margin"
@@ -72,14 +80,13 @@
                 android:textColor="@color/black"
                 android:textColorHint="@color/light_text"
                 android:textSize="17sp"
-                tools:ignore="HardcodedText"
                 tools:text="Phenomena" />
 
             <ImageView
                 android:id="@+id/btnClear"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/half_common_margin"
+                android:layout_marginVertical="@dimen/half_common_margin"
                 android:background="@drawable/dr_selectable_background"
                 android:clickable="true"
                 android:focusable="true"
