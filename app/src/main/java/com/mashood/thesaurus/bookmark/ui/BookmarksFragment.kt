@@ -115,4 +115,9 @@ class BookmarksFragment : Fragment(R.layout.fragment_bookmarks),
         )
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.getBookmarksList()
+    }
+
 }

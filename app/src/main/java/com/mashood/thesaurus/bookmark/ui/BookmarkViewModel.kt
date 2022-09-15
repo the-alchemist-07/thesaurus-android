@@ -22,7 +22,7 @@ class BookmarkViewModel @Inject constructor(
         getBookmarksList()
     }
 
-    private fun getBookmarksList() = viewModelScope.launch {
+    fun getBookmarksList() = viewModelScope.launch {
         bookmarkRepository.getBookmarksList().collect {
             when(it) {
                 is Resource.Success -> _bookmarkState.emit(BookmarkState.SuccessBookmarks(it.value))

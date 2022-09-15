@@ -1,18 +1,20 @@
 package com.mashood.thesaurus.search.ui
 
 import android.app.Activity
+import android.content.Context.INPUT_METHOD_SERVICE
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -27,6 +29,7 @@ import com.mashood.thesaurus.search.domain.model.SearchResponse
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.io.IOException
+
 
 @AndroidEntryPoint
 class SearchFragment : Fragment(R.layout.fragment_search) {
@@ -49,7 +52,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         sharedElementEnterTransition = ChangeBounds().apply {
             duration = 750
         }
-        sharedElementReturnTransition= ChangeBounds().apply {
+        sharedElementReturnTransition = ChangeBounds().apply {
             duration = 300
         }
 
@@ -61,8 +64,8 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
     private fun init() {
         with(binding) {
-            etSearch.showSoftInputOnFocus
             etSearch.requestFocus()
+            showKeyboard()
 
             // Get word passed from bookmarks list
             val wordData = viewModel.getWordData()
@@ -75,6 +78,12 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         }
     }
 
+    private fun showKeyboard() {
+        val imm = requireContext().getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+//        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
+        imm.showSoftInput(binding.etSearch, InputMethodManager.SHOW_IMPLICIT)
+    }
+
     private fun setupRecyclerView() {
         binding.recyclerDefinitions.adapter = adapter
     }
@@ -84,8 +93,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
             btnClear.setOnClickListener {
                 if (progressBar.isVisible) {
                     Snackbar.make(root, "Loading in progress!", Snackbar.LENGTH_SHORT).show()
-                }
-                else {
+                } else {
                     unBookmarkWord()
                     etSearch.setText("")
                 }
@@ -99,12 +107,12 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
                 override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
                 override fun afterTextChanged(p0: Editable?) {
-                    if (p0.toString().isBlank()) {
+                    if (p0.toString().isBlank())
                         btnClear.visibility = View.INVISIBLE
-                        clearResultUi()
-                    } else {
+                    else
                         btnClear.visibility = View.VISIBLE
-                    }
+                    clearResultUi()
+                    binding.lytError.visibility = View.GONE
                 }
             })
 
@@ -354,7 +362,8 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
     private fun showError(error: String) {
         showLoading(false)
-        Toast.makeText(requireContext(), error, Toast.LENGTH_SHORT).show()
+        binding.lytError.visibility = View.VISIBLE
+//        Toast.makeText(requireContext(), error, Toast.LENGTH_SHORT).show()
     }
 
     private fun handleBookmarkedWord(isBookmarked: Boolean) {
