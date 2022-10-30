@@ -12,7 +12,6 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -29,7 +28,6 @@ import com.mashood.thesaurus.search.domain.model.SearchResponse
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.io.IOException
-
 
 @AndroidEntryPoint
 class SearchFragment : Fragment(R.layout.fragment_search) {
@@ -246,7 +244,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                     when (it) {
                         is SearchState.Loading -> showLoading(true)
                         is SearchState.SearchSuccess -> handleSearchSuccess(it.searchResponse)
-                        is SearchState.Error -> showError(it.message)
+                        is SearchState.Error -> showError()
                         is SearchState.CheckBookmarked -> handleBookmarkedWord(it.isBookmarked)
                         is SearchState.Idle -> Unit
                     }
@@ -360,10 +358,9 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         }
     }
 
-    private fun showError(error: String) {
+    private fun showError() {
         showLoading(false)
         binding.lytError.visibility = View.VISIBLE
-//        Toast.makeText(requireContext(), error, Toast.LENGTH_SHORT).show()
     }
 
     private fun handleBookmarkedWord(isBookmarked: Boolean) {

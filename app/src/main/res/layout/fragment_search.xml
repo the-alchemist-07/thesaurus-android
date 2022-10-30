@@ -68,7 +68,7 @@
                     android:src="@drawable/ic_search_grey_24"
                     tools:ignore="ContentDescription" />
 
-                <com.google.android.material.textfield.TextInputEditText
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
                     android:id="@+id/etSearch"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
