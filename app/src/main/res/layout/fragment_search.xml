@@ -343,6 +343,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cardSearch"
+        app:layout_constraintVertical_bias="0.35"
         android:visibility="gone">
 
         <com.airbnb.lottie.LottieAnimationView
@@ -355,7 +356,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:lottie_autoPlay="true"
-            app:lottie_fileName="not_found1.json"
+            app:lottie_fileName="not_found.json"
             app:lottie_loop="true" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -379,7 +380,7 @@
             android:layout_height="wrap_content"
             android:paddingHorizontal="@dimen/common_margin"
             android:layout_marginTop="@dimen/margin_top"
-            android:text="Please check the spelling of searched word, and make sure you have a good internet connection."
+            android:text="This is normally occurred when your internet connection is weak or we are not able to find the searched word."
             android:textAlignment="center"
             android:textColor="@color/dark_text"
             android:textSize="15sp"

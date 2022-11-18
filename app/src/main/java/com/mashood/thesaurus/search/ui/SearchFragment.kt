@@ -23,6 +23,8 @@ import androidx.transition.ChangeBounds
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import com.mashood.thesaurus.R
+import com.mashood.thesaurus.app.auto_completion.JsonUtil
+import com.mashood.thesaurus.app.auto_completion.WordSuggestion
 import com.mashood.thesaurus.databinding.FragmentSearchBinding
 import com.mashood.thesaurus.search.domain.model.SearchResponse
 import dagger.hilt.android.AndroidEntryPoint
@@ -41,6 +43,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     private var isPlaying = false
     private var searchResultData: SearchResponse? = null
     private var isBookmarked: Boolean = false
+    private var wordsList: List<String>? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -56,15 +59,13 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
         init()
         setupRecyclerView()
+        fetchWordsList()
         setListeners()
         observeState()
     }
 
     private fun init() {
         with(binding) {
-            etSearch.requestFocus()
-            showKeyboard()
-
             // Get word passed from bookmarks list
             val wordData = viewModel.getWordData()
             if (wordData != null) {
@@ -73,17 +74,24 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                 bookmarkWord()
                 btnClear.visibility = View.VISIBLE
             }
+            else {
+                etSearch.requestFocus()
+                showKeyboard()
+            }
         }
     }
 
     private fun showKeyboard() {
         val imm = requireContext().getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-//        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
         imm.showSoftInput(binding.etSearch, InputMethodManager.SHOW_IMPLICIT)
     }
 
     private fun setupRecyclerView() {
         binding.recyclerDefinitions.adapter = adapter
+    }
+
+    private fun fetchWordsList() {
+        wordsList = JsonUtil.getAssetPodcasts(requireContext())
     }
 
     private fun setListeners() {
@@ -107,8 +115,10 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                 override fun afterTextChanged(p0: Editable?) {
                     if (p0.toString().isBlank())
                         btnClear.visibility = View.INVISIBLE
-                    else
+                    else {
                         btnClear.visibility = View.VISIBLE
+                        showSuggestions(p0.toString())
+                    }
                     clearResultUi()
                     binding.lytError.visibility = View.GONE
                 }
@@ -216,6 +226,22 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         }
     }
 
+    private fun showSuggestions(word: String) {
+        if (!wordsList.isNullOrEmpty()) {
+            val suggestedWordsList = WordSuggestion.getWordSuggestions(
+                word = word,
+                wordsList = wordsList!!
+            )
+            ArrayAdapter(
+                requireContext(),
+                android.R.layout.simple_spinner_dropdown_item,
+                suggestedWordsList
+            ).also { adapter ->
+                binding.etSearch.setAdapter(adapter)
+            }
+        }
+    }
+
     private fun bookmarkWord() {
         binding.apply {
             btnBookmark.speed = 3f
@@ -256,8 +282,10 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
     private fun showLoading(flag: Boolean) {
         with(binding) {
-            if (flag)
+            if (flag) {
                 progressBar.visibility = View.VISIBLE
+                binding.etSearch.clearFocus()
+            }
             else
                 progressBar.visibility = View.INVISIBLE
         }

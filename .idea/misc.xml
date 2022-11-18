@@ -18,6 +18,7 @@
         <entry key="..\:/Users/100524/AndroidStudioProjects/Thesaurus/app/src/main/res/drawable/ic_close_grey_24.xml" value="0.1605" />
         <entry key="..\:/Users/100524/AndroidStudioProjects/Thesaurus/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1605" />
         <entry key="..\:/Users/100524/AndroidStudioProjects/Thesaurus/app/src/main/res/drawable/ic_search_grey_24.xml" value="0.1605" />
+        <entry key="..\:/Users/100524/AndroidStudioProjects/Thesaurus/app/src/main/res/drawable/img_splash.xml" value="0.1745" />
         <entry key="..\:/Users/100524/AndroidStudioProjects/Thesaurus/app/src/main/res/layout/activity_home.xml" value="0.22604166666666667" />
         <entry key="..\:/Users/100524/AndroidStudioProjects/Thesaurus/app/src/main/res/layout/activity_main.xml" value="0.22604166666666667" />
         <entry key="..\:/Users/100524/AndroidStudioProjects/Thesaurus/app/src/main/res/layout/fragment_bookmarks.xml" value="0.2" />
@@ -27,7 +28,9 @@
         <entry key="..\:/Users/100524/AndroidStudioProjects/Thesaurus/app/src/main/res/layout/item_bookmark.xml" value="0.22604166666666667" />
         <entry key="..\:/Users/100524/AndroidStudioProjects/Thesaurus/app/src/main/res/layout/item_meanings.xml" value="0.22604166666666667" />
         <entry key="..\:/Users/100524/AndroidStudioProjects/Thesaurus/app/src/main/res/layout/item_single_list.xml" value="0.22604166666666667" />
+        <entry key="..\:/Users/100524/AndroidStudioProjects/Thesaurus/app/src/main/res/layout/item_words_dropdown.xml" value="0.264" />
         <entry key="..\:/Users/100524/AndroidStudioProjects/Thesaurus/app/src/main/res/menu/bottom_nav_menu.xml" value="0.22604166666666667" />
+        <entry key="..\:/Users/100524/AndroidStudioProjects/Thesaurus/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1745" />
       </map>
     </option>
   </component>

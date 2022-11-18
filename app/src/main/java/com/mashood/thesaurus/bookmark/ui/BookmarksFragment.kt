@@ -99,7 +99,10 @@ class BookmarksFragment : Fragment(R.layout.fragment_bookmarks),
     }
 
     private fun handleError(message: String) {
-        Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
+        if (message.contains("No bookmarks"))
+            binding.lytError.visibility = View.VISIBLE
+        else
+            Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
     }
 
     private fun handleBookmarksList(bookmarks: List<SearchResponse>) {

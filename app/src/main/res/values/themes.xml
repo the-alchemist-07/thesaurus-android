@@ -17,6 +17,7 @@
     <!-- Splash theme. -->
     <style name="Theme.Thesaurus.Splash" parent="Theme.SplashScreen">
         <!-- App icon for splash screen. -->
+<!--        <item name="windowSplashScreenAnimatedIcon">@drawable/img_splash</item>-->
         <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher_foreground</item>
         <!-- Theme to be applied after the splash screen. -->
         <item name="postSplashScreenTheme">@style/Theme.Thesaurus</item>
