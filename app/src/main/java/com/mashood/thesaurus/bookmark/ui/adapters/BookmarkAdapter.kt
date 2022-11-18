@@ -1,4 +1,4 @@
-package com.mashood.thesaurus.bookmark.ui
+package com.mashood.thesaurus.bookmark.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

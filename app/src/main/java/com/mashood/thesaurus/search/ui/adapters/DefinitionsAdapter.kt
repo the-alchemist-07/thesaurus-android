@@ -1,4 +1,4 @@
-package com.mashood.thesaurus.search.ui
+package com.mashood.thesaurus.search.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.View

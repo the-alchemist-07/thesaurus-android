@@ -27,6 +27,7 @@ import com.mashood.thesaurus.app.auto_completion.JsonUtil
 import com.mashood.thesaurus.app.auto_completion.WordSuggestion
 import com.mashood.thesaurus.databinding.FragmentSearchBinding
 import com.mashood.thesaurus.search.domain.model.SearchResponse
+import com.mashood.thesaurus.search.ui.adapters.DefinitionsAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.io.IOException

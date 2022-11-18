@@ -13,6 +13,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.transition.ChangeBounds
 import com.mashood.thesaurus.R
+import com.mashood.thesaurus.bookmark.ui.adapters.BookmarkAdapter
 import com.mashood.thesaurus.databinding.FragmentBookmarksBinding
 import com.mashood.thesaurus.search.domain.model.SearchResponse
 import dagger.hilt.android.AndroidEntryPoint
