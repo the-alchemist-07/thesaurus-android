@@ -28,16 +28,18 @@ import com.mashood.thesaurus.app.auto_completion.WordSuggestion
 import com.mashood.thesaurus.databinding.FragmentSearchBinding
 import com.mashood.thesaurus.search.domain.model.SearchResponse
 import com.mashood.thesaurus.search.ui.adapters.DefinitionsAdapter
+import com.mashood.thesaurus.search.ui.adapters.SuggestionsAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.io.IOException
 
 @AndroidEntryPoint
-class SearchFragment : Fragment(R.layout.fragment_search) {
+class SearchFragment : Fragment(R.layout.fragment_search), SuggestionsAdapter.OnItemClickListener {
 
     private lateinit var binding: FragmentSearchBinding
     private val viewModel by viewModels<SearchViewModel>()
-    private val adapter: DefinitionsAdapter by lazy { DefinitionsAdapter() }
+    private val definitionsAdapter: DefinitionsAdapter by lazy { DefinitionsAdapter() }
+    private val suggestionsAdapter: SuggestionsAdapter by lazy { SuggestionsAdapter(this) }
 
     private var mediaPlayer: MediaPlayer? = null
     private var audioUrl: String? = null
@@ -88,7 +90,8 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     }
 
     private fun setupRecyclerView() {
-        binding.recyclerDefinitions.adapter = adapter
+        binding.recyclerDefinitions.adapter = definitionsAdapter
+        binding.recyclerSuggestions.adapter = suggestionsAdapter
     }
 
     private fun fetchWordsList() {
@@ -103,6 +106,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                 } else {
                     unBookmarkWord()
                     etSearch.setText("")
+                    clearSuggestions()
                 }
             }
 
@@ -114,10 +118,13 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
                 override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
                 override fun afterTextChanged(p0: Editable?) {
-                    if (p0.toString().isBlank())
+                    if (p0.toString().isBlank()) {
                         btnClear.visibility = View.INVISIBLE
+                        clearSuggestions()
+                    }
                     else {
                         btnClear.visibility = View.VISIBLE
+                        cardSuggestions.visibility = View.VISIBLE
                         showSuggestions(p0.toString())
                     }
                     clearResultUi()
@@ -163,7 +170,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                         val selectedTabPosition = tabPartOfSpeeches.selectedTabPosition
                         val definitionsList =
                             searchResultData!!.meanings[selectedTabPosition].definitions
-                        adapter.submitList(definitionsList)
+                        definitionsAdapter.submitList(definitionsList)
 
                         // Set synonyms
                         val synonymsList = searchResultData!!.meanings[selectedTabPosition].synonyms
@@ -227,21 +234,20 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         }
     }
 
+    private fun clearSuggestions() {
+        suggestionsAdapter.submitList(emptyList())
+        binding.cardSuggestions.visibility = View.GONE
+    }
+
     private fun showSuggestions(word: String) {
         if (!wordsList.isNullOrEmpty()) {
             val suggestedWordsList = WordSuggestion.getWordSuggestions(
                 word = word,
                 wordsList = wordsList!!
             )
-            // Show the list as suggestions in
-            /*ArrayAdapter(
-                requireContext(),
-                android.R.layout.simple_spinner_dropdown_item,
-                suggestedWordsList
-            ).also { adapter ->
-                binding.etSearch.setAdapter(adapter)
-            }*/
-
+            // Show the list as suggestions
+            binding.recyclerSuggestions.scrollToPosition(0)
+            suggestionsAdapter.submitList(suggestedWordsList)
         }
     }
 
@@ -304,6 +310,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
             // Set result UI as visible
             cardResult.visibility = View.VISIBLE
             cardMeanings.visibility = View.VISIBLE
+            clearSuggestions()
 
             tvWord.text = searchResponse.word
 
@@ -329,7 +336,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                 // Set definitions for the first tab by default
                 val selectedTabPosition = tabPartOfSpeeches.selectedTabPosition
                 val definitionsList = meaningsList[selectedTabPosition].definitions
-                adapter.submitList(definitionsList)
+                definitionsAdapter.submitList(definitionsList)
 
                 // Set synonyms for the first tab by default
                 if (meaningsList[selectedTabPosition].synonyms.isNotEmpty()) {
@@ -384,7 +391,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
             // Clear meanings card
             tabPartOfSpeeches.removeAllTabs()
-            adapter.submitList(emptyList())
+            definitionsAdapter.submitList(emptyList())
             cardMeanings.visibility = View.GONE
         }
     }
@@ -431,5 +438,12 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         params.height = totalHeight
         listView.layoutParams = params
         listView.requestLayout()
+    }
+
+    override fun onItemClicked(selectedWord: String) {
+        binding.etSearch.setText(selectedWord)
+        clearSuggestions()
+        viewModel.checkKeyword(selectedWord)
+        hideKeyboard()
     }
 }

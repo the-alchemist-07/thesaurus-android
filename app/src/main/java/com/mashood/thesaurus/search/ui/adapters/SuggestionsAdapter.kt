@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.mashood.thesaurus.databinding.ItemBookmarkBinding
+import com.mashood.thesaurus.databinding.ItemSuggestionsBinding
 
 class SuggestionsAdapter(private val listener: OnItemClickListener) :
     ListAdapter<String, RecyclerView.ViewHolder>(SuggestionsDiffCallback) {
@@ -16,7 +16,7 @@ class SuggestionsAdapter(private val listener: OnItemClickListener) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val binding =
-            ItemBookmarkBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemSuggestionsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return BookmarkViewHolder(binding)
     }
 
@@ -24,7 +24,7 @@ class SuggestionsAdapter(private val listener: OnItemClickListener) :
         (holder as BookmarkViewHolder).bind(getItem(position))
     }
 
-    inner class BookmarkViewHolder(private val binding: ItemBookmarkBinding) :
+    inner class BookmarkViewHolder(private val binding: ItemSuggestionsBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(word: String) {
             binding.apply {
