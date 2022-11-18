@@ -54,5 +54,4 @@ object DiffCallback : DiffUtil.ItemCallback<SearchResponse>() {
     override fun areContentsTheSame(oldItem: SearchResponse, newItem: SearchResponse): Boolean {
         return oldItem == newItem
     }
-
 }

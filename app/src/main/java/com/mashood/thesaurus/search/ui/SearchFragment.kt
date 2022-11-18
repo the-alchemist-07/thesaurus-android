@@ -233,13 +233,15 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                 word = word,
                 wordsList = wordsList!!
             )
-            ArrayAdapter(
+            // Show the list as suggestions in
+            /*ArrayAdapter(
                 requireContext(),
                 android.R.layout.simple_spinner_dropdown_item,
                 suggestedWordsList
             ).also { adapter ->
                 binding.etSearch.setAdapter(adapter)
-            }
+            }*/
+
         }
     }
 
