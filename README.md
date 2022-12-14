@@ -1,4 +1,4 @@
-Thesaurus App [In progress 🚧]
+Thesaurus App
 =============
 
 **Thesaurus App** is an Android application created to find the definitions, synonyms and antonyms of English words. The data is fetched from an open-source dictionary API. You can access the API from [here](https://dictionaryapi.dev/).
