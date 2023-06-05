@@ -48,7 +48,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btnBack">
 
-        <LinearLayout
+        <!--<LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
@@ -59,50 +59,62 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingHorizontal="@dimen/common_margin">
+                android:paddingHorizontal="@dimen/common_margin">-->
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:src="@drawable/ic_search_grey_24"
-                    tools:ignore="ContentDescription" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etSearch"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginVertical="@dimen/quarter_common_margin"
-                    android:layout_marginStart="@dimen/half_common_margin"
-                    android:layout_weight="1"
-                    android:background="@null"
-                    android:hint="@string/search_hint"
-                    android:imeOptions="actionSearch"
-                    android:maxLines="1"
-                    android:paddingHorizontal="@dimen/quarter_common_margin"
-                    android:paddingVertical="@dimen/margin_top"
-                    android:singleLine="true"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/light_text"
-                    android:textCursorDrawable="@null"
-                    android:textSize="17sp"
-                    tools:text="Phenomena" />
+            <ImageView
+                android:id="@+id/iconSearch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_search_grey_24"
+                tools:ignore="ContentDescription"
+                android:layout_marginStart="@dimen/common_margin"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/progressBar"/>
 
-                <ImageView
-                    android:id="@+id/btnClear"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/half_common_margin"
-                    android:background="@drawable/dr_selectable_background"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:padding="@dimen/quarter_common_margin"
-                    android:src="@drawable/ic_close_grey_24"
-                    android:visibility="gone"
-                    tools:ignore="ContentDescription"
-                    tools:visibility="visible" />
+            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                android:id="@+id/etSearch"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/quarter_common_margin"
+                android:layout_marginHorizontal="@dimen/half_common_margin"
+                android:layout_weight="1"
+                android:background="@null"
+                android:hint="@string/search_hint"
+                android:imeOptions="actionSearch"
+                android:maxLines="1"
+                android:paddingHorizontal="@dimen/quarter_common_margin"
+                android:paddingVertical="@dimen/margin_top"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textColorHint="@color/light_text"
+                android:textCursorDrawable="@null"
+                android:textSize="17sp"
+                tools:text="Phenomena"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@id/iconSearch"
+                app:layout_constraintEnd_toEndOf="parent"/>
 
-            </LinearLayout>
+            <ImageView
+                android:id="@+id/btnClear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/dr_selectable_background"
+                android:clickable="true"
+                android:focusable="true"
+                android:padding="@dimen/half_common_margin"
+                android:src="@drawable/ic_close_grey_24"
+                android:visibility="gone"
+                tools:ignore="ContentDescription"
+                tools:visibility="visible"
+                app:layout_constraintEnd_toEndOf="@id/etSearch"
+                app:layout_constraintTop_toTopOf="@id/etSearch"
+                app:layout_constraintBottom_toBottomOf="@id/etSearch"/>
 
             <com.google.android.material.progressindicator.LinearProgressIndicator
                 android:id="@+id/progressBar"
@@ -112,9 +124,67 @@
                 android:visibility="invisible"
                 app:indicatorColor="@color/green_primary_dark"
                 app:trackColor="@color/white"
-                tools:visibility="visible" />
+                tools:visibility="visible"
+                app:layout_constraintTop_toBottomOf="@id/etSearch"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
 
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!--<ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_search_grey_24"
+            tools:ignore="ContentDescription" />
+
+        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+            android:id="@+id/etSearch"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/quarter_common_margin"
+            android:layout_marginStart="@dimen/half_common_margin"
+            android:layout_weight="1"
+            android:background="@null"
+            android:hint="@string/search_hint"
+            android:imeOptions="actionSearch"
+            android:maxLines="1"
+            android:paddingHorizontal="@dimen/quarter_common_margin"
+            android:paddingVertical="@dimen/margin_top"
+            android:singleLine="true"
+            android:textColor="@color/black"
+            android:textColorHint="@color/light_text"
+            android:textCursorDrawable="@null"
+            android:textSize="17sp"
+            tools:text="Phenomena" />
+
+        <ImageView
+            android:id="@+id/btnClear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/half_common_margin"
+            android:background="@drawable/dr_selectable_background"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="@dimen/quarter_common_margin"
+            android:src="@drawable/ic_close_grey_24"
+            android:visibility="gone"
+            tools:ignore="ContentDescription"
+            tools:visibility="visible" />
+
+    </LinearLayout>
+
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/progressBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:visibility="invisible"
+        app:indicatorColor="@color/green_primary_dark"
+        app:trackColor="@color/white"
+        tools:visibility="visible" />
+
+</LinearLayout>-->
 
     </com.google.android.material.card.MaterialCardView>
 
@@ -336,7 +406,7 @@
     </com.google.android.material.card.MaterialCardView>
 
     <!-- Suggestions card -->
-    <com.google.android.material.card.MaterialCardView
+    <!--<com.google.android.material.card.MaterialCardView
         android:id="@+id/cardSuggestions"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -368,18 +438,18 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </com.google.android.material.card.MaterialCardView>
+    </com.google.android.material.card.MaterialCardView>-->
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/lytError"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cardSearch"
-        app:layout_constraintVertical_bias="0.35"
-        android:visibility="gone">
+        app:layout_constraintVertical_bias="0.35">
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/lottieError"
@@ -413,8 +483,8 @@
             android:id="@+id/tvError"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="@dimen/common_margin"
             android:layout_marginTop="@dimen/margin_top"
+            android:paddingHorizontal="@dimen/common_margin"
             android:text="This is normally occurred when your internet connection is weak or we are not able to find the searched word."
             android:textAlignment="center"
             android:textColor="@color/dark_text"

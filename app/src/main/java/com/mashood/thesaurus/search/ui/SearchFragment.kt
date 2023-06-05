@@ -4,8 +4,6 @@ import android.app.Activity
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.media.MediaPlayer
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +11,7 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.core.view.isVisible
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -23,8 +22,7 @@ import androidx.transition.ChangeBounds
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import com.mashood.thesaurus.R
-import com.mashood.thesaurus.app.auto_completion.JsonUtil
-import com.mashood.thesaurus.app.auto_completion.WordSuggestion
+import com.mashood.thesaurus.app.common.WordSuggestionsHelper
 import com.mashood.thesaurus.databinding.FragmentSearchBinding
 import com.mashood.thesaurus.search.domain.model.SearchResponse
 import com.mashood.thesaurus.search.ui.adapters.DefinitionsAdapter
@@ -39,7 +37,6 @@ class SearchFragment : Fragment(R.layout.fragment_search), SuggestionsAdapter.On
     private lateinit var binding: FragmentSearchBinding
     private val viewModel by viewModels<SearchViewModel>()
     private val definitionsAdapter: DefinitionsAdapter by lazy { DefinitionsAdapter() }
-    private val suggestionsAdapter: SuggestionsAdapter by lazy { SuggestionsAdapter(this) }
 
     private var mediaPlayer: MediaPlayer? = null
     private var audioUrl: String? = null
@@ -62,7 +59,6 @@ class SearchFragment : Fragment(R.layout.fragment_search), SuggestionsAdapter.On
 
         init()
         setupRecyclerView()
-        fetchWordsList()
         setListeners()
         observeState()
     }
@@ -76,10 +72,21 @@ class SearchFragment : Fragment(R.layout.fragment_search), SuggestionsAdapter.On
                 handleSearchSuccess(wordData)
                 bookmarkWord()
                 btnClear.visibility = View.VISIBLE
-            }
-            else {
+            } else {
                 etSearch.requestFocus()
                 showKeyboard()
+            }
+
+            // Fetch the words from JSON file for word suggestions, and set to search view
+            wordsList = WordSuggestionsHelper.getWordsListFromJsonFile(requireContext())
+            if (wordsList != null) {
+                ArrayAdapter(
+                    requireContext(),
+                    android.R.layout.simple_spinner_dropdown_item,
+                    wordsList!!.toMutableList()
+                ).also { adapter ->
+                    etSearch.setAdapter(adapter)
+                }
             }
         }
     }
@@ -91,11 +98,7 @@ class SearchFragment : Fragment(R.layout.fragment_search), SuggestionsAdapter.On
 
     private fun setupRecyclerView() {
         binding.recyclerDefinitions.adapter = definitionsAdapter
-        binding.recyclerSuggestions.adapter = suggestionsAdapter
-    }
-
-    private fun fetchWordsList() {
-        wordsList = JsonUtil.getAssetPodcasts(requireContext())
+//        binding.recyclerSuggestions.adapter = suggestionsAdapter
     }
 
     private fun setListeners() {
@@ -106,7 +109,6 @@ class SearchFragment : Fragment(R.layout.fragment_search), SuggestionsAdapter.On
                 } else {
                     unBookmarkWord()
                     etSearch.setText("")
-                    clearSuggestions()
                 }
             }
 
@@ -114,23 +116,35 @@ class SearchFragment : Fragment(R.layout.fragment_search), SuggestionsAdapter.On
                 findNavController().navigateUp()
             }
 
-            etSearch.addTextChangedListener(object : TextWatcher {
+            etSearch.doAfterTextChanged { text ->
+                if (text.toString().isBlank())
+                    btnClear.visibility = View.INVISIBLE
+                else
+                    btnClear.visibility = View.VISIBLE
+                clearResultUi()
+                binding.lytError.visibility = View.GONE
+            }
+
+            /*etSearch.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
                 override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
                 override fun afterTextChanged(p0: Editable?) {
                     if (p0.toString().isBlank()) {
                         btnClear.visibility = View.INVISIBLE
-                        clearSuggestions()
                     }
                     else {
                         btnClear.visibility = View.VISIBLE
-                        cardSuggestions.visibility = View.VISIBLE
-                        showSuggestions(p0.toString())
                     }
                     clearResultUi()
                     binding.lytError.visibility = View.GONE
                 }
-            })
+            })*/
+
+            etSearch.setOnItemClickListener { parent, _, position, _ ->
+                val selectedWord = parent.getItemAtPosition(position) as String
+                viewModel.checkKeyword(selectedWord)
+                hideKeyboard()
+            }
 
             etSearch.setOnEditorActionListener(TextView.OnEditorActionListener { _, actionId, _ ->
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
@@ -234,22 +248,6 @@ class SearchFragment : Fragment(R.layout.fragment_search), SuggestionsAdapter.On
         }
     }
 
-    private fun clearSuggestions() {
-        suggestionsAdapter.submitList(emptyList())
-        binding.cardSuggestions.visibility = View.GONE
-    }
-
-    private fun showSuggestions(word: String) {
-        if (!wordsList.isNullOrEmpty()) {
-            val suggestedWordsList = WordSuggestion.getWordSuggestions(
-                word = word,
-                wordsList = wordsList!!
-            )
-            // Show the list as suggestions
-            binding.recyclerSuggestions.scrollToPosition(0)
-            suggestionsAdapter.submitList(suggestedWordsList)
-        }
-    }
 
     private fun bookmarkWord() {
         binding.apply {
@@ -294,8 +292,7 @@ class SearchFragment : Fragment(R.layout.fragment_search), SuggestionsAdapter.On
             if (flag) {
                 progressBar.visibility = View.VISIBLE
                 binding.etSearch.clearFocus()
-            }
-            else
+            } else
                 progressBar.visibility = View.INVISIBLE
         }
     }
@@ -310,7 +307,6 @@ class SearchFragment : Fragment(R.layout.fragment_search), SuggestionsAdapter.On
             // Set result UI as visible
             cardResult.visibility = View.VISIBLE
             cardMeanings.visibility = View.VISIBLE
-            clearSuggestions()
 
             tvWord.text = searchResponse.word
 
@@ -442,7 +438,6 @@ class SearchFragment : Fragment(R.layout.fragment_search), SuggestionsAdapter.On
 
     override fun onItemClicked(selectedWord: String) {
         binding.etSearch.setText(selectedWord)
-        clearSuggestions()
         viewModel.checkKeyword(selectedWord)
         hideKeyboard()
     }
