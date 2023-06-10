@@ -8,15 +8,15 @@ plugins {
 }
 
 android {
-    namespace 'com.mashood.thesaurus'
+    namespace 'com.mashood.lexicon'
     compileSdk 33
 
     defaultConfig {
         applicationId "com.mashood.thesaurus"
         minSdk 21
         targetSdk 33
-        versionCode 6
-        versionName "1.5"
+        versionCode 1
+        versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

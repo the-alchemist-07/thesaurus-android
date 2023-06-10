@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.mashood.thesaurus.home.ui.HomeFragment"
+        android:name="com.mashood.lexicon.home.ui.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
@@ -19,7 +19,7 @@
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
-        android:name="com.mashood.thesaurus.search.ui.SearchFragment"
+        android:name="com.mashood.lexicon.search.ui.SearchFragment"
         android:label="fragment_search"
         tools:layout="@layout/fragment_search" >
         <argument
@@ -29,7 +29,7 @@
     </fragment>
     <fragment
         android:id="@+id/bookmarksFragment"
-        android:name="com.mashood.thesaurus.bookmark.ui.BookmarksFragment"
+        android:name="com.mashood.lexicon.bookmark.ui.BookmarksFragment"
         android:label="fragment_bookmarks"
         tools:layout="@layout/fragment_bookmarks" >
         <action
