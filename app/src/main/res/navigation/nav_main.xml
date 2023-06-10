@@ -24,7 +24,7 @@
         tools:layout="@layout/fragment_search" >
         <argument
             android:name="wordData"
-            app:argType="com.mashood.thesaurus.search.domain.model.SearchResponse"
+            app:argType="com.mashood.lexicon.search.domain.model.SearchResponse"
             app:nullable="true"/>
     </fragment>
     <fragment
