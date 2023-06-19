@@ -31,18 +31,6 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="A greeting (salutation) said when meeting someone or acknowledging someone’s arrival or presence." />
 
-    <!--<TextView
-        android:id="@+id/titleExample"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_top"
-        android:text="Example"
-        android:textSize="16sp"
-        android:visibility="gone"
-        tools:visibility="visible"
-        app:layout_constraintStart_toStartOf="@id/tvDefinition"
-        app:layout_constraintTop_toBottomOf="@id/tvDefinition" />-->
-
     <TextView
         android:id="@+id/tvExample"
         android:layout_width="wrap_content"

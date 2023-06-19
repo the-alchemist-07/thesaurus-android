@@ -2,12 +2,12 @@
     <!-- Base application theme. -->
     <style name="Theme.Thesaurus" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/green_secondary</item>
-        <item name="colorPrimaryVariant">@color/green_primary</item>
+        <item name="colorPrimary">@color/green_primary</item>
+        <item name="colorPrimaryVariant">@color/green_primary_dark</item>
         <item name="colorOnPrimary">@color/black</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/yellow_secondary</item>
-        <item name="colorSecondaryVariant">@color/yellow_secondary</item>
+        <item name="colorSecondaryVariant">@color/yellow_primary</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>

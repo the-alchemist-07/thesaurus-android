@@ -18,7 +18,7 @@
         android:clickable="true"
         android:focusable="true"
         android:padding="@dimen/half_common_margin"
-        android:src="@drawable/ic_arrow_back_black_24"
+        android:src="@drawable/ic_arrow_back_24"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="ContentDescription" />
