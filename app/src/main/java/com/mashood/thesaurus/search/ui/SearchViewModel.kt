@@ -30,9 +30,9 @@ class SearchViewModel @Inject constructor(
     fun getWordData() = wordData
 
 
-    fun checkKeyword(keyword: String) = viewModelScope.launch {
+    fun checkKeyword(keyword: String?) = viewModelScope.launch {
         when {
-            keyword.isBlank() -> _searchState.emit(SearchState.Error(EMPTY_KEYWORD))
+            keyword.isNullOrBlank() -> _searchState.emit(SearchState.Error(EMPTY_KEYWORD))
             else -> searchKeyword(keyword)
         }
     }

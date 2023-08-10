@@ -2,13 +2,17 @@ package com.mashood.thesaurus.search.ui
 
 import android.app.Activity
 import android.content.Context.INPUT_METHOD_SERVICE
+import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Bundle
+import android.speech.RecognizerIntent
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
@@ -29,6 +33,7 @@ import com.mashood.thesaurus.search.ui.adapters.SynonymAntonymAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.io.IOException
+import java.util.Locale
 
 @AndroidEntryPoint
 class SearchFragment : Fragment(R.layout.fragment_search) {
@@ -38,6 +43,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     private val definitionsAdapter: DefinitionsAdapter by lazy { DefinitionsAdapter() }
     private val synonymsAdapter: SynonymAntonymAdapter by lazy { SynonymAntonymAdapter() }
     private val antonymsAdapter: SynonymAntonymAdapter by lazy { SynonymAntonymAdapter() }
+    private lateinit var launcherSpeech: ActivityResultLauncher<Intent>
 
     private var mediaPlayer: MediaPlayer? = null
     private var audioUrl: String? = null
@@ -59,6 +65,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         }
 
         init()
+        registerVoiceListener()
         setupRecyclerView()
         setListeners()
         observeState()
@@ -93,6 +100,20 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         }
     }
 
+    private fun registerVoiceListener() {
+        launcherSpeech =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+                if (it.resultCode == Activity.RESULT_OK) {
+                    val spokenText: String? =
+                        it.data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
+                            .let { text -> text?.get(0) }
+                    // Setting the detected word to searchbar and initiating the search.
+                    binding.etSearch.setText(spokenText)
+                    viewModel.checkKeyword(spokenText)
+                }
+            }
+    }
+
     private fun showKeyboard() {
         val imm = requireContext().getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
         imm.showSoftInput(binding.etSearch, InputMethodManager.SHOW_IMPLICIT)
@@ -118,7 +139,11 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
             }
 
             btnVoice.setOnClickListener {
-                
+                val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
+                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, "hi-IN")
+                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale("hi_IN"))
+                intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Listening....")
+                launcherSpeech.launch(intent)
             }
 
             btnBack.setOnClickListener {
@@ -129,8 +154,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                 if (text.toString().isBlank()) {
                     btnClear.visibility = View.GONE
                     btnVoice.visibility = View.VISIBLE
-                }
-                else {
+                } else {
                     btnClear.visibility = View.VISIBLE
                     btnVoice.visibility = View.GONE
                 }
