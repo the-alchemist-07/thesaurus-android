@@ -101,6 +101,22 @@
                 app:layout_constraintEnd_toEndOf="@id/etSearch"
                 app:layout_constraintTop_toTopOf="@id/etSearch"
                 tools:ignore="ContentDescription"
+                tools:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/btnVoice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/dr_selectable_background"
+                android:clickable="true"
+                android:focusable="true"
+                android:padding="@dimen/half_common_margin"
+                android:src="@drawable/ic_keyboard_voice_24"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="@id/etSearch"
+                app:layout_constraintEnd_toEndOf="@id/etSearch"
+                app:layout_constraintTop_toTopOf="@id/etSearch"
+                tools:ignore="ContentDescription"
                 tools:visibility="visible" />
 
             <com.google.android.material.progressindicator.LinearProgressIndicator
