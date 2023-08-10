@@ -73,6 +73,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                 handleSearchSuccess(wordData)
                 bookmarkWord()
                 btnClear.visibility = View.VISIBLE
+                btnVoice.visibility = View.GONE
             } else {
                 etSearch.requestFocus()
                 showKeyboard()
@@ -116,15 +117,23 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                 }
             }
 
+            btnVoice.setOnClickListener {
+                
+            }
+
             btnBack.setOnClickListener {
                 findNavController().navigateUp()
             }
 
             etSearch.doAfterTextChanged { text ->
-                if (text.toString().isBlank())
-                    btnClear.visibility = View.INVISIBLE
-                else
+                if (text.toString().isBlank()) {
+                    btnClear.visibility = View.GONE
+                    btnVoice.visibility = View.VISIBLE
+                }
+                else {
                     btnClear.visibility = View.VISIBLE
+                    btnVoice.visibility = View.GONE
+                }
                 clearResultUi()
                 binding.lytError.visibility = View.GONE
             }
