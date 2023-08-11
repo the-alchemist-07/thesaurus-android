@@ -11,4 +11,7 @@
     <string name="word_pointer">➼</string>
 
     <string name="anim_search">search_animation</string>
+    <string name="history">History</string>
+    <string name="random_word">Random Word</string>
+    <string name="about">About</string>
 </resources>
