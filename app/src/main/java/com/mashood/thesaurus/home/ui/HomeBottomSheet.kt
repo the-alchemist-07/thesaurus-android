@@ -5,18 +5,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.mashood.thesaurus.databinding.MainBottomSheetContentBinding
+import com.mashood.thesaurus.databinding.HomeBottomSheetContentBinding
 
 class HomeBottomSheet : BottomSheetDialogFragment() {
 
-    private lateinit var binding: MainBottomSheetContentBinding
+    private lateinit var binding: HomeBottomSheetContentBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = MainBottomSheetContentBinding.inflate(inflater, container, false)
+        binding = HomeBottomSheetContentBinding.inflate(inflater, container, false)
 
         setListeners()
 
