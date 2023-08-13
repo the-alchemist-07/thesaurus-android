@@ -45,7 +45,10 @@ class HomeBottomSheet : BottomSheetDialogFragment() {
             }
 
             lytAbout.setOnClickListener {
-                Snackbar.make(binding.root, "Coming soon...", Snackbar.LENGTH_SHORT).show()
+                dismiss()
+                findNavController().navigate(
+                    HomeFragmentDirections.actionHomeFragmentToAboutDialog()
+                )
             }
         }
     }

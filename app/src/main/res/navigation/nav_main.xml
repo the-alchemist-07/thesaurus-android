@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_homeFragment_to_bookmarksFragment"
             app:destination="@id/bookmarksFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_aboutDialog"
+            app:destination="@id/aboutDialog" />
     </fragment>
 
     <fragment
@@ -38,4 +41,8 @@
             android:id="@+id/action_bookmarksFragment_to_searchFragment"
             app:destination="@id/searchFragment" />
     </fragment>
+
+    <dialog
+        android:id="@+id/aboutDialog"
+        android:name="com.mashood.thesaurus.about.ui.AboutDialog" />
 </navigation>
