@@ -4,7 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.android.material.snackbar.Snackbar
 import com.mashood.thesaurus.databinding.HomeBottomSheetContentBinding
 
 class HomeBottomSheet : BottomSheetDialogFragment() {
@@ -19,12 +22,32 @@ class HomeBottomSheet : BottomSheetDialogFragment() {
         binding = HomeBottomSheetContentBinding.inflate(inflater, container, false)
 
         setListeners()
-
         return binding.root
     }
 
     private fun setListeners() {
+        binding.apply {
+            lytBookmarks.setOnClickListener {
+                dismiss()
+                val direction = HomeFragmentDirections.actionHomeFragmentToBookmarksFragment()
+                val extras = FragmentNavigatorExtras(
+                    lytBookmarks to lytBookmarks.transitionName
+                )
+                findNavController().navigate(direction, extras)
+            }
 
+            lytHistory.setOnClickListener {
+                Snackbar.make(binding.root, "Coming soon...", Snackbar.LENGTH_SHORT).show()
+            }
+
+            lytRandomWord.setOnClickListener {
+                Snackbar.make(binding.root, "Coming soon...", Snackbar.LENGTH_SHORT).show()
+            }
+
+            lytAbout.setOnClickListener {
+                Snackbar.make(binding.root, "Coming soon...", Snackbar.LENGTH_SHORT).show()
+            }
+        }
     }
 
     companion object {
