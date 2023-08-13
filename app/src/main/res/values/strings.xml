@@ -15,4 +15,5 @@
     <string name="random_word">Random Word</string>
     <string name="about">About</string>
     <string name="app_info_description">This app is built on top of the <a href="https://dictionaryapi.dev/">free dictionary API</a>. The source code of this app is also available at <a href="https://github.com/the-alchemist-07/thesaurus-android">Github</a>.</string>
+    <string name="dev_info_description">App made with ❤ by Mohammed Mashood PV</string>
 </resources>

@@ -28,7 +28,8 @@
                 android:src="@drawable/ic_app_icon"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="ContentDescription" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tvAppName"
@@ -57,14 +58,38 @@
                 android:id="@+id/tvAppInfoDescription"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/half_common_margin"
+                android:layout_marginTop="@dimen/margin_top"
+                android:lineSpacingExtra="4sp"
                 android:text="@string/app_info_description"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvAppVersion"
-                android:layout_marginTop="@dimen/half_common_margin"
-                android:textSize="16sp"
                 android:textColor="@color/dark_text"
-                android:layout_marginHorizontal="@dimen/half_common_margin" />
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvAppVersion" />
+
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginHorizontal="@dimen/double_common_margin"
+                android:layout_marginTop="@dimen/common_margin"
+                app:dividerColor="@color/light_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvAppInfoDescription" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/common_margin"
+                android:layout_marginBottom="@dimen/common_margin"
+                android:text="@string/dev_info_description"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/divider" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
