@@ -4,12 +4,14 @@ import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.view.WindowManager
 import androidx.fragment.app.DialogFragment
+import com.mashood.thesaurus.BuildConfig
 import com.mashood.thesaurus.databinding.DialogAboutBinding
 
 class AboutDialog : DialogFragment() {
@@ -22,7 +24,16 @@ class AboutDialog : DialogFragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = DialogAboutBinding.inflate(inflater, container, false)
+
+        init()
         return binding.root
+    }
+
+    private fun init() {
+        binding.apply {
+            tvAppInfoDescription.movementMethod = LinkMovementMethod.getInstance()
+            tvAppVersion.text = BuildConfig.VERSION_NAME
+        }
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
