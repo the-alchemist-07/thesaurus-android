@@ -135,7 +135,7 @@
         android:layout_marginBottom="@dimen/common_margin"
         android:background="@drawable/bg_selectable_primary"
         android:padding="@dimen/common_margin"
-        android:src="@drawable/ic_bookmarks_white_24"
+        android:src="@drawable/bottom_panel_open_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

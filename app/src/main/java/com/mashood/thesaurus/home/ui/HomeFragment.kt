@@ -30,11 +30,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             }
 
             btnBookmarks.setOnClickListener {
-                val direction = HomeFragmentDirections.actionHomeFragmentToBookmarksFragment()
-                val extras = FragmentNavigatorExtras(
-                    binding.cardSearch to binding.cardSearch.transitionName
-                )
-                findNavController().navigate(direction, extras)
+                val bottomSheet = HomeBottomSheet()
+                bottomSheet.show(requireActivity().supportFragmentManager, HomeBottomSheet.TAG)
             }
         }
     }
