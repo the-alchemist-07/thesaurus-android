@@ -80,16 +80,92 @@
                 app:layout_constraintTop_toBottomOf="@id/tvAppInfoDescription" />
 
             <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvDevInfoDescription"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/common_margin"
-                android:layout_marginBottom="@dimen/common_margin"
                 android:text="@string/dev_info_description"
                 android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/divider" />
+
+            <ImageView
+                android:id="@+id/icSocialGmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/half_common_margin"
+                android:layout_marginBottom="@dimen/half_common_margin"
+                android:background="@drawable/bg_selectable_white"
+                android:clickable="true"
+                android:focusable="true"
+                android:padding="@dimen/half_common_margin"
+                android:src="@drawable/ic_gmail_24"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/icSocialGithub"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvDevInfoDescription"
+                tools:ignore="ContentDescription" />
+
+            <ImageView
+                android:id="@+id/icSocialGithub"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_selectable_white"
+                android:clickable="true"
+                android:focusable="true"
+                android:padding="@dimen/half_common_margin"
+                android:src="@drawable/ic_github_24"
+                app:layout_constraintBottom_toBottomOf="@id/icSocialGmail"
+                app:layout_constraintEnd_toStartOf="@id/icSocialLinkedIn"
+                app:layout_constraintStart_toEndOf="@id/icSocialGmail"
+                app:layout_constraintTop_toTopOf="@id/icSocialGmail"
+                tools:ignore="ContentDescription" />
+
+            <ImageView
+                android:id="@+id/icSocialLinkedIn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_selectable_white"
+                android:clickable="true"
+                android:focusable="true"
+                android:padding="@dimen/half_common_margin"
+                android:src="@drawable/ic_linkedin_24"
+                app:layout_constraintBottom_toBottomOf="@id/icSocialGmail"
+                app:layout_constraintEnd_toStartOf="@id/icSocialTwitter"
+                app:layout_constraintStart_toEndOf="@id/icSocialGithub"
+                app:layout_constraintTop_toTopOf="@id/icSocialGmail"
+                tools:ignore="ContentDescription" />
+
+            <ImageView
+                android:id="@+id/icSocialTwitter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_selectable_white"
+                android:clickable="true"
+                android:focusable="true"
+                android:padding="@dimen/half_common_margin"
+                android:src="@drawable/ic_twitterx_24"
+                app:layout_constraintBottom_toBottomOf="@id/icSocialGmail"
+                app:layout_constraintEnd_toStartOf="@id/icSocialInstagram"
+                app:layout_constraintStart_toEndOf="@id/icSocialLinkedIn"
+                app:layout_constraintTop_toTopOf="@id/icSocialGmail"
+                tools:ignore="ContentDescription" />
+
+            <ImageView
+                android:id="@+id/icSocialInstagram"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_selectable_white"
+                android:clickable="true"
+                android:focusable="true"
+                android:padding="@dimen/half_common_margin"
+                android:src="@drawable/ic_instagram_24"
+                app:layout_constraintBottom_toBottomOf="@id/icSocialGmail"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/icSocialTwitter"
+                app:layout_constraintTop_toTopOf="@id/icSocialGmail"
+                tools:ignore="ContentDescription" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
