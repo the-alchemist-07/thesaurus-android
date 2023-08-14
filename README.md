@@ -7,7 +7,7 @@ Thesaurus App
 
 **Thesaurus App** is an Android application created to find the definitions, synonyms and antonyms of English words. The data is fetched from an open-source dictionary API. You can access the API from [here](https://dictionaryapi.dev/).
 
-The app is currently in early stage development and is not yet available on the Play Store.
+The app is released in play store, and you can download it from [here](https://play.google.com/store/apps/details?id=com.mashood.thesaurus).
 
 # Features
 Users can search for the definitions, synonyms and antonyms of any English word with the **Thesaurus App**. Words can also be bookmarked, which can be accessed later offline.
