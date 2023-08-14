@@ -1,8 +1,10 @@
 package com.mashood.thesaurus.about.ui
 
 import android.app.Dialog
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
@@ -26,14 +28,9 @@ class AboutDialog : DialogFragment() {
         binding = DialogAboutBinding.inflate(inflater, container, false)
 
         init()
-        return binding.root
-    }
+        setListeners()
 
-    private fun init() {
-        binding.apply {
-            tvAppInfoDescription.movementMethod = LinkMovementMethod.getInstance()
-            tvAppVersion.text = BuildConfig.VERSION_NAME
-        }
+        return binding.root
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -60,4 +57,57 @@ class AboutDialog : DialogFragment() {
         dialog.window!!.attributes = lp
     }
 
+    private fun init() {
+        binding.apply {
+            tvAppInfoDescription.movementMethod = LinkMovementMethod.getInstance()
+            tvAppVersion.text = BuildConfig.VERSION_NAME
+        }
+    }
+
+    private fun setListeners() {
+        binding.apply {
+            icSocialGmail.setOnClickListener {
+                loadGmail()
+            }
+
+            icSocialGithub.setOnClickListener {
+                loadUrl(URL_GITHUB)
+            }
+
+            icSocialLinkedIn.setOnClickListener {
+                loadUrl(URL_LINKEDIN)
+            }
+
+            icSocialTwitter.setOnClickListener {
+                loadUrl(URL_TWITTER)
+            }
+
+            icSocialInstagram.setOnClickListener {
+                loadUrl(URL_INSTAGRAM)
+            }
+        }
+    }
+
+    private fun loadGmail() {
+        val emailIntent = Intent(
+            Intent.ACTION_SENDTO, Uri.fromParts(
+                "mailto", ID_GMAIL, null
+            )
+        )
+        startActivity(Intent.createChooser(emailIntent, null))
+    }
+
+    private fun loadUrl(url: String) {
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.data = Uri.parse(url)
+        startActivity(intent)
+    }
+
+    companion object {
+        const val ID_GMAIL = "mashood.creative@gmail.com"
+        const val URL_GITHUB = "https://github.com/the-alchemist-07"
+        const val URL_LINKEDIN = "https://www.linkedin.com/in/the-alchemist/"
+        const val URL_TWITTER = "https://twitter.com/MOHAMME26396782"
+        const val URL_INSTAGRAM = "https://www.instagram.com/the__alchemist._/"
+    }
 }
