@@ -14,6 +14,7 @@ import android.view.Window
 import android.view.WindowManager
 import androidx.fragment.app.DialogFragment
 import com.mashood.thesaurus.BuildConfig
+import com.mashood.thesaurus.app.common.Constants
 import com.mashood.thesaurus.databinding.DialogAboutBinding
 
 class AboutDialog : DialogFragment() {
@@ -71,19 +72,19 @@ class AboutDialog : DialogFragment() {
             }
 
             icSocialGithub.setOnClickListener {
-                loadUrl(URL_GITHUB)
+                loadUrl(Constants.URL_GITHUB)
             }
 
             icSocialLinkedIn.setOnClickListener {
-                loadUrl(URL_LINKEDIN)
+                loadUrl(Constants.URL_LINKEDIN)
             }
 
             icSocialTwitter.setOnClickListener {
-                loadUrl(URL_TWITTER)
+                loadUrl(Constants.URL_TWITTER)
             }
 
             icSocialInstagram.setOnClickListener {
-                loadUrl(URL_INSTAGRAM)
+                loadUrl(Constants.URL_INSTAGRAM)
             }
         }
     }
@@ -91,7 +92,7 @@ class AboutDialog : DialogFragment() {
     private fun loadGmail() {
         val emailIntent = Intent(
             Intent.ACTION_SENDTO, Uri.fromParts(
-                "mailto", ID_GMAIL, null
+                "mailto", Constants.ID_GMAIL, null
             )
         )
         startActivity(Intent.createChooser(emailIntent, null))
@@ -103,11 +104,4 @@ class AboutDialog : DialogFragment() {
         startActivity(intent)
     }
 
-    companion object {
-        const val ID_GMAIL = "mashood.creative@gmail.com"
-        const val URL_GITHUB = "https://github.com/the-alchemist-07"
-        const val URL_LINKEDIN = "https://www.linkedin.com/in/the-alchemist/"
-        const val URL_TWITTER = "https://twitter.com/MOHAMME26396782"
-        const val URL_INSTAGRAM = "https://www.instagram.com/the__alchemist._/"
-    }
 }
