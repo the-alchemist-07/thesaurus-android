@@ -24,11 +24,11 @@ class FirebaseNotificationService : FirebaseMessagingService() {
      */
     override fun onNewToken(token: String) {
         super.onNewToken(token)
-        Log.i("FCMService ", "Refreshed token :: $token")
+        Log.d("FCMService ", "Refreshed token :: $token")
     }
 
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
-        Log.i("FCMService ", "Message :: $message")
+        Log.d("FCMService ", "Message :: $message")
     }
 }
