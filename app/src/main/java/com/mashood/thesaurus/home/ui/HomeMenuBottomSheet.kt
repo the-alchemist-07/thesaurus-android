@@ -10,7 +10,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.snackbar.Snackbar
 import com.mashood.thesaurus.databinding.HomeBottomSheetContentBinding
 
-class HomeBottomSheet : BottomSheetDialogFragment() {
+class HomeMenuBottomSheet : BottomSheetDialogFragment() {
 
     private lateinit var binding: HomeBottomSheetContentBinding
 

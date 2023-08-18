@@ -30,8 +30,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             }
 
             btnBookmarks.setOnClickListener {
-                val bottomSheet = HomeBottomSheet()
-                bottomSheet.show(requireActivity().supportFragmentManager, HomeBottomSheet.TAG)
+                val bottomSheet = HomeMenuBottomSheet()
+                bottomSheet.show(requireActivity().supportFragmentManager, HomeMenuBottomSheet.TAG)
             }
         }
     }

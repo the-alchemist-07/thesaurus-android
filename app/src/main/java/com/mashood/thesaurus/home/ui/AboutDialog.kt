@@ -1,4 +1,4 @@
-package com.mashood.thesaurus.about.ui
+package com.mashood.thesaurus.home.ui
 
 import android.app.Dialog
 import android.content.Intent

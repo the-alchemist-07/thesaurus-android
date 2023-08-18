@@ -44,5 +44,5 @@
 
     <dialog
         android:id="@+id/aboutDialog"
-        android:name="com.mashood.thesaurus.about.ui.AboutDialog" />
+        android:name="com.mashood.thesaurus.home.ui.AboutDialog" />
 </navigation>
