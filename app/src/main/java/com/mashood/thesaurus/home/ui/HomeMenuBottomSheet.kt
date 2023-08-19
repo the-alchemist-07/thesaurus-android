@@ -40,10 +40,6 @@ class HomeMenuBottomSheet : BottomSheetDialogFragment() {
                 Snackbar.make(binding.root, "Coming soon...", Snackbar.LENGTH_SHORT).show()
             }
 
-            lytRandomWord.setOnClickListener {
-                Snackbar.make(binding.root, "Coming soon...", Snackbar.LENGTH_SHORT).show()
-            }
-
             lytAbout.setOnClickListener {
                 dismiss()
                 findNavController().navigate(
