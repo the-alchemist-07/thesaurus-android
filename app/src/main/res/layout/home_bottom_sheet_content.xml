@@ -82,38 +82,6 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/lytRandomWord"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/bg_selectable_white"
-        android:clickable="true"
-        android:focusable="true"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/lytHistory">
-
-        <ImageView
-            android:id="@+id/iconRandomWord"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/common_margin"
-            android:src="@drawable/ic_menu_book_24"
-            tools:ignore="ContentDescription" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tvRandomWord"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/common_margin"
-            android:text="@string/random_word"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
-
-    </LinearLayout>
-
-    <LinearLayout
         android:id="@+id/lytAbout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -124,7 +92,7 @@
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/lytRandomWord">
+        app:layout_constraintTop_toBottomOf="@id/lytHistory">
 
         <ImageView
             android:id="@+id/iconAbout"
