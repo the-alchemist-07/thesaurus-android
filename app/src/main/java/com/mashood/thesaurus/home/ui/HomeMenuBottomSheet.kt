@@ -10,7 +10,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.snackbar.Snackbar
 import com.mashood.thesaurus.databinding.HomeBottomSheetContentBinding
 
-class HomeBottomSheet : BottomSheetDialogFragment() {
+class HomeMenuBottomSheet : BottomSheetDialogFragment() {
 
     private lateinit var binding: HomeBottomSheetContentBinding
 
@@ -40,12 +40,11 @@ class HomeBottomSheet : BottomSheetDialogFragment() {
                 Snackbar.make(binding.root, "Coming soon...", Snackbar.LENGTH_SHORT).show()
             }
 
-            lytRandomWord.setOnClickListener {
-                Snackbar.make(binding.root, "Coming soon...", Snackbar.LENGTH_SHORT).show()
-            }
-
             lytAbout.setOnClickListener {
-                Snackbar.make(binding.root, "Coming soon...", Snackbar.LENGTH_SHORT).show()
+                dismiss()
+                findNavController().navigate(
+                    HomeFragmentDirections.actionHomeFragmentToAboutDialog()
+                )
             }
         }
     }
