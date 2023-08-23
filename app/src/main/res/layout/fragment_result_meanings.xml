@@ -63,21 +63,6 @@
             tools:listitem="@layout/item_single_word"
             tools:visibility="visible" />
 
-        <!--<ListView
-            android:id="@+id/listSynonyms"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="@dimen/half_common_margin"
-            android:layout_marginTop="@dimen/quarter_common_margin"
-            android:divider="@null"
-            android:dividerHeight="0dp"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/titleSynonyms"
-            tools:listitem="@layout/item_single_list"
-            tools:visibility="visible" />-->
-
         <TextView
             android:id="@+id/titleAntonyms"
             android:layout_width="wrap_content"
@@ -107,22 +92,6 @@
             tools:itemCount="3"
             tools:listitem="@layout/item_single_word"
             tools:visibility="visible" />
-
-        <!--<ListView
-            android:id="@+id/listAntonyms"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="@dimen/half_common_margin"
-            android:layout_marginTop="@dimen/quarter_common_margin"
-            android:divider="@null"
-            android:dividerHeight="0dp"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/titleAntonyms"
-            tools:listitem="@layout/item_single_list"
-            tools:visibility="visible" />-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
