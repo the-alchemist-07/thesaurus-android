@@ -146,7 +146,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                     btnVoice.visibility = View.GONE
                 }
                 clearResultUi()
-//                binding.lytError.visibility = View.GONE
+                binding.lytError.visibility = View.GONE
             }
 
             etSearch.setOnItemClickListener { parent, _, position, _ ->
@@ -307,7 +307,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
     private fun showError() {
         showLoading(false)
-//        binding.lytError.visibility = View.VISIBLE
+        binding.lytError.visibility = View.VISIBLE
     }
 
     private fun handleBookmarkedWord(isBookmarked: Boolean) {
