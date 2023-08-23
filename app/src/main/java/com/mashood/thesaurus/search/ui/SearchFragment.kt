@@ -109,11 +109,6 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
             }
     }
 
-    private fun showKeyboard() {
-        val imm = requireContext().getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.showSoftInput(binding.etSearch, InputMethodManager.SHOW_IMPLICIT)
-    }
-
     private fun setListeners() {
         with(binding) {
             btnClear.setOnClickListener {
@@ -198,7 +193,6 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         }
     }
 
-
     private fun bookmarkWord() {
         binding.apply {
             btnBookmark.speed = 3f
@@ -219,7 +213,6 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         }
     }
 
-
     private fun observeState() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -236,7 +229,6 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         }
     }
 
-
     private fun showLoading(flag: Boolean) {
         with(binding) {
             if (flag) {
@@ -246,7 +238,6 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                 progressBar.visibility = View.INVISIBLE
         }
     }
-
 
     private fun handleSearchSuccess(searchResponse: SearchResponse) {
         showLoading(false)
@@ -268,7 +259,6 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                 }
             }
 
-            tabPartOfSpeeches.removeAllTabs()
             // Meanings management
             // Show all the parts of speeches got in the result in different tabs
             setTabsAndMeanings(searchResponse.meanings)
@@ -297,10 +287,6 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
             audioUrl = null
             tvPronunciation.text = ""
             cardResult.visibility = View.GONE
-
-            // Clear meanings card
-            tabPartOfSpeeches.removeAllTabs()
-//            definitionsAdapter.submitList(emptyList())
             cardMeanings.visibility = View.GONE
         }
     }
@@ -320,6 +306,11 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                 btnBookmark.playAnimation()
             }
         }
+    }
+
+    private fun showKeyboard() {
+        val imm = requireContext().getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.showSoftInput(binding.etSearch, InputMethodManager.SHOW_IMPLICIT)
     }
 
     private fun hideKeyboard() {
