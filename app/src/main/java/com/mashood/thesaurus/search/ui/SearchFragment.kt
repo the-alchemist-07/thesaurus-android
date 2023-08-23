@@ -24,11 +24,13 @@ import androidx.navigation.fragment.findNavController
 import androidx.transition.ChangeBounds
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import com.mashood.thesaurus.R
 import com.mashood.thesaurus.app.common.WordSuggestionsHelper
 import com.mashood.thesaurus.databinding.FragmentSearchBinding
 import com.mashood.thesaurus.search.domain.model.SearchResponse
 import com.mashood.thesaurus.search.ui.adapters.DefinitionsAdapter
+import com.mashood.thesaurus.search.ui.adapters.MeaningViewPagerAdapter
 import com.mashood.thesaurus.search.ui.adapters.SynonymAntonymAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -40,9 +42,9 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
     private lateinit var binding: FragmentSearchBinding
     private val viewModel by viewModels<SearchViewModel>()
-    private val definitionsAdapter: DefinitionsAdapter by lazy { DefinitionsAdapter() }
+    /*private val definitionsAdapter: DefinitionsAdapter by lazy { DefinitionsAdapter() }
     private val synonymsAdapter: SynonymAntonymAdapter by lazy { SynonymAntonymAdapter() }
-    private val antonymsAdapter: SynonymAntonymAdapter by lazy { SynonymAntonymAdapter() }
+    private val antonymsAdapter: SynonymAntonymAdapter by lazy { SynonymAntonymAdapter() }*/
     private lateinit var launcherSpeech: ActivityResultLauncher<Intent>
 
     private var mediaPlayer: MediaPlayer? = null
@@ -66,7 +68,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
         init()
         registerVoiceListener()
-        setupRecyclerView()
+//        setupRecyclerView()
         setListeners()
         observeState()
     }
@@ -119,13 +121,13 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         imm.showSoftInput(binding.etSearch, InputMethodManager.SHOW_IMPLICIT)
     }
 
-    private fun setupRecyclerView() {
+    /*private fun setupRecyclerView() {
         binding.apply {
             recyclerDefinitions.adapter = definitionsAdapter
             recyclerSynonyms.adapter = synonymsAdapter
             recyclerAntonyms.adapter = antonymsAdapter
         }
-    }
+    }*/
 
     private fun setListeners() {
         with(binding) {
@@ -159,7 +161,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                     btnVoice.visibility = View.GONE
                 }
                 clearResultUi()
-                binding.lytError.visibility = View.GONE
+//                binding.lytError.visibility = View.GONE
             }
 
             etSearch.setOnItemClickListener { parent, _, position, _ ->
@@ -195,7 +197,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                         .show()
             }
 
-            tabPartOfSpeeches.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            /*tabPartOfSpeeches.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
                 override fun onTabSelected(tab: TabLayout.Tab?) {
                     titleSynonyms.visibility = View.GONE
                     recyclerSynonyms.visibility = View.GONE
@@ -232,7 +234,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
                 override fun onTabReselected(tab: TabLayout.Tab?) {}
                 override fun onTabUnselected(tab: TabLayout.Tab?) {}
-            })
+            })*/
 
             btnBookmark.setOnClickListener {
                 if (!isBookmarked) {
@@ -322,7 +324,8 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
             // Card meanings management
             tabPartOfSpeeches.removeAllTabs()
-            if (searchResponse.meanings.isNotEmpty()) {
+            setupTabs(searchResponse.meanings)
+            /*if (searchResponse.meanings.isNotEmpty()) {
                 val meaningsList = searchResponse.meanings
                 // Set tabs (parts of speech)
                 meaningsList.forEach { meaning ->
@@ -353,7 +356,20 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                     // Submit the list
                     antonymsAdapter.submitList(meaningsList[selectedTabPosition].antonyms)
                 }
-            }
+            }*/
+        }
+    }
+
+    private fun setupTabs(meaningsList: List<SearchResponse.MeaningModel>) {
+        if (meaningsList.isNotEmpty()) {
+            // Adding the contents to viewpager
+            val adapter = MeaningViewPagerAdapter(requireActivity(), meaningsList)
+            binding.viewPager.adapter = adapter
+
+            // Adding the tabs
+            TabLayoutMediator(
+                binding.tabPartOfSpeeches, binding.viewPager
+            ) { tab, position -> tab.text = meaningsList[position].partOfSpeech }.attach()
         }
     }
 
@@ -367,14 +383,14 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
             // Clear meanings card
             tabPartOfSpeeches.removeAllTabs()
-            definitionsAdapter.submitList(emptyList())
+//            definitionsAdapter.submitList(emptyList())
             cardMeanings.visibility = View.GONE
         }
     }
 
     private fun showError() {
         showLoading(false)
-        binding.lytError.visibility = View.VISIBLE
+//        binding.lytError.visibility = View.VISIBLE
     }
 
     private fun handleBookmarkedWord(isBookmarked: Boolean) {
