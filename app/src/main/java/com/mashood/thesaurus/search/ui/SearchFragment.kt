@@ -23,13 +23,12 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.transition.ChangeBounds
 import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import com.mashood.thesaurus.R
 import com.mashood.thesaurus.app.common.WordSuggestionsHelper
 import com.mashood.thesaurus.databinding.FragmentSearchBinding
 import com.mashood.thesaurus.search.domain.model.SearchResponse
-import com.mashood.thesaurus.search.ui.adapters.DefinitionsAdapter
-import com.mashood.thesaurus.search.ui.adapters.SynonymAntonymAdapter
+import com.mashood.thesaurus.search.ui.adapters.MeaningViewPagerAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.io.IOException
@@ -40,9 +39,6 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
     private lateinit var binding: FragmentSearchBinding
     private val viewModel by viewModels<SearchViewModel>()
-    private val definitionsAdapter: DefinitionsAdapter by lazy { DefinitionsAdapter() }
-    private val synonymsAdapter: SynonymAntonymAdapter by lazy { SynonymAntonymAdapter() }
-    private val antonymsAdapter: SynonymAntonymAdapter by lazy { SynonymAntonymAdapter() }
     private lateinit var launcherSpeech: ActivityResultLauncher<Intent>
 
     private var mediaPlayer: MediaPlayer? = null
@@ -66,7 +62,6 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
         init()
         registerVoiceListener()
-        setupRecyclerView()
         setListeners()
         observeState()
     }
@@ -112,19 +107,6 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                     viewModel.checkKeyword(spokenText)
                 }
             }
-    }
-
-    private fun showKeyboard() {
-        val imm = requireContext().getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.showSoftInput(binding.etSearch, InputMethodManager.SHOW_IMPLICIT)
-    }
-
-    private fun setupRecyclerView() {
-        binding.apply {
-            recyclerDefinitions.adapter = definitionsAdapter
-            recyclerSynonyms.adapter = synonymsAdapter
-            recyclerAntonyms.adapter = antonymsAdapter
-        }
     }
 
     private fun setListeners() {
@@ -195,45 +177,6 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                         .show()
             }
 
-            tabPartOfSpeeches.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-                override fun onTabSelected(tab: TabLayout.Tab?) {
-                    titleSynonyms.visibility = View.GONE
-                    recyclerSynonyms.visibility = View.GONE
-                    titleAntonyms.visibility = View.GONE
-                    recyclerAntonyms.visibility = View.GONE
-
-                    if (searchResultData != null) {
-                        val selectedTabPosition = tabPartOfSpeeches.selectedTabPosition
-                        val definitionsList =
-                            searchResultData!!.meanings[selectedTabPosition].definitions
-                        definitionsAdapter.submitList(definitionsList)
-
-                        // Set synonyms
-                        val synonymsList = searchResultData!!.meanings[selectedTabPosition].synonyms
-                        if (synonymsList.isNotEmpty()) {
-                            // Set visibility of UI
-                            titleSynonyms.visibility = View.VISIBLE
-                            recyclerSynonyms.visibility = View.VISIBLE
-                            // Submit the list
-                            synonymsAdapter.submitList(synonymsList)
-                        }
-
-                        // Set antonyms
-                        val antonymsList = searchResultData!!.meanings[selectedTabPosition].antonyms
-                        if (antonymsList.isNotEmpty()) {
-                            // Set visibility of UI
-                            titleAntonyms.visibility = View.VISIBLE
-                            recyclerAntonyms.visibility = View.VISIBLE
-                            // Submit the list
-                            antonymsAdapter.submitList(antonymsList)
-                        }
-                    }
-                }
-
-                override fun onTabReselected(tab: TabLayout.Tab?) {}
-                override fun onTabUnselected(tab: TabLayout.Tab?) {}
-            })
-
             btnBookmark.setOnClickListener {
                 if (!isBookmarked) {
                     bookmarkWord()
@@ -249,7 +192,6 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
             }
         }
     }
-
 
     private fun bookmarkWord() {
         binding.apply {
@@ -271,7 +213,6 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         }
     }
 
-
     private fun observeState() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -288,7 +229,6 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         }
     }
 
-
     private fun showLoading(flag: Boolean) {
         with(binding) {
             if (flag) {
@@ -298,7 +238,6 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                 progressBar.visibility = View.INVISIBLE
         }
     }
-
 
     private fun handleSearchSuccess(searchResponse: SearchResponse) {
         showLoading(false)
@@ -320,39 +259,23 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                 }
             }
 
-            // Card meanings management
-            tabPartOfSpeeches.removeAllTabs()
-            if (searchResponse.meanings.isNotEmpty()) {
-                val meaningsList = searchResponse.meanings
-                // Set tabs (parts of speech)
-                meaningsList.forEach { meaning ->
-                    tabPartOfSpeeches.addTab(
-                        tabPartOfSpeeches.newTab().setText(meaning.partOfSpeech)
-                    )
-                }
+            // Meanings management
+            // Show all the parts of speeches got in the result in different tabs
+            setTabsAndMeanings(searchResponse.meanings)
+        }
+    }
 
-                // Set definitions for the first tab by default
-                val selectedTabPosition = tabPartOfSpeeches.selectedTabPosition
-                val definitionsList = meaningsList[selectedTabPosition].definitions
-                definitionsAdapter.submitList(definitionsList)
+    private fun setTabsAndMeanings(meaningsList: List<SearchResponse.MeaningModel>) {
+        if (meaningsList.isNotEmpty()) {
+            binding.apply {
+                // Adding the contents to viewpager
+                val adapter = MeaningViewPagerAdapter(requireActivity(), meaningsList)
+                viewPager.adapter = adapter
 
-                // Set synonyms for the first tab by default
-                if (meaningsList[selectedTabPosition].synonyms.isNotEmpty()) {
-                    // Set visibility of UI
-                    titleSynonyms.visibility = View.VISIBLE
-                    recyclerSynonyms.visibility = View.VISIBLE
-                    // Submit the list
-                    synonymsAdapter.submitList(meaningsList[selectedTabPosition].synonyms)
-                }
-
-                // Set antonyms for the first tab by default
-                if (meaningsList[selectedTabPosition].antonyms.isNotEmpty()) {
-                    // Set visibility of UI
-                    titleAntonyms.visibility = View.VISIBLE
-                    recyclerAntonyms.visibility = View.VISIBLE
-                    // Submit the list
-                    antonymsAdapter.submitList(meaningsList[selectedTabPosition].antonyms)
-                }
+                // Adding the tabs, with tab's name as each part of speech got in the result
+                TabLayoutMediator(
+                    tabPartOfSpeeches, viewPager
+                ) { tab, position -> tab.text = meaningsList[position].partOfSpeech }.attach()
             }
         }
     }
@@ -364,10 +287,6 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
             audioUrl = null
             tvPronunciation.text = ""
             cardResult.visibility = View.GONE
-
-            // Clear meanings card
-            tabPartOfSpeeches.removeAllTabs()
-            definitionsAdapter.submitList(emptyList())
             cardMeanings.visibility = View.GONE
         }
     }
@@ -387,6 +306,11 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                 btnBookmark.playAnimation()
             }
         }
+    }
+
+    private fun showKeyboard() {
+        val imm = requireContext().getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.showSoftInput(binding.etSearch, InputMethodManager.SHOW_IMPLICIT)
     }
 
     private fun hideKeyboard() {
