@@ -6,9 +6,10 @@ import androidx.room.TypeConverters
 import com.mashood.thesaurus.bookmark.data.source.converters.MeaningConverter
 import com.mashood.thesaurus.bookmark.data.source.converters.PhoneticConverter
 import com.mashood.thesaurus.bookmark.data.source.converters.SourceUrlConverter
+import com.mashood.thesaurus.history.data.source.HistoryEntity
 
 @TypeConverters(MeaningConverter::class, PhoneticConverter::class, SourceUrlConverter::class)
-@Database(entities = [BookmarkEntity::class], version = 1, exportSchema = false)
+@Database(entities = [BookmarkEntity::class, HistoryEntity::class], version = 1, exportSchema = false)
 abstract class BookmarkDatabase: RoomDatabase() {
     abstract val bookmarkDao: BookmarkDao
 }
