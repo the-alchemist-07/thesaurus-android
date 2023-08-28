@@ -2,6 +2,8 @@ package com.mashood.thesaurus.app.di
 
 import com.mashood.thesaurus.bookmark.data.repository.BookmarkRepositoryImpl
 import com.mashood.thesaurus.bookmark.domain.repository.BookmarkRepository
+import com.mashood.thesaurus.history.data.repository.HistoryRepositoryImpl
+import com.mashood.thesaurus.history.domain.repository.HistoryRepository
 import com.mashood.thesaurus.search.data.repository.SearchRepositoryImpl
 import com.mashood.thesaurus.search.domain.repository.SearchRepository
 import dagger.Binds
@@ -18,5 +20,8 @@ abstract class RepositoryModule {
 
     @Binds
     abstract fun bindBookmarkRepository(bookmarkRepositoryImpl: BookmarkRepositoryImpl): BookmarkRepository
+
+    @Binds
+    abstract fun bindHistoryRepository(historyRepositoryImpl: HistoryRepositoryImpl): HistoryRepository
 
 }
