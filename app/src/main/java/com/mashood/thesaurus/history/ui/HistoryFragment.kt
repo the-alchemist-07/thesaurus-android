@@ -8,6 +8,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.google.android.material.snackbar.Snackbar
 import com.mashood.thesaurus.R
 import com.mashood.thesaurus.databinding.FragmentHistoryBinding
 import com.mashood.thesaurus.history.data.source.HistoryEntity
@@ -45,6 +46,6 @@ class HistoryFragment : Fragment(R.layout.fragment_history) {
     }
 
     private fun handleError(message: String) {
-
+        Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG).show()
     }
 }
