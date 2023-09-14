@@ -6,13 +6,14 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.mashood.thesaurus.databinding.ItemHistoryBinding
+import com.mashood.thesaurus.history.domain.model.History
 
 class HistoryAdapter(private val listener: OnItemClickListener) :
-    ListAdapter<String, RecyclerView.ViewHolder>(DiffCallback) {
+    ListAdapter<History, RecyclerView.ViewHolder>(DiffCallback) {
 
     interface OnItemClickListener {
-        fun onWordClicked(word: String)
-        fun onWordRemoveClicked(word: String)
+        fun onHistoryWordClicked(word: History)
+        fun onHistoryWordRemoveClicked(word: History)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -27,29 +28,29 @@ class HistoryAdapter(private val listener: OnItemClickListener) :
     inner class HistoryViewHolder(private val binding: ItemHistoryBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(word: String) {
+        fun bind(history: History) {
             binding.apply {
-                tvWord.text = word
-                tvFirstLetter.text = word[0].toString().uppercase()
+                tvWord.text = history.word
+                tvFirstLetter.text = history.word[0].toString().uppercase()
 
                 btnRemove.setOnClickListener {
-                    listener.onWordRemoveClicked(word)
+                    listener.onHistoryWordRemoveClicked(history)
                 }
 
                 root.setOnClickListener {
-                    listener.onWordClicked(word)
+                    listener.onHistoryWordClicked(history)
                 }
             }
         }
     }
 }
 
-object DiffCallback : DiffUtil.ItemCallback<String>() {
-    override fun areItemsTheSame(oldItem: String, newItem: String): Boolean {
+object DiffCallback : DiffUtil.ItemCallback<History>() {
+    override fun areItemsTheSame(oldItem: History, newItem: History): Boolean {
         return oldItem == newItem
     }
 
-    override fun areContentsTheSame(oldItem: String, newItem: String): Boolean {
+    override fun areContentsTheSame(oldItem: History, newItem: History): Boolean {
         return oldItem == newItem
     }
 }
