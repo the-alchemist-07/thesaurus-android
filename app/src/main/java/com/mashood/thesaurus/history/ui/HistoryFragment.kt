@@ -10,7 +10,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.snackbar.Snackbar
 import com.mashood.thesaurus.R
 import com.mashood.thesaurus.databinding.FragmentHistoryBinding
-import com.mashood.thesaurus.history.data.source.HistoryEntity
+import com.mashood.thesaurus.history.domain.model.History
 import com.mashood.thesaurus.history.ui.adapters.HistoryAdapter
 import com.mashood.thesaurus.search.domain.model.SearchResponse
 import kotlinx.coroutines.flow.collectLatest
@@ -50,7 +50,7 @@ class HistoryFragment : Fragment(R.layout.fragment_history),
         }
     }
 
-    private fun showHistoriesList(historyList: List<HistoryEntity>) {
+    private fun showHistoriesList(historyList: List<History>) {
 
     }
 
