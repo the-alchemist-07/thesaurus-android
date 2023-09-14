@@ -22,7 +22,7 @@ class HistoryFragment : Fragment(R.layout.fragment_history),
     private lateinit var binding: FragmentHistoryBinding
     private val viewModel by viewModels<HistoryViewModel>()
     private val historyAdapter: HistoryAdapter by lazy { HistoryAdapter(this) }
-    private var historiesList: List<SearchResponse> = emptyList()
+    private var historyList: List<History> = emptyList()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -51,18 +51,19 @@ class HistoryFragment : Fragment(R.layout.fragment_history),
     }
 
     private fun showHistoriesList(historyList: List<History>) {
-
+        this.historyList = historyList
+        historyAdapter.submitList(this.historyList)
     }
 
     private fun handleError(message: String) {
         Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG).show()
     }
 
-    override fun onWordClicked(word: String) {
+    override fun onHistoryWordClicked(word: History) {
         TODO("Not yet implemented")
     }
 
-    override fun onWordRemoveClicked(word: String) {
+    override fun onHistoryWordRemoveClicked(word: History) {
         TODO("Not yet implemented")
     }
 }
