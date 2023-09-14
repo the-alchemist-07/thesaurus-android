@@ -33,15 +33,14 @@ class HistoryAdapter(private val listener: OnItemClickListener) :
                 tvFirstLetter.text = word[0].toString().uppercase()
 
                 btnRemove.setOnClickListener {
-
+                    listener.onWordRemoveClicked(word)
                 }
 
                 root.setOnClickListener {
-
+                    listener.onWordClicked(word)
                 }
             }
         }
-
     }
 }
 
@@ -53,5 +52,4 @@ object DiffCallback : DiffUtil.ItemCallback<String>() {
     override fun areContentsTheSame(oldItem: String, newItem: String): Boolean {
         return oldItem == newItem
     }
-
 }
