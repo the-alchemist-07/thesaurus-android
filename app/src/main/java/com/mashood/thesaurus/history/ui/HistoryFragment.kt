@@ -1,7 +1,6 @@
 package com.mashood.thesaurus.history.ui
 
 import android.os.Bundle
-import android.os.Message
 import androidx.fragment.app.Fragment
 import android.view.View
 import androidx.fragment.app.viewModels
@@ -12,19 +11,29 @@ import com.google.android.material.snackbar.Snackbar
 import com.mashood.thesaurus.R
 import com.mashood.thesaurus.databinding.FragmentHistoryBinding
 import com.mashood.thesaurus.history.data.source.HistoryEntity
+import com.mashood.thesaurus.history.ui.adapters.HistoryAdapter
+import com.mashood.thesaurus.search.domain.model.SearchResponse
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-class HistoryFragment : Fragment(R.layout.fragment_history) {
+class HistoryFragment : Fragment(R.layout.fragment_history),
+    HistoryAdapter.OnItemClickListener {
 
     private lateinit var binding: FragmentHistoryBinding
     private val viewModel by viewModels<HistoryViewModel>()
+    private val historyAdapter: HistoryAdapter by lazy { HistoryAdapter(this) }
+    private var historiesList: List<SearchResponse> = emptyList()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentHistoryBinding.bind(view)
 
+        setUpRecyclerView()
         observeState()
+    }
+
+    private fun setUpRecyclerView() {
+        binding.recycler.adapter = historyAdapter
     }
 
     private fun observeState() {
@@ -47,5 +56,13 @@ class HistoryFragment : Fragment(R.layout.fragment_history) {
 
     private fun handleError(message: String) {
         Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG).show()
+    }
+
+    override fun onWordClicked(word: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onWordRemoveClicked(word: String) {
+        TODO("Not yet implemented")
     }
 }
