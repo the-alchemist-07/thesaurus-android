@@ -1,13 +1,16 @@
 package com.mashood.thesaurus.history.data.mapper
 
 import com.mashood.thesaurus.history.data.source.HistoryEntity
+import com.mashood.thesaurus.history.domain.model.History
 
-fun String.toHistoryEntity(): HistoryEntity {
+fun History.toHistoryEntity(): HistoryEntity {
     return HistoryEntity(
-        word = this
+        word = word
     )
 }
 
-fun HistoryEntity.toString(): String {
-    return word
+fun HistoryEntity.toHistory(): History {
+    return History(
+        word = word
+    )
 }
