@@ -59,11 +59,11 @@ class HistoryFragment : Fragment(R.layout.fragment_history),
         Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG).show()
     }
 
-    override fun onHistoryWordClicked(word: History) {
+    override fun onHistoryWordClicked(history: History) {
         TODO("Not yet implemented")
     }
 
-    override fun onHistoryWordRemoveClicked(word: History) {
-        TODO("Not yet implemented")
+    override fun onHistoryWordRemoveClicked(history: History) {
+        viewModel.removeWordFromHistory(history)
     }
 }

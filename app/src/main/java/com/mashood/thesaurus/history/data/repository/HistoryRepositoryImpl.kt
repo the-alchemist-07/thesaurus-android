@@ -2,6 +2,7 @@ package com.mashood.thesaurus.history.data.repository
 
 import com.mashood.thesaurus.app.common.Resource
 import com.mashood.thesaurus.history.data.mapper.toHistory
+import com.mashood.thesaurus.history.data.mapper.toHistoryEntity
 import com.mashood.thesaurus.history.data.source.HistoryDao
 import com.mashood.thesaurus.history.domain.model.History
 import com.mashood.thesaurus.history.domain.repository.HistoryRepository
@@ -22,6 +23,10 @@ class HistoryRepositoryImpl @Inject constructor(
         }
         else
             emit(Resource.Error(EMPTY_HISTORY))
+    }
+
+    override suspend fun deleteHistory(history: History) {
+        historyDao.deleteHistory(history = history.toHistoryEntity())
     }
 
     companion object {

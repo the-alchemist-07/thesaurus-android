@@ -3,6 +3,7 @@ package com.mashood.thesaurus.history.ui
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mashood.thesaurus.app.common.Resource
+import com.mashood.thesaurus.history.domain.model.History
 import com.mashood.thesaurus.history.domain.repository.HistoryRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -21,17 +22,20 @@ class HistoryViewModel @Inject constructor(
     }
 
     private fun getHistoriesList() = viewModelScope.launch {
-        historyRepository.getHistoriesList().collect {
-            when (it) {
+        historyRepository.getHistoriesList().collect { state ->
+            when (state) {
                 is Resource.Success -> _historyState.emit(
-                    HistoryState.SuccessHistoryList(it.value)
+                    HistoryState.SuccessHistoryList(state.value)
                 )
                 is Resource.Error -> _historyState.emit(
-                    HistoryState.Error(it.error)
+                    HistoryState.Error(state.error)
                 )
                 else -> Unit
             }
         }
     }
 
+    fun removeWordFromHistory(history: History) = viewModelScope.launch {
+        historyRepository.deleteHistory(history)
+    }
 }
