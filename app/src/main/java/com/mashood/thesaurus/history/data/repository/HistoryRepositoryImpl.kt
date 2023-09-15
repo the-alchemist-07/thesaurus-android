@@ -18,7 +18,7 @@ class HistoryRepositoryImpl @Inject constructor(
     override fun getHistoriesList(): Flow<Resource<List<History>>> = flow {
         val historyEntityList = historyDao.getHistories().first()
         if (historyEntityList.isNotEmpty()) {
-            val historyList = historyEntityList.map { it.toHistory() }
+            val historyList = historyEntityList.reversed().map { it.toHistory() }
             emit(Resource.Success(historyList))
         }
         else
@@ -26,11 +26,11 @@ class HistoryRepositoryImpl @Inject constructor(
     }
 
     override suspend fun addHistory(history: History) {
-        historyDao.insertHistory(history = history.toHistoryEntity())
+        historyDao.insertHistory(history.toHistoryEntity())
     }
 
-    override suspend fun deleteHistory(history: History) {
-        historyDao.deleteHistory(history = history.toHistoryEntity())
+    override suspend fun deleteHistory(history: History): Flow<Int> = flow {
+        emit(historyDao.deleteHistory(history.toHistoryEntity()))
     }
 
     companion object {

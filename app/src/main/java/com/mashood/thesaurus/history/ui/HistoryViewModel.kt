@@ -8,6 +8,7 @@ import com.mashood.thesaurus.history.domain.repository.HistoryRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -38,6 +39,9 @@ class HistoryViewModel @Inject constructor(
     }
 
     fun removeWordFromHistory(history: History) = viewModelScope.launch {
-        historyRepository.deleteHistory(history)
+        historyRepository.deleteHistory(history).collectLatest {
+            if (it == 1)
+                getHistoriesList()  // To update the list on deleting the item
+        }
     }
 }

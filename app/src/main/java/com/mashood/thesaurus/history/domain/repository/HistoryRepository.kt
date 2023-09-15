@@ -10,6 +10,6 @@ interface HistoryRepository {
 
     suspend fun addHistory(history: History)
 
-    suspend fun deleteHistory(history: History)
+    suspend fun deleteHistory(history: History): Flow<Int>
 
 }
