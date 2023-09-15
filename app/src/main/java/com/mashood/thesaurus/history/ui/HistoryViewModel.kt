@@ -5,11 +5,13 @@ import androidx.lifecycle.viewModelScope
 import com.mashood.thesaurus.app.common.Resource
 import com.mashood.thesaurus.history.domain.model.History
 import com.mashood.thesaurus.history.domain.repository.HistoryRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class HistoryViewModel @Inject constructor(
     private val historyRepository: HistoryRepository
 ) : ViewModel() {

@@ -13,9 +13,11 @@ import com.mashood.thesaurus.databinding.FragmentHistoryBinding
 import com.mashood.thesaurus.history.domain.model.History
 import com.mashood.thesaurus.history.ui.adapters.HistoryAdapter
 import com.mashood.thesaurus.search.domain.model.SearchResponse
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class HistoryFragment : Fragment(R.layout.fragment_history),
     HistoryAdapter.OnItemClickListener {
 
