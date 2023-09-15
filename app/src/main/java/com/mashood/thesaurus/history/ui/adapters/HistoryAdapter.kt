@@ -12,8 +12,8 @@ class HistoryAdapter(private val listener: OnItemClickListener) :
     ListAdapter<History, RecyclerView.ViewHolder>(DiffCallback) {
 
     interface OnItemClickListener {
-        fun onHistoryWordClicked(word: History)
-        fun onHistoryWordRemoveClicked(word: History)
+        fun onHistoryWordClicked(history: History)
+        fun onHistoryWordRemoveClicked(history: History)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
