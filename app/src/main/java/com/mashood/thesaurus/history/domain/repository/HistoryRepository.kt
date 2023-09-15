@@ -8,6 +8,8 @@ interface HistoryRepository {
 
     fun getHistoriesList(): Flow<Resource<List<History>>>
 
+    suspend fun addHistory(history: History)
+
     suspend fun deleteHistory(history: History)
 
 }
