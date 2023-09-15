@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 2,
-    "identityHash": "1327e19a63a1f566f469cc04a2445370",
+    "identityHash": "9d984812301133cd602e3a1730d1edf0",
     "entities": [
       {
         "tableName": "bookmark_table",
@@ -44,14 +44,8 @@
       },
       {
         "tableName": "history_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `word` TEXT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`word` TEXT NOT NULL, PRIMARY KEY(`word`))",
         "fields": [
-          {
-            "fieldPath": "id",
-            "columnName": "id",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
           {
             "fieldPath": "word",
             "columnName": "word",
@@ -60,9 +54,9 @@
           }
         ],
         "primaryKey": {
-          "autoGenerate": true,
+          "autoGenerate": false,
           "columnNames": [
-            "id"
+            "word"
           ]
         },
         "indices": [],
@@ -72,7 +66,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '1327e19a63a1f566f469cc04a2445370')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '9d984812301133cd602e3a1730d1edf0')"
     ]
   }
 }
