@@ -5,11 +5,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.mashood.thesaurus.app.common.capitalizeFirstLetter
 import com.mashood.thesaurus.databinding.ItemHistoryBinding
 import com.mashood.thesaurus.history.domain.model.History
 
-class HistoryAdapter(private val listener: OnItemClickListener) :
-    ListAdapter<History, RecyclerView.ViewHolder>(DiffCallback) {
+class HistoryAdapter(
+    private val listener: OnItemClickListener,
+    showDeleteButton: Boolean = true
+) : ListAdapter<History, RecyclerView.ViewHolder>(DiffCallback) {
 
     interface OnItemClickListener {
         fun onHistoryWordClicked(history: History)
@@ -30,7 +33,7 @@ class HistoryAdapter(private val listener: OnItemClickListener) :
 
         fun bind(history: History) {
             binding.apply {
-                tvWord.text = history.word
+                tvWord.text = history.word.capitalizeFirstLetter()
                 tvFirstLetter.text = history.word[0].toString().uppercase()
 
                 btnRemove.setOnClickListener {
