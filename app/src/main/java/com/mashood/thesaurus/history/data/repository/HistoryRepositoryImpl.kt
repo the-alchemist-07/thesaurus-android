@@ -1,5 +1,6 @@
 package com.mashood.thesaurus.history.data.repository
 
+import com.mashood.thesaurus.app.common.Constants.EMPTY_HISTORY
 import com.mashood.thesaurus.app.common.Resource
 import com.mashood.thesaurus.history.data.mapper.toHistory
 import com.mashood.thesaurus.history.data.mapper.toHistoryEntity
@@ -33,7 +34,4 @@ class HistoryRepositoryImpl @Inject constructor(
         emit(historyDao.deleteHistory(history.toHistoryEntity()))
     }
 
-    companion object {
-        const val EMPTY_HISTORY = "No history found!"
-    }
 }
