@@ -29,9 +29,17 @@ class SearchViewModel @Inject constructor(
     private val _searchState = MutableStateFlow<SearchState>(SearchState.Idle)
     val searchState = _searchState.asStateFlow()
 
+    // Argument received from BookmarkFragment, full search response will be there.
     private val wordData = savedStateHandle.get<SearchResponse>("wordData")
     fun getWordData() = wordData
 
+    // Argument received from HistoryFragment, just the word will be there.
+    private val word = savedStateHandle.get<String>("word")
+    fun getWord() = word
+
+    init {
+        getHistoriesList()
+    }
 
     fun checkKeyword(keyword: String?) = viewModelScope.launch {
         when {
@@ -40,7 +48,7 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    private fun searchKeyword(keyword: String) = viewModelScope.launch {
+    fun searchKeyword(keyword: String) = viewModelScope.launch {
         searchRepository.searchKeyword(keyword).collect { state ->
             when (state) {
                 is Resource.Loading -> _searchState.emit(SearchState.Loading)
@@ -52,6 +60,20 @@ class SearchViewModel @Inject constructor(
                     addWordToHistory(word = state.value.word)
                 }
                 is Resource.Error -> _searchState.emit(SearchState.Error(state.error))
+            }
+        }
+    }
+
+    private fun getHistoriesList() = viewModelScope.launch {
+        historyRepository.getHistoriesList().collect { state ->
+            when (state) {
+                is Resource.Success -> _searchState.emit(
+                    SearchState.HistoryList(state.value)
+                )
+                is Resource.Error -> _searchState.emit(
+                    SearchState.Error(state.error)
+                )
+                else -> Unit
             }
         }
     }
@@ -71,7 +93,7 @@ class SearchViewModel @Inject constructor(
 
     private fun addWordToHistory(word: String) = viewModelScope.launch {
         historyRepository.addHistory(
-            History(word = word)
+            History(word)
         )
     }
 
