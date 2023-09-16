@@ -22,7 +22,10 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private fun setListeners() {
         binding.apply {
             cardSearch.setOnClickListener {
-                val direction = HomeFragmentDirections.actionHomeFragmentToSearchFragment(null)
+                val direction = HomeFragmentDirections.actionHomeFragmentToSearchFragment(
+                    wordData = null,
+                    word = null
+                )
                 val extras = FragmentNavigatorExtras(
                     binding.cardSearch to binding.cardSearch.transitionName
                 )

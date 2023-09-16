@@ -69,7 +69,10 @@ class HistoryFragment : Fragment(R.layout.fragment_history),
     }
 
     override fun onHistoryWordClicked(history: History) {
-//        TODO("Not yet implemented")
+        findNavController().navigate(HistoryFragmentDirections.actionHistoryFragmentToSearchFragment(
+            wordData = null,
+            word = history.word
+        ))
     }
 
     override fun onHistoryWordRemoveClicked(history: History) {
