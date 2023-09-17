@@ -114,7 +114,8 @@ class BookmarksFragment : Fragment(R.layout.fragment_bookmarks),
     override fun onItemClicked(data: SearchResponse) {
         findNavController().navigate(
             BookmarksFragmentDirections.actionBookmarksFragmentToSearchFragment(
-                data
+                wordData = data,
+                word = null
             )
         )
     }

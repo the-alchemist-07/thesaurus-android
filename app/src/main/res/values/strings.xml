@@ -9,6 +9,8 @@
     <string name="bookmarks">Bookmarks</string>
     <string name="search_hint">Search a word</string>
     <string name="word_pointer">➼</string>
+    <string name="recent_searches">Recent searches</string>
+    <string name="items_count_placeholder">%d items</string>
 
     <string name="anim_search">search_animation</string>
     <string name="history">History</string>
@@ -16,6 +18,4 @@
     <string name="about">About</string>
     <string name="app_info_description">This app is built on top of the <a href="https://dictionaryapi.dev/">free dictionary API</a>. The source code of this app is also available at <a href="https://github.com/the-alchemist-07/thesaurus-android">Github</a>.</string>
     <string name="dev_info_description">App made with ❤ by Mohammed Mashood PV</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

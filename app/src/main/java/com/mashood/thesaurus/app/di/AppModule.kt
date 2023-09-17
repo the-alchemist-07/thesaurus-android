@@ -24,4 +24,8 @@ class AppModule {
     @Singleton
     fun provideBookmarkDao(bookmarkDatabase: BookmarkDatabase) = bookmarkDatabase.bookmarkDao
 
+    @Provides
+    @Singleton
+    fun provideHistoryDao(bookmarkDatabase: BookmarkDatabase) = bookmarkDatabase.historyDao
+
 }

@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.mashood.thesaurus.app.common.capitalizeFirstLetter
 import com.mashood.thesaurus.databinding.ItemBookmarkBinding
 import com.mashood.thesaurus.search.domain.model.SearchResponse
 
@@ -29,7 +30,7 @@ class BookmarkAdapter(private val listener: OnItemClickListener) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(data: SearchResponse) {
             binding.apply {
-                tvWord.text = data.word
+                tvWord.text = data.word.capitalizeFirstLetter()
                 tvFirstLetter.text = data.word[0].toString().uppercase()
 
                 data.phonetics.forEach { phonetic ->
