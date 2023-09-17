@@ -9,6 +9,7 @@
     <string name="bookmarks">Bookmarks</string>
     <string name="search_hint">Search a word</string>
     <string name="word_pointer">➼</string>
+    <string name="recent_searches">Recent searches</string>
     <string name="items_count_placeholder">%d items</string>
 
     <string name="anim_search">search_animation</string>
