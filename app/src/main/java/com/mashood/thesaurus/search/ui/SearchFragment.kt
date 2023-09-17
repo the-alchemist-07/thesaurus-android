@@ -22,6 +22,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.ChangeBounds
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
@@ -111,6 +112,33 @@ class SearchFragment : Fragment(R.layout.fragment_search),
     private fun setupRecyclerView() {
         binding.apply {
             recyclerHistory.adapter = historyAdapter
+
+            historyAdapter.registerAdapterDataObserver(object: RecyclerView.AdapterDataObserver() {
+                override fun onChanged() {
+                    if (historyAdapter.itemCount > 0)
+                        recyclerHistory.smoothScrollToPosition(0)
+                }
+                override fun onItemRangeRemoved(positionStart: Int, itemCount: Int) {
+                    if (historyAdapter.itemCount > 0)
+                        recyclerHistory.smoothScrollToPosition(0)
+                }
+                override fun onItemRangeMoved(fromPosition: Int, toPosition: Int, itemCount: Int) {
+                    if (historyAdapter.itemCount > 0)
+                        recyclerHistory.smoothScrollToPosition(0)
+                }
+                override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+                    if (historyAdapter.itemCount > 0)
+                        recyclerHistory.smoothScrollToPosition(0)
+                }
+                override fun onItemRangeChanged(positionStart: Int, itemCount: Int) {
+                    if (historyAdapter.itemCount > 0)
+                        recyclerHistory.smoothScrollToPosition(0)
+                }
+                override fun onItemRangeChanged(positionStart: Int, itemCount: Int, payload: Any?) {
+                    if (historyAdapter.itemCount > 0)
+                        recyclerHistory.smoothScrollToPosition(0)
+                }
+            })
         }
     }
 
@@ -267,6 +295,8 @@ class SearchFragment : Fragment(R.layout.fragment_search),
 
         // Set data to UI
         binding.apply {
+            // Set history UI as gone
+            cardHistory.visibility = View.GONE
             // Set result UI as visible
             cardResult.visibility = View.VISIBLE
             cardMeanings.visibility = View.VISIBLE
@@ -336,8 +366,14 @@ class SearchFragment : Fragment(R.layout.fragment_search),
     }
 
     private fun handleHistoryList(historyList: List<History>) {
-        binding.cardHistory.visibility = View.VISIBLE
-        historyAdapter.submitList(historyList)
+        binding.apply {
+            historyAdapter.submitList(historyList)
+            // Update the count
+            tvHistoryCount.text = "${historyList.size} items"
+            if (etSearch.text.toString().isBlank()) {
+                binding.cardHistory.visibility = View.VISIBLE
+            }
+        }
     }
 
     private fun showKeyboard() {
