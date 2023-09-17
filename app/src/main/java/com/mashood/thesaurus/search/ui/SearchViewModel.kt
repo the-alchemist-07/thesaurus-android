@@ -95,6 +95,8 @@ class SearchViewModel @Inject constructor(
         historyRepository.addHistory(
             History(word)
         )
+        // Updates the history list
+        getHistoriesList()
     }
 
     companion object {
