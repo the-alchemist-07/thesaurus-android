@@ -363,8 +363,4 @@ class SearchFragment : Fragment(R.layout.fragment_search),
             viewModel.searchKeyword(history.word)
         }
     }
-
-    override fun onHistoryWordRemoveClicked(history: History) {
-        // Nothing to do here...
-    }
 }

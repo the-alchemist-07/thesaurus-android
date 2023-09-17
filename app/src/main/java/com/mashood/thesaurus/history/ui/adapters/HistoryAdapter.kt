@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.mashood.thesaurus.app.common.capitalizeFirstLetter
 import com.mashood.thesaurus.databinding.ItemHistoryBinding
 import com.mashood.thesaurus.history.domain.model.History
 
@@ -17,7 +16,8 @@ class HistoryAdapter(
 
     interface OnItemClickListener {
         fun onHistoryWordClicked(history: History)
-        fun onHistoryWordRemoveClicked(history: History)
+        fun onHistoryWordRemoveClicked(history: History) { /* default implementation */
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
