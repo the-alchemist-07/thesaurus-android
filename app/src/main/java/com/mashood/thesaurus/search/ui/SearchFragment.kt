@@ -369,7 +369,7 @@ class SearchFragment : Fragment(R.layout.fragment_search),
         binding.apply {
             historyAdapter.submitList(historyList)
             // Update the count
-            tvHistoryCount.text = "${historyList.size} items"
+            tvHistoryCount.text = getString(R.string.items_count_placeholder, historyList.size)
             if (etSearch.text.toString().isBlank()) {
                 binding.cardHistory.visibility = View.VISIBLE
             }
