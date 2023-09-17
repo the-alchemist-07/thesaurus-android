@@ -41,7 +41,7 @@ import java.util.Locale
 
 @AndroidEntryPoint
 class SearchFragment : Fragment(R.layout.fragment_search),
-    HistoryAdapter.OnItemClickListener{
+    HistoryAdapter.OnItemClickListener {
 
     private lateinit var binding: FragmentSearchBinding
     private val viewModel by viewModels<SearchViewModel>()
@@ -113,27 +113,32 @@ class SearchFragment : Fragment(R.layout.fragment_search),
         binding.apply {
             recyclerHistory.adapter = historyAdapter
 
-            historyAdapter.registerAdapterDataObserver(object: RecyclerView.AdapterDataObserver() {
+            historyAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
                 override fun onChanged() {
                     if (historyAdapter.itemCount > 0)
                         recyclerHistory.smoothScrollToPosition(0)
                 }
+
                 override fun onItemRangeRemoved(positionStart: Int, itemCount: Int) {
                     if (historyAdapter.itemCount > 0)
                         recyclerHistory.smoothScrollToPosition(0)
                 }
+
                 override fun onItemRangeMoved(fromPosition: Int, toPosition: Int, itemCount: Int) {
                     if (historyAdapter.itemCount > 0)
                         recyclerHistory.smoothScrollToPosition(0)
                 }
+
                 override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
                     if (historyAdapter.itemCount > 0)
                         recyclerHistory.smoothScrollToPosition(0)
                 }
+
                 override fun onItemRangeChanged(positionStart: Int, itemCount: Int) {
                     if (historyAdapter.itemCount > 0)
                         recyclerHistory.smoothScrollToPosition(0)
                 }
+
                 override fun onItemRangeChanged(positionStart: Int, itemCount: Int, payload: Any?) {
                     if (historyAdapter.itemCount > 0)
                         recyclerHistory.smoothScrollToPosition(0)
@@ -164,6 +169,8 @@ class SearchFragment : Fragment(R.layout.fragment_search),
                 } else {
                     unBookmarkWord()
                     etSearch.setText("")
+                    etSearch.requestFocus()
+                    showKeyboard()
                 }
             }
 
@@ -397,6 +404,7 @@ class SearchFragment : Fragment(R.layout.fragment_search),
             etSearch.setText(history.word)
             cardHistory.visibility = View.GONE
             viewModel.searchKeyword(history.word)
+            recyclerHistory.smoothScrollToPosition(0)
         }
     }
 }

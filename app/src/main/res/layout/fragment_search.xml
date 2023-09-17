@@ -142,9 +142,10 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_margin="@dimen/common_margin"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cardSearch">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -155,41 +156,41 @@
                 android:id="@+id/tvHistoryTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="@dimen/half_common_margin"
                 android:text="@string/recent_searches"
                 android:textSize="15sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_margin="@dimen/half_common_margin"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tvHistoryCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="10 items"
+                android:layout_margin="@dimen/half_common_margin"
                 android:textSize="15sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:layout_margin="@dimen/half_common_margin"/>
+                tools:text="10 items" />
 
             <com.google.android.material.divider.MaterialDivider
                 android:id="@+id/dividerHistory"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                app:layout_constraintStart_toStartOf="parent"
+                android:layout_margin="@dimen/half_common_margin"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvHistoryTitle"
-                android:layout_margin="@dimen/half_common_margin"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvHistoryTitle" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerHistory"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/dividerHistory"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/item_history"/>
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/dividerHistory"
+                tools:listitem="@layout/item_history" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -318,7 +319,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tabPartOfSpeeches"/>
+                app:layout_constraintTop_toBottomOf="@id/tabPartOfSpeeches" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
