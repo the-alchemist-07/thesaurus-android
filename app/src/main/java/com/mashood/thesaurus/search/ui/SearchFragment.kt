@@ -357,6 +357,7 @@ class SearchFragment : Fragment(R.layout.fragment_search),
 
     override fun onHistoryWordClicked(history: History) {
         binding.apply {
+            hideKeyboard()
             etSearch.setText(history.word)
             cardHistory.visibility = View.GONE
             viewModel.searchKeyword(history.word)

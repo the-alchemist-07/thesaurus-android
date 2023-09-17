@@ -1,6 +1,7 @@
 package com.mashood.thesaurus.history.ui.adapters
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -11,7 +12,7 @@ import com.mashood.thesaurus.history.domain.model.History
 
 class HistoryAdapter(
     private val listener: OnItemClickListener,
-    showDeleteButton: Boolean = true
+    private val showDeleteButton: Boolean = true
 ) : ListAdapter<History, RecyclerView.ViewHolder>(DiffCallback) {
 
     interface OnItemClickListener {
@@ -33,8 +34,11 @@ class HistoryAdapter(
 
         fun bind(history: History) {
             binding.apply {
-                tvWord.text = history.word.capitalizeFirstLetter()
+                tvWord.text = history.word
                 tvFirstLetter.text = history.word[0].toString().uppercase()
+
+                if (!showDeleteButton)
+                    btnRemove.visibility = View.GONE
 
                 btnRemove.setOnClickListener {
                     listener.onHistoryWordRemoveClicked(history)
