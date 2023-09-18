@@ -10,7 +10,6 @@ import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.widget.ArrayAdapter
 import android.widget.TextView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -53,7 +52,7 @@ class SearchFragment : Fragment(R.layout.fragment_search),
     private var isPlaying = false
     private var searchResultData: SearchResponse? = null
     private var isBookmarked: Boolean = false
-    private var wordsList: List<String>? = null
+    private var allWordsList: List<String>? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -96,8 +95,8 @@ class SearchFragment : Fragment(R.layout.fragment_search),
             }
 
             // Fetch the words from JSON file for word suggestions, and set to search view
-            wordsList = WordSuggestionsHelper.getWordsListFromJsonFile(requireContext())
-            // TODO: Handle the wors list here
+            allWordsList = WordSuggestionsHelper.getWordsListFromJsonFile(requireContext())
+            // TODO: Handle the words list here
 
             /*if (wordsList != null) {
                 ArrayAdapter(
