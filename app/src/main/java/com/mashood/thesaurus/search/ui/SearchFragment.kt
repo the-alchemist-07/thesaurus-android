@@ -10,7 +10,6 @@ import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.widget.ArrayAdapter
 import android.widget.TextView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -34,6 +33,7 @@ import com.mashood.thesaurus.history.domain.model.History
 import com.mashood.thesaurus.history.ui.adapters.HistoryAdapter
 import com.mashood.thesaurus.search.domain.model.SearchResponse
 import com.mashood.thesaurus.search.ui.adapters.MeaningViewPagerAdapter
+import com.mashood.thesaurus.search.ui.adapters.SuggestionAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.io.IOException
@@ -41,11 +41,12 @@ import java.util.Locale
 
 @AndroidEntryPoint
 class SearchFragment : Fragment(R.layout.fragment_search),
-    HistoryAdapter.OnItemClickListener {
+    HistoryAdapter.OnItemClickListener, SuggestionAdapter.OnItemClickListener {
 
     private lateinit var binding: FragmentSearchBinding
     private val viewModel by viewModels<SearchViewModel>()
     private val historyAdapter by lazy { HistoryAdapter(this, false) }
+    private val suggestionAdapter by lazy { SuggestionAdapter(this) }
     private lateinit var launcherSpeech: ActivityResultLauncher<Intent>
 
     private var mediaPlayer: MediaPlayer? = null
@@ -53,7 +54,7 @@ class SearchFragment : Fragment(R.layout.fragment_search),
     private var isPlaying = false
     private var searchResultData: SearchResponse? = null
     private var isBookmarked: Boolean = false
-    private var wordsList: List<String>? = null
+    private var allWordsList: List<String>? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -67,14 +68,17 @@ class SearchFragment : Fragment(R.layout.fragment_search),
             duration = 200
         }
 
-        init()
         setupRecyclerView()
+        init()
         registerVoiceListener()
         setListeners()
         observeState()
     }
 
     private fun init() {
+        // Fetch the words from JSON file for word suggestions, and set to search view
+        allWordsList = WordSuggestionsHelper.getWordsListFromJsonFile(requireContext())
+
         with(binding) {
             // Get word passed from bookmarks list
             val wordData = viewModel.getWordData()  // Data from bookmarks page, full word data
@@ -94,51 +98,35 @@ class SearchFragment : Fragment(R.layout.fragment_search),
                 etSearch.requestFocus()
                 showKeyboard()
             }
-
-            // Fetch the words from JSON file for word suggestions, and set to search view
-            wordsList = WordSuggestionsHelper.getWordsListFromJsonFile(requireContext())
-            if (wordsList != null) {
-                ArrayAdapter(
-                    requireContext(),
-                    android.R.layout.simple_spinner_dropdown_item,
-                    wordsList!!.toMutableList()
-                ).also { adapter ->
-                    etSearch.setAdapter(adapter)
-                }
-            }
         }
     }
 
     private fun setupRecyclerView() {
         binding.apply {
             recyclerHistory.adapter = historyAdapter
+            recyclerSuggestion.adapter = suggestionAdapter
 
             historyAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
                 override fun onChanged() {
                     if (historyAdapter.itemCount > 0)
                         recyclerHistory.smoothScrollToPosition(0)
                 }
-
                 override fun onItemRangeRemoved(positionStart: Int, itemCount: Int) {
                     if (historyAdapter.itemCount > 0)
                         recyclerHistory.smoothScrollToPosition(0)
                 }
-
                 override fun onItemRangeMoved(fromPosition: Int, toPosition: Int, itemCount: Int) {
                     if (historyAdapter.itemCount > 0)
                         recyclerHistory.smoothScrollToPosition(0)
                 }
-
                 override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
                     if (historyAdapter.itemCount > 0)
                         recyclerHistory.smoothScrollToPosition(0)
                 }
-
                 override fun onItemRangeChanged(positionStart: Int, itemCount: Int) {
                     if (historyAdapter.itemCount > 0)
                         recyclerHistory.smoothScrollToPosition(0)
                 }
-
                 override fun onItemRangeChanged(positionStart: Int, itemCount: Int, payload: Any?) {
                     if (historyAdapter.itemCount > 0)
                         recyclerHistory.smoothScrollToPosition(0)
@@ -191,19 +179,24 @@ class SearchFragment : Fragment(R.layout.fragment_search),
                     btnClear.visibility = View.GONE
                     btnVoice.visibility = View.VISIBLE
                     cardHistory.visibility = View.VISIBLE
+                    // Clear and hide search suggestions
+                    clearAndHideSuggestions()
                 } else {
                     btnClear.visibility = View.VISIBLE
                     btnVoice.visibility = View.GONE
+
+                    // Filter the words list by entered text, for showing suggestions
+                    val filteredList = allWordsList?.filter { word ->
+                        word.startsWith(text.toString())
+                    }?.take(10) ?: emptyList()
+                    tvSuggestionCount.text = getString(R.string.items_count_placeholder, filteredList.count())
+                    suggestionAdapter.submitList(filteredList)
+                    cardSuggestion.visibility = View.VISIBLE
+
                     cardHistory.visibility = View.GONE
                 }
                 clearResultUi()
                 binding.lytError.visibility = View.GONE
-            }
-
-            etSearch.setOnItemClickListener { parent, _, position, _ ->
-                val selectedWord = parent.getItemAtPosition(position) as String
-                viewModel.checkKeyword(selectedWord)
-                hideKeyboard()
             }
 
             etSearch.setOnEditorActionListener(TextView.OnEditorActionListener { _, actionId, _ ->
@@ -398,6 +391,11 @@ class SearchFragment : Fragment(R.layout.fragment_search),
         }
     }
 
+    private fun clearAndHideSuggestions() = binding.apply {
+        suggestionAdapter.submitList(emptyList())
+        cardSuggestion.visibility = View.GONE
+    }
+
     override fun onHistoryWordClicked(history: History) {
         binding.apply {
             hideKeyboard()
@@ -406,5 +404,11 @@ class SearchFragment : Fragment(R.layout.fragment_search),
             viewModel.searchKeyword(history.word)
             recyclerHistory.smoothScrollToPosition(0)
         }
+    }
+
+    override fun onSuggestionClicked(selectedWord: String) {
+        viewModel.checkKeyword(selectedWord)
+        clearAndHideSuggestions()
+        hideKeyboard()
     }
 }
