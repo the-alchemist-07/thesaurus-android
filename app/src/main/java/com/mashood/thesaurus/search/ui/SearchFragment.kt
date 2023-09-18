@@ -97,7 +97,9 @@ class SearchFragment : Fragment(R.layout.fragment_search),
 
             // Fetch the words from JSON file for word suggestions, and set to search view
             wordsList = WordSuggestionsHelper.getWordsListFromJsonFile(requireContext())
-            if (wordsList != null) {
+            // TODO: Handle the wors list here
+
+            /*if (wordsList != null) {
                 ArrayAdapter(
                     requireContext(),
                     android.R.layout.simple_spinner_dropdown_item,
@@ -105,7 +107,7 @@ class SearchFragment : Fragment(R.layout.fragment_search),
                 ).also { adapter ->
                     etSearch.setAdapter(adapter)
                 }
-            }
+            }*/
         }
     }
 
@@ -200,11 +202,11 @@ class SearchFragment : Fragment(R.layout.fragment_search),
                 binding.lytError.visibility = View.GONE
             }
 
-            etSearch.setOnItemClickListener { parent, _, position, _ ->
+            /*etSearch.setOnItemClickListener { parent, _, position, _ ->
                 val selectedWord = parent.getItemAtPosition(position) as String
                 viewModel.checkKeyword(selectedWord)
                 hideKeyboard()
-            }
+            }*/
 
             etSearch.setOnEditorActionListener(TextView.OnEditorActionListener { _, actionId, _ ->
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {

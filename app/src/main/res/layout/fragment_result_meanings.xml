@@ -60,7 +60,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/titleSynonyms"
             tools:itemCount="3"
-            tools:listitem="@layout/item_single_word"
+            tools:listitem="@layout/item_bulleted_word"
             tools:visibility="visible" />
 
         <TextView
@@ -90,7 +90,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/titleAntonyms"
             tools:itemCount="3"
-            tools:listitem="@layout/item_single_word"
+            tools:listitem="@layout/item_bulleted_word"
             tools:visibility="visible" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
