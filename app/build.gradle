@@ -17,8 +17,8 @@ android {
         applicationId "com.mashood.thesaurus"
         minSdk 21
         targetSdk 33
-        versionCode 8
-        versionName "2.0"
+        versionCode 9
+        versionName "2.1"
 
         javaCompileOptions {
             annotationProcessorOptions {
