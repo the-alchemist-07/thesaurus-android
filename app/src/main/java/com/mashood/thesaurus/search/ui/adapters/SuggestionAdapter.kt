@@ -11,7 +11,7 @@ class SuggestionAdapter(private val listener: OnItemClickListener) :
     ListAdapter<String, RecyclerView.ViewHolder>(SuggestionDiffCallback) {
 
     interface OnItemClickListener {
-        fun onSuggestionClicked(word: String)
+        fun onSuggestionClicked(selectedWord: String)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
