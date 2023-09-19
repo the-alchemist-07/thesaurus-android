@@ -1,6 +1,7 @@
 package com.mashood.thesaurus.bookmark.ui.adapters
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -33,11 +34,16 @@ class BookmarkAdapter(private val listener: OnItemClickListener) :
                 tvWord.text = data.word.capitalizeFirstLetter()
                 tvFirstLetter.text = data.word[0].toString().uppercase()
 
+                var isPronunciationSet = false
                 data.phonetics.forEach { phonetic ->
                     if (phonetic.audio.isNotBlank() && phonetic.text.isNotBlank()) {
                         tvPronunciation.text = phonetic.text
+                        isPronunciationSet = true
                     }
                 }
+                // If pronunciation is not available, hide the textView for it
+                if (!isPronunciationSet)
+                    tvPronunciation.visibility = View.GONE
 
                 root.setOnClickListener {
                     listener.onItemClicked(data)
