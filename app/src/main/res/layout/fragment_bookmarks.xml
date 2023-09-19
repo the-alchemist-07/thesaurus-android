@@ -116,12 +116,12 @@
         android:id="@+id/lytError"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cardSearch"
-        app:layout_constraintVertical_bias="0.25"
-        android:visibility="gone">
+        app:layout_constraintVertical_bias="0.25">
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/lottieError"
@@ -133,20 +133,20 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:lottie_autoPlay="true"
-            app:lottie_fileName="no_bookmarks.json"
+            app:lottie_fileName="empty_bookmark_cat.json"
             app:lottie_loop="true" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tvMainError"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="-30dp"
             android:paddingHorizontal="@dimen/common_margin"
             android:text="You have no bookmarked words!"
             android:textAlignment="center"
             android:textColor="@color/green_primary_dark"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:layout_marginTop="-58dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/lottieError"
