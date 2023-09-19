@@ -1,5 +1,6 @@
 package com.mashood.thesaurus.bookmark.data.repository
 
+import com.mashood.thesaurus.app.common.Constants.EMPTY_BOOKMARK
 import com.mashood.thesaurus.app.common.Resource
 import com.mashood.thesaurus.bookmark.data.mapper.toSearchResponse
 import com.mashood.thesaurus.bookmark.data.source.BookmarkDao
@@ -19,15 +20,11 @@ class BookmarkRepositoryImpl @Inject constructor(
             emit(Resource.Success(bookmarks))
         }
         else {
-            emit(Resource.Error(EMPTY_BOOKMARKS))
+            emit(Resource.Error(EMPTY_BOOKMARK))
         }
     }.flowOn(Dispatchers.IO)
 
     private fun getBookmarksFromDatabase(): Flow<List<SearchResponse>> = bookmarkDao.getBookmarks()
         .map { it.map { bookmarkEntity -> bookmarkEntity.toSearchResponse() } }
 
-
-    companion object {
-        const val EMPTY_BOOKMARKS = "No bookmarks are added"
-    }
 }

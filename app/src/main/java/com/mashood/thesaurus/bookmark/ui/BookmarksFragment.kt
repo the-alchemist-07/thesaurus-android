@@ -13,6 +13,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.transition.ChangeBounds
 import com.mashood.thesaurus.R
+import com.mashood.thesaurus.app.common.Constants.EMPTY_BOOKMARK
 import com.mashood.thesaurus.bookmark.ui.adapters.BookmarkAdapter
 import com.mashood.thesaurus.databinding.FragmentBookmarksBinding
 import com.mashood.thesaurus.search.domain.model.SearchResponse
@@ -100,8 +101,11 @@ class BookmarksFragment : Fragment(R.layout.fragment_bookmarks),
     }
 
     private fun handleError(message: String) {
-        if (message.contains("No bookmarks"))
+        if (EMPTY_BOOKMARK == message) {
+            bookmarksList = emptyList()
+            bookmarkAdapter.submitList(bookmarksList)
             binding.lytError.visibility = View.VISIBLE
+        }
         else
             Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
     }

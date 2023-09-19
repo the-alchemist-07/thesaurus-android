@@ -203,6 +203,7 @@ class SearchFragment : Fragment(R.layout.fragment_search),
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     viewModel.checkKeyword(etSearch.text.toString())
                     hideKeyboard()
+                    clearAndHideSuggestions()
                     return@OnEditorActionListener true
                 }
                 false
@@ -407,6 +408,7 @@ class SearchFragment : Fragment(R.layout.fragment_search),
     }
 
     override fun onSuggestionClicked(selectedWord: String) {
+        binding.etSearch.setText(selectedWord)
         viewModel.checkKeyword(selectedWord)
         clearAndHideSuggestions()
         hideKeyboard()
