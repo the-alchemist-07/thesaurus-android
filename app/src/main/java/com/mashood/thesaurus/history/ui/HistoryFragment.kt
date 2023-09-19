@@ -10,6 +10,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.mashood.thesaurus.R
+import com.mashood.thesaurus.app.common.Constants.EMPTY_HISTORY
 import com.mashood.thesaurus.databinding.FragmentHistoryBinding
 import com.mashood.thesaurus.history.domain.model.History
 import com.mashood.thesaurus.history.ui.adapters.HistoryAdapter
@@ -65,7 +66,11 @@ class HistoryFragment : Fragment(R.layout.fragment_history),
     }
 
     private fun handleError(message: String) {
-        Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG).show()
+        if (EMPTY_HISTORY == message) {
+            historyAdapter.submitList(emptyList())
+            binding.lytError.visibility = View.VISIBLE
+        } else
+            Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG).show()
     }
 
     override fun onHistoryWordClicked(history: History) {

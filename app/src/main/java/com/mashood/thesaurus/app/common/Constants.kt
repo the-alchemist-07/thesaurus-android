@@ -16,5 +16,6 @@ object Constants {
     const val URL_INSTAGRAM = "https://www.instagram.com/the__alchemist._/"
 
     // Error messages
+    const val EMPTY_BOOKMARK = "No bookmarks found!"
     const val EMPTY_HISTORY = "No history found!"
 }
