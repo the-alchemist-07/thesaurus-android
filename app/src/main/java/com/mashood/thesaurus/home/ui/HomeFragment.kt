@@ -1,8 +1,8 @@
 package com.mashood.thesaurus.home.ui
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.View
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import com.mashood.thesaurus.R
@@ -32,7 +32,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 findNavController().navigate(direction, extras)
             }
 
-            btnBookmarks.setOnClickListener {
+            btnMoreOptions.setOnClickListener {
                 val bottomSheet = HomeMenuBottomSheet()
                 bottomSheet.show(requireActivity().supportFragmentManager, HomeMenuBottomSheet.TAG)
             }
