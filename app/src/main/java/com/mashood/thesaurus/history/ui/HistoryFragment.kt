@@ -9,6 +9,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.transition.ChangeBounds
 import com.google.android.material.snackbar.Snackbar
 import com.mashood.thesaurus.R
 import com.mashood.thesaurus.app.common.Constants.EMPTY_HISTORY
@@ -31,6 +32,14 @@ class HistoryFragment : Fragment(R.layout.fragment_history),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentHistoryBinding.bind(view)
+
+        // Customize the transitions
+        sharedElementEnterTransition = ChangeBounds().apply {
+            duration = 400
+        }
+        sharedElementReturnTransition = ChangeBounds().apply {
+            duration = 200
+        }
 
         setUpRecyclerView()
         setListeners()
