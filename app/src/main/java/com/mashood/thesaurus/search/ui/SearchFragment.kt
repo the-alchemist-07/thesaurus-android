@@ -10,7 +10,7 @@ import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.widget.*
+import android.widget.TextView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
@@ -21,28 +21,32 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.ChangeBounds
 import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import com.mashood.thesaurus.R
+import com.mashood.thesaurus.app.common.Constants.EMPTY_HISTORY
 import com.mashood.thesaurus.app.common.WordSuggestionsHelper
 import com.mashood.thesaurus.databinding.FragmentSearchBinding
+import com.mashood.thesaurus.history.domain.model.History
+import com.mashood.thesaurus.history.ui.adapters.HistoryAdapter
 import com.mashood.thesaurus.search.domain.model.SearchResponse
-import com.mashood.thesaurus.search.ui.adapters.DefinitionsAdapter
-import com.mashood.thesaurus.search.ui.adapters.SynonymAntonymAdapter
+import com.mashood.thesaurus.search.ui.adapters.MeaningViewPagerAdapter
+import com.mashood.thesaurus.search.ui.adapters.SuggestionAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.io.IOException
 import java.util.Locale
 
 @AndroidEntryPoint
-class SearchFragment : Fragment(R.layout.fragment_search) {
+class SearchFragment : Fragment(R.layout.fragment_search),
+    HistoryAdapter.OnItemClickListener, SuggestionAdapter.OnItemClickListener {
 
     private lateinit var binding: FragmentSearchBinding
     private val viewModel by viewModels<SearchViewModel>()
-    private val definitionsAdapter: DefinitionsAdapter by lazy { DefinitionsAdapter() }
-    private val synonymsAdapter: SynonymAntonymAdapter by lazy { SynonymAntonymAdapter() }
-    private val antonymsAdapter: SynonymAntonymAdapter by lazy { SynonymAntonymAdapter() }
+    private val historyAdapter by lazy { HistoryAdapter(this, false) }
+    private val suggestionAdapter by lazy { SuggestionAdapter(this) }
     private lateinit var launcherSpeech: ActivityResultLauncher<Intent>
 
     private var mediaPlayer: MediaPlayer? = null
@@ -50,12 +54,22 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     private var isPlaying = false
     private var searchResultData: SearchResponse? = null
     private var isBookmarked: Boolean = false
-    private var wordsList: List<String>? = null
+    private var allWordsList: List<String>? = null
+    private var historyList: List<History> = emptyList()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentSearchBinding.bind(view)
 
+        setupTransitions()
+        setupRecyclerView()
+        init()
+        registerVoiceListener()
+        setListeners()
+        observeState()
+    }
+
+    private fun setupTransitions() {
         // Customize the transitions
         sharedElementEnterTransition = ChangeBounds().apply {
             duration = 400
@@ -63,40 +77,65 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         sharedElementReturnTransition = ChangeBounds().apply {
             duration = 200
         }
-
-        init()
-        registerVoiceListener()
-        setupRecyclerView()
-        setListeners()
-        observeState()
     }
 
     private fun init() {
+        // Fetch the words from JSON file for word suggestions, and set to search view
+        allWordsList = WordSuggestionsHelper.getWordsListFromJsonFile(requireContext())
+
         with(binding) {
             // Get word passed from bookmarks list
-            val wordData = viewModel.getWordData()
+            val wordData = viewModel.getWordData()  // Data from bookmarks page, full word data
+            val word = viewModel.getWord()          // Data from history page, just the word only
             if (wordData != null) {
                 etSearch.setText(wordData.word)
                 handleSearchSuccess(wordData)
                 bookmarkWord()
                 btnClear.visibility = View.VISIBLE
                 btnVoice.visibility = View.GONE
+            } else if (word != null) {
+                etSearch.setText(word)
+                btnClear.visibility = View.VISIBLE
+                btnVoice.visibility = View.GONE
+                viewModel.searchKeyword(word)
             } else {
                 etSearch.requestFocus()
                 showKeyboard()
             }
+        }
+    }
 
-            // Fetch the words from JSON file for word suggestions, and set to search view
-            wordsList = WordSuggestionsHelper.getWordsListFromJsonFile(requireContext())
-            if (wordsList != null) {
-                ArrayAdapter(
-                    requireContext(),
-                    android.R.layout.simple_spinner_dropdown_item,
-                    wordsList!!.toMutableList()
-                ).also { adapter ->
-                    etSearch.setAdapter(adapter)
+    private fun setupRecyclerView() {
+        binding.apply {
+            recyclerHistory.adapter = historyAdapter
+            recyclerSuggestion.adapter = suggestionAdapter
+
+            historyAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+                override fun onChanged() {
+                    if (historyAdapter.itemCount > 0)
+                        recyclerHistory.smoothScrollToPosition(0)
                 }
-            }
+                override fun onItemRangeRemoved(positionStart: Int, itemCount: Int) {
+                    if (historyAdapter.itemCount > 0)
+                        recyclerHistory.smoothScrollToPosition(0)
+                }
+                override fun onItemRangeMoved(fromPosition: Int, toPosition: Int, itemCount: Int) {
+                    if (historyAdapter.itemCount > 0)
+                        recyclerHistory.smoothScrollToPosition(0)
+                }
+                override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+                    if (historyAdapter.itemCount > 0)
+                        recyclerHistory.smoothScrollToPosition(0)
+                }
+                override fun onItemRangeChanged(positionStart: Int, itemCount: Int) {
+                    if (historyAdapter.itemCount > 0)
+                        recyclerHistory.smoothScrollToPosition(0)
+                }
+                override fun onItemRangeChanged(positionStart: Int, itemCount: Int, payload: Any?) {
+                    if (historyAdapter.itemCount > 0)
+                        recyclerHistory.smoothScrollToPosition(0)
+                }
+            })
         }
     }
 
@@ -114,19 +153,6 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
             }
     }
 
-    private fun showKeyboard() {
-        val imm = requireContext().getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.showSoftInput(binding.etSearch, InputMethodManager.SHOW_IMPLICIT)
-    }
-
-    private fun setupRecyclerView() {
-        binding.apply {
-            recyclerDefinitions.adapter = definitionsAdapter
-            recyclerSynonyms.adapter = synonymsAdapter
-            recyclerAntonyms.adapter = antonymsAdapter
-        }
-    }
-
     private fun setListeners() {
         with(binding) {
             btnClear.setOnClickListener {
@@ -135,6 +161,8 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                 } else {
                     unBookmarkWord()
                     etSearch.setText("")
+                    etSearch.requestFocus()
+                    showKeyboard()
                 }
             }
 
@@ -154,24 +182,35 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                 if (text.toString().isBlank()) {
                     btnClear.visibility = View.GONE
                     btnVoice.visibility = View.VISIBLE
+                    if (historyList.isNotEmpty())
+                        cardHistory.visibility = View.VISIBLE
+                    // Clear and hide search suggestions
+                    clearAndHideSuggestions()
                 } else {
                     btnClear.visibility = View.VISIBLE
                     btnVoice.visibility = View.GONE
+
+                    // Filter the words list by entered text, for showing suggestions
+                    val filteredList = allWordsList?.filter { word ->
+                        word.startsWith(text.toString())
+                    }?.take(10) ?: emptyList()
+                    tvSuggestionCount.text = getString(R.string.items_count_placeholder, filteredList.count())
+                    suggestionAdapter.submitList(filteredList)
+                    if (filteredList.isEmpty())
+                        cardSuggestion.visibility = View.GONE
+                    else cardSuggestion.visibility = View.VISIBLE
+
+                    cardHistory.visibility = View.GONE
                 }
                 clearResultUi()
                 binding.lytError.visibility = View.GONE
-            }
-
-            etSearch.setOnItemClickListener { parent, _, position, _ ->
-                val selectedWord = parent.getItemAtPosition(position) as String
-                viewModel.checkKeyword(selectedWord)
-                hideKeyboard()
             }
 
             etSearch.setOnEditorActionListener(TextView.OnEditorActionListener { _, actionId, _ ->
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     viewModel.checkKeyword(etSearch.text.toString())
                     hideKeyboard()
+                    clearAndHideSuggestions()
                     return@OnEditorActionListener true
                 }
                 false
@@ -195,45 +234,6 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                         .show()
             }
 
-            tabPartOfSpeeches.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-                override fun onTabSelected(tab: TabLayout.Tab?) {
-                    titleSynonyms.visibility = View.GONE
-                    recyclerSynonyms.visibility = View.GONE
-                    titleAntonyms.visibility = View.GONE
-                    recyclerAntonyms.visibility = View.GONE
-
-                    if (searchResultData != null) {
-                        val selectedTabPosition = tabPartOfSpeeches.selectedTabPosition
-                        val definitionsList =
-                            searchResultData!!.meanings[selectedTabPosition].definitions
-                        definitionsAdapter.submitList(definitionsList)
-
-                        // Set synonyms
-                        val synonymsList = searchResultData!!.meanings[selectedTabPosition].synonyms
-                        if (synonymsList.isNotEmpty()) {
-                            // Set visibility of UI
-                            titleSynonyms.visibility = View.VISIBLE
-                            recyclerSynonyms.visibility = View.VISIBLE
-                            // Submit the list
-                            synonymsAdapter.submitList(synonymsList)
-                        }
-
-                        // Set antonyms
-                        val antonymsList = searchResultData!!.meanings[selectedTabPosition].antonyms
-                        if (antonymsList.isNotEmpty()) {
-                            // Set visibility of UI
-                            titleAntonyms.visibility = View.VISIBLE
-                            recyclerAntonyms.visibility = View.VISIBLE
-                            // Submit the list
-                            antonymsAdapter.submitList(antonymsList)
-                        }
-                    }
-                }
-
-                override fun onTabReselected(tab: TabLayout.Tab?) {}
-                override fun onTabUnselected(tab: TabLayout.Tab?) {}
-            })
-
             btnBookmark.setOnClickListener {
                 if (!isBookmarked) {
                     bookmarkWord()
@@ -249,7 +249,6 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
             }
         }
     }
-
 
     private fun bookmarkWord() {
         binding.apply {
@@ -271,7 +270,6 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         }
     }
 
-
     private fun observeState() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -279,15 +277,15 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                     when (it) {
                         is SearchState.Loading -> showLoading(true)
                         is SearchState.SearchSuccess -> handleSearchSuccess(it.searchResponse)
-                        is SearchState.Error -> showError()
+                        is SearchState.Error -> showError(it.message)
                         is SearchState.CheckBookmarked -> handleBookmarkedWord(it.isBookmarked)
+                        is SearchState.HistoryList -> handleHistoryList(it.historyList)
                         is SearchState.Idle -> Unit
                     }
                 }
             }
         }
     }
-
 
     private fun showLoading(flag: Boolean) {
         with(binding) {
@@ -299,13 +297,14 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         }
     }
 
-
     private fun handleSearchSuccess(searchResponse: SearchResponse) {
         showLoading(false)
         searchResultData = searchResponse
 
         // Set data to UI
         binding.apply {
+            // Set history UI as gone
+            cardHistory.visibility = View.GONE
             // Set result UI as visible
             cardResult.visibility = View.VISIBLE
             cardMeanings.visibility = View.VISIBLE
@@ -320,39 +319,23 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                 }
             }
 
-            // Card meanings management
-            tabPartOfSpeeches.removeAllTabs()
-            if (searchResponse.meanings.isNotEmpty()) {
-                val meaningsList = searchResponse.meanings
-                // Set tabs (parts of speech)
-                meaningsList.forEach { meaning ->
-                    tabPartOfSpeeches.addTab(
-                        tabPartOfSpeeches.newTab().setText(meaning.partOfSpeech)
-                    )
-                }
+            // Meanings management
+            // Show all the parts of speeches got in the result in different tabs
+            setTabsAndMeanings(searchResponse.meanings)
+        }
+    }
 
-                // Set definitions for the first tab by default
-                val selectedTabPosition = tabPartOfSpeeches.selectedTabPosition
-                val definitionsList = meaningsList[selectedTabPosition].definitions
-                definitionsAdapter.submitList(definitionsList)
+    private fun setTabsAndMeanings(meaningsList: List<SearchResponse.MeaningModel>) {
+        if (meaningsList.isNotEmpty()) {
+            binding.apply {
+                // Adding the contents to viewpager
+                val adapter = MeaningViewPagerAdapter(requireActivity(), meaningsList)
+                viewPager.adapter = adapter
 
-                // Set synonyms for the first tab by default
-                if (meaningsList[selectedTabPosition].synonyms.isNotEmpty()) {
-                    // Set visibility of UI
-                    titleSynonyms.visibility = View.VISIBLE
-                    recyclerSynonyms.visibility = View.VISIBLE
-                    // Submit the list
-                    synonymsAdapter.submitList(meaningsList[selectedTabPosition].synonyms)
-                }
-
-                // Set antonyms for the first tab by default
-                if (meaningsList[selectedTabPosition].antonyms.isNotEmpty()) {
-                    // Set visibility of UI
-                    titleAntonyms.visibility = View.VISIBLE
-                    recyclerAntonyms.visibility = View.VISIBLE
-                    // Submit the list
-                    antonymsAdapter.submitList(meaningsList[selectedTabPosition].antonyms)
-                }
+                // Adding the tabs, with tab's name as each part of speech got in the result
+                TabLayoutMediator(
+                    tabPartOfSpeeches, viewPager
+                ) { tab, position -> tab.text = meaningsList[position].partOfSpeech }.attach()
             }
         }
     }
@@ -364,17 +347,19 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
             audioUrl = null
             tvPronunciation.text = ""
             cardResult.visibility = View.GONE
-
-            // Clear meanings card
-            tabPartOfSpeeches.removeAllTabs()
-            definitionsAdapter.submitList(emptyList())
             cardMeanings.visibility = View.GONE
         }
     }
 
-    private fun showError() {
-        showLoading(false)
-        binding.lytError.visibility = View.VISIBLE
+    private fun showError(errorMessage: String) {
+        if (errorMessage == EMPTY_HISTORY) {
+            historyList = emptyList()
+            historyAdapter.submitList(historyList)
+            binding.cardHistory.visibility = View.GONE
+        } else {
+            showLoading(false)
+            binding.lytError.visibility = View.VISIBLE
+        }
     }
 
     private fun handleBookmarkedWord(isBookmarked: Boolean) {
@@ -389,6 +374,23 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         }
     }
 
+    private fun handleHistoryList(historyList: List<History>) {
+        this.historyList = historyList
+        historyAdapter.submitList(this.historyList)
+        binding.apply {
+            // Update the count
+            tvHistoryCount.text = getString(R.string.items_count_placeholder, historyList.size)
+            if (etSearch.text.toString().isBlank()) {
+                binding.cardHistory.visibility = View.VISIBLE
+            }
+        }
+    }
+
+    private fun showKeyboard() {
+        val imm = requireContext().getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.showSoftInput(binding.etSearch, InputMethodManager.SHOW_IMPLICIT)
+    }
+
     private fun hideKeyboard() {
         try {
             val inputMethodManager =
@@ -397,5 +399,27 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         } catch (e: Exception) {
             e.printStackTrace()
         }
+    }
+
+    private fun clearAndHideSuggestions() = binding.apply {
+        suggestionAdapter.submitList(emptyList())
+        cardSuggestion.visibility = View.GONE
+    }
+
+    override fun onHistoryWordClicked(history: History) {
+        binding.apply {
+            hideKeyboard()
+            etSearch.setText(history.word)
+            cardHistory.visibility = View.GONE
+            viewModel.searchKeyword(history.word)
+            recyclerHistory.smoothScrollToPosition(0)
+        }
+    }
+
+    override fun onSuggestionClicked(selectedWord: String) {
+        binding.etSearch.setText(selectedWord)
+        viewModel.checkKeyword(selectedWord)
+        clearAndHideSuggestions()
+        hideKeyboard()
     }
 }

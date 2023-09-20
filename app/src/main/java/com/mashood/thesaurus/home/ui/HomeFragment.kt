@@ -1,8 +1,8 @@
 package com.mashood.thesaurus.home.ui
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.View
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import com.mashood.thesaurus.R
@@ -22,14 +22,17 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private fun setListeners() {
         binding.apply {
             cardSearch.setOnClickListener {
-                val direction = HomeFragmentDirections.actionHomeFragmentToSearchFragment(null)
+                val direction = HomeFragmentDirections.actionHomeFragmentToSearchFragment(
+                    wordData = null,
+                    word = null
+                )
                 val extras = FragmentNavigatorExtras(
                     binding.cardSearch to binding.cardSearch.transitionName
                 )
                 findNavController().navigate(direction, extras)
             }
 
-            btnBookmarks.setOnClickListener {
+            btnMoreOptions.setOnClickListener {
                 val bottomSheet = HomeMenuBottomSheet()
                 bottomSheet.show(requireActivity().supportFragmentManager, HomeMenuBottomSheet.TAG)
             }

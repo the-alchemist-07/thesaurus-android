@@ -17,4 +17,5 @@ interface BookmarkDao {
 
     @Query("SELECT count(*) FROM bookmark_table WHERE word=:word")
     fun checkBookmarked(word: String): Int
+
 }

@@ -1,11 +1,10 @@
 package com.mashood.thesaurus.bookmark.ui
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.Toast
+import androidx.core.widget.doAfterTextChanged
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -13,6 +12,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.transition.ChangeBounds
 import com.mashood.thesaurus.R
+import com.mashood.thesaurus.app.common.Constants.EMPTY_BOOKMARK
 import com.mashood.thesaurus.bookmark.ui.adapters.BookmarkAdapter
 import com.mashood.thesaurus.databinding.FragmentBookmarksBinding
 import com.mashood.thesaurus.search.domain.model.SearchResponse
@@ -32,6 +32,13 @@ class BookmarksFragment : Fragment(R.layout.fragment_bookmarks),
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentBookmarksBinding.bind(view)
 
+        setupTransitions()
+        setupRecyclerView()
+        observeState()
+        setListeners()
+    }
+
+    private fun setupTransitions() {
         // Customize the transitions
         sharedElementEnterTransition = ChangeBounds().apply {
             duration = 400
@@ -39,10 +46,6 @@ class BookmarksFragment : Fragment(R.layout.fragment_bookmarks),
         sharedElementReturnTransition = ChangeBounds().apply {
             duration = 200
         }
-
-        setupRecyclerView()
-        observeState()
-        setListeners()
     }
 
     private fun setListeners() {
@@ -51,29 +54,23 @@ class BookmarksFragment : Fragment(R.layout.fragment_bookmarks),
                 findNavController().navigateUp()
             }
 
-            etSearch.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-                override fun afterTextChanged(word: Editable?) {
-                    if (word.toString().isNotBlank()) {
-                        btnClear.visibility = View.VISIBLE
+            etSearch.doAfterTextChanged { text ->
+                if (text.toString().isNotBlank()) {
+                    btnClear.visibility = View.VISIBLE
+                    if (bookmarksList.isNotEmpty()) {
                         //new array list that will hold the filtered data
-                        val filteredBookmarks: MutableList<SearchResponse> = mutableListOf()
-                        if (bookmarksList.isNotEmpty()) {
-                            for (bookmark in bookmarksList) {
-                                if (bookmark.word.lowercase()
-                                        .contains(word.toString().lowercase())
-                                ) {
-                                    filteredBookmarks.add(bookmark)
-                                }
-                            }
+                        val filteredList = bookmarksList.filter { bookmark ->
+                            bookmark.word.lowercase().startsWith(text.toString().lowercase())
                         }
-                        bookmarkAdapter.submitList(filteredBookmarks)
-                    } else {
-                        btnClear.visibility = View.GONE
+                        bookmarkAdapter.submitList(filteredList)
                     }
+                } else {
+                    btnClear.visibility = View.GONE
+                    // Set the complete bookmarks list on clearing the search query
+                    if (bookmarksList.isNotEmpty())
+                        bookmarkAdapter.submitList(bookmarksList)
                 }
-            })
+            }
 
             btnClear.setOnClickListener {
                 etSearch.text?.clear()
@@ -100,9 +97,11 @@ class BookmarksFragment : Fragment(R.layout.fragment_bookmarks),
     }
 
     private fun handleError(message: String) {
-        if (message.contains("No bookmarks"))
+        if (EMPTY_BOOKMARK == message) {
+            bookmarksList = emptyList()
+            bookmarkAdapter.submitList(bookmarksList)
             binding.lytError.visibility = View.VISIBLE
-        else
+        } else
             Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
     }
 
@@ -114,7 +113,8 @@ class BookmarksFragment : Fragment(R.layout.fragment_bookmarks),
     override fun onItemClicked(data: SearchResponse) {
         findNavController().navigate(
             BookmarksFragmentDirections.actionBookmarksFragmentToSearchFragment(
-                data
+                wordData = data,
+                word = null
             )
         )
     }

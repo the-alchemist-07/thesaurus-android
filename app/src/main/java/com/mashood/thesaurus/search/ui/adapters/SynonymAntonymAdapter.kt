@@ -5,13 +5,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.mashood.thesaurus.databinding.ItemSingleWordBinding
+import com.mashood.thesaurus.databinding.ItemBulletedWordBinding
 
-class SynonymAntonymAdapter : ListAdapter<String, RecyclerView.ViewHolder>(SingleWordDiffCallback) {
+class SynonymAntonymAdapter :
+    ListAdapter<String, RecyclerView.ViewHolder>(SingleWordDiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val binding =
-            ItemSingleWordBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemBulletedWordBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return SingleWordViewHolder(binding)
     }
 
@@ -19,7 +20,7 @@ class SynonymAntonymAdapter : ListAdapter<String, RecyclerView.ViewHolder>(Singl
         (holder as SingleWordViewHolder).bind(getItem(position))
     }
 
-    inner class SingleWordViewHolder(private val binding: ItemSingleWordBinding) :
+    inner class SingleWordViewHolder(private val binding: ItemBulletedWordBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(word: String) {

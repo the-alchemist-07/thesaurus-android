@@ -1,10 +1,12 @@
 package com.mashood.thesaurus.bookmark.ui.adapters
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.mashood.thesaurus.app.common.capitalizeFirstLetter
 import com.mashood.thesaurus.databinding.ItemBookmarkBinding
 import com.mashood.thesaurus.search.domain.model.SearchResponse
 
@@ -29,14 +31,19 @@ class BookmarkAdapter(private val listener: OnItemClickListener) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(data: SearchResponse) {
             binding.apply {
-                tvWord.text = data.word
+                tvWord.text = data.word.capitalizeFirstLetter()
                 tvFirstLetter.text = data.word[0].toString().uppercase()
 
+                var isPronunciationSet = false
                 data.phonetics.forEach { phonetic ->
                     if (phonetic.audio.isNotBlank() && phonetic.text.isNotBlank()) {
                         tvPronunciation.text = phonetic.text
+                        isPronunciationSet = true
                     }
                 }
+                // If pronunciation is not available, hide the textView for it
+                if (!isPronunciationSet)
+                    tvPronunciation.visibility = View.GONE
 
                 root.setOnClickListener {
                     listener.onItemClicked(data)

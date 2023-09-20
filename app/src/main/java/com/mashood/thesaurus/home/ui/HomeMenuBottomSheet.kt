@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.google.android.material.snackbar.Snackbar
 import com.mashood.thesaurus.databinding.HomeBottomSheetContentBinding
 
 class HomeMenuBottomSheet : BottomSheetDialogFragment() {
@@ -37,7 +36,12 @@ class HomeMenuBottomSheet : BottomSheetDialogFragment() {
             }
 
             lytHistory.setOnClickListener {
-                Snackbar.make(binding.root, "Coming soon...", Snackbar.LENGTH_SHORT).show()
+                dismiss()
+                val direction = HomeFragmentDirections.actionHomeFragmentToHistoryFragment()
+                val extras = FragmentNavigatorExtras(
+                    lytHistory to lytHistory.transitionName
+                )
+                findNavController().navigate(direction, extras)
             }
 
             lytAbout.setOnClickListener {

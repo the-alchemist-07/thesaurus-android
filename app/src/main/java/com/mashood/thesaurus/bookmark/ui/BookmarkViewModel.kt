@@ -26,10 +26,7 @@ class BookmarkViewModel @Inject constructor(
         bookmarkRepository.getBookmarksList().collect {
             when(it) {
                 is Resource.Success -> _bookmarkState.emit(BookmarkState.SuccessBookmarks(it.value))
-                is Resource.Error -> {
-                    _bookmarkState.emit(BookmarkState.SuccessBookmarks(emptyList()))
-                    _bookmarkState.emit(BookmarkState.Error(it.error))
-                }
+                is Resource.Error -> _bookmarkState.emit(BookmarkState.Error(it.error))
                 else -> Unit
             }
         }

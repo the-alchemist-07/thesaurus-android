@@ -6,6 +6,8 @@ import androidx.lifecycle.viewModelScope
 import com.mashood.thesaurus.app.common.Resource
 import com.mashood.thesaurus.bookmark.data.mapper.toBookmarkEntity
 import com.mashood.thesaurus.bookmark.data.source.BookmarkDao
+import com.mashood.thesaurus.history.domain.model.History
+import com.mashood.thesaurus.history.domain.repository.HistoryRepository
 import com.mashood.thesaurus.search.domain.model.SearchResponse
 import com.mashood.thesaurus.search.domain.repository.SearchRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,6 +21,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     private val searchRepository: SearchRepository,
+    private val historyRepository: HistoryRepository,
     private val bookmarkDao: BookmarkDao,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
@@ -26,9 +29,17 @@ class SearchViewModel @Inject constructor(
     private val _searchState = MutableStateFlow<SearchState>(SearchState.Idle)
     val searchState = _searchState.asStateFlow()
 
+    // Argument received from BookmarkFragment, full search response will be there.
     private val wordData = savedStateHandle.get<SearchResponse>("wordData")
     fun getWordData() = wordData
 
+    // Argument received from HistoryFragment, just the word will be there.
+    private val word = savedStateHandle.get<String>("word")
+    fun getWord() = word
+
+    init {
+        getHistoriesList()
+    }
 
     fun checkKeyword(keyword: String?) = viewModelScope.launch {
         when {
@@ -37,15 +48,32 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    private fun searchKeyword(keyword: String) = viewModelScope.launch {
-        searchRepository.searchKeyword(keyword).collect {
-            when (it) {
+    fun searchKeyword(keyword: String) = viewModelScope.launch {
+        searchRepository.searchKeyword(keyword).collect { state ->
+            when (state) {
                 is Resource.Loading -> _searchState.emit(SearchState.Loading)
                 is Resource.Success -> {
-                    _searchState.emit(SearchState.SearchSuccess(it.value))
+                    _searchState.emit(SearchState.SearchSuccess(state.value))
+                    // Check whether the word is already bookmarked before
                     isWordBookmarked(keyword)
+                    // Add the searched word to history
+                    addWordToHistory(word = state.value.word)
                 }
-                is Resource.Error -> _searchState.emit(SearchState.Error(it.error))
+                is Resource.Error -> _searchState.emit(SearchState.Error(state.error))
+            }
+        }
+    }
+
+    private fun getHistoriesList() = viewModelScope.launch {
+        historyRepository.getHistoriesList().collect { state ->
+            when (state) {
+                is Resource.Success -> _searchState.emit(
+                    SearchState.HistoryList(state.value)
+                )
+                is Resource.Error -> _searchState.emit(
+                    SearchState.Error(state.error)
+                )
+                else -> Unit
             }
         }
     }
@@ -61,6 +89,14 @@ class SearchViewModel @Inject constructor(
     private fun isWordBookmarked(word: String) = CoroutineScope(Dispatchers.IO).launch {
         val count = bookmarkDao.checkBookmarked(word)
         _searchState.emit(SearchState.CheckBookmarked(count != 0))
+    }
+
+    private fun addWordToHistory(word: String) = viewModelScope.launch {
+        historyRepository.addHistory(
+            History(word)
+        )
+        // Updates the history list
+        getHistoriesList()
     }
 
     companion object {
