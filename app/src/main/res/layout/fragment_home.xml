@@ -7,6 +7,18 @@
     android:animateLayoutChanges="true"
     tools:context=".home.ui.HomeFragment">
 
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:text="@string/random_letters"
+        android:textSize="72sp"
+        android:textAlignment="center"
+        android:textColor="@color/background_transparent_text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/guideline"/>
+
     <ImageView
         android:id="@+id/img_icon"
         android:layout_width="150dp"

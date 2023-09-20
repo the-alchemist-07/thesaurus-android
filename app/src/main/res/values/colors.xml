@@ -18,4 +18,5 @@
     <color name="translucent_white">#36BBBBBB</color>
     <color name="light_icon">#4F4F4F</color>
     <color name="white_text">#FFFFFFFF</color>
+    <color name="background_transparent_text">#03000000</color>
 </resources>
