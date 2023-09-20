@@ -55,6 +55,7 @@ class SearchFragment : Fragment(R.layout.fragment_search),
     private var searchResultData: SearchResponse? = null
     private var isBookmarked: Boolean = false
     private var allWordsList: List<String>? = null
+    private var historyList: List<History> = emptyList()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -178,7 +179,8 @@ class SearchFragment : Fragment(R.layout.fragment_search),
                 if (text.toString().isBlank()) {
                     btnClear.visibility = View.GONE
                     btnVoice.visibility = View.VISIBLE
-                    cardHistory.visibility = View.VISIBLE
+                    if (historyList.isNotEmpty())
+                        cardHistory.visibility = View.VISIBLE
                     // Clear and hide search suggestions
                     clearAndHideSuggestions()
                 } else {
@@ -191,7 +193,9 @@ class SearchFragment : Fragment(R.layout.fragment_search),
                     }?.take(10) ?: emptyList()
                     tvSuggestionCount.text = getString(R.string.items_count_placeholder, filteredList.count())
                     suggestionAdapter.submitList(filteredList)
-                    cardSuggestion.visibility = View.VISIBLE
+                    if (filteredList.isEmpty())
+                        cardSuggestion.visibility = View.GONE
+                    else cardSuggestion.visibility = View.VISIBLE
 
                     cardHistory.visibility = View.GONE
                 }
@@ -346,7 +350,8 @@ class SearchFragment : Fragment(R.layout.fragment_search),
 
     private fun showError(errorMessage: String) {
         if (errorMessage == EMPTY_HISTORY) {
-            historyAdapter.submitList(emptyList())
+            historyList = emptyList()
+            historyAdapter.submitList(historyList)
             binding.cardHistory.visibility = View.GONE
         } else {
             showLoading(false)
@@ -367,8 +372,9 @@ class SearchFragment : Fragment(R.layout.fragment_search),
     }
 
     private fun handleHistoryList(historyList: List<History>) {
+        this.historyList = historyList
+        historyAdapter.submitList(this.historyList)
         binding.apply {
-            historyAdapter.submitList(historyList)
             // Update the count
             tvHistoryCount.text = getString(R.string.items_count_placeholder, historyList.size)
             if (etSearch.text.toString().isBlank()) {
