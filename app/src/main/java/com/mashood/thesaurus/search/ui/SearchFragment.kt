@@ -61,6 +61,15 @@ class SearchFragment : Fragment(R.layout.fragment_search),
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentSearchBinding.bind(view)
 
+        setupTransitions()
+        setupRecyclerView()
+        init()
+        registerVoiceListener()
+        setListeners()
+        observeState()
+    }
+
+    private fun setupTransitions() {
         // Customize the transitions
         sharedElementEnterTransition = ChangeBounds().apply {
             duration = 400
@@ -68,12 +77,6 @@ class SearchFragment : Fragment(R.layout.fragment_search),
         sharedElementReturnTransition = ChangeBounds().apply {
             duration = 200
         }
-
-        setupRecyclerView()
-        init()
-        registerVoiceListener()
-        setListeners()
-        observeState()
     }
 
     private fun init() {

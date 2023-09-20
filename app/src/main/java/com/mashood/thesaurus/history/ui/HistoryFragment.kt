@@ -33,6 +33,13 @@ class HistoryFragment : Fragment(R.layout.fragment_history),
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentHistoryBinding.bind(view)
 
+        setupTransitions()
+        setUpRecyclerView()
+        setListeners()
+        observeState()
+    }
+
+    private fun setupTransitions() {
         // Customize the transitions
         sharedElementEnterTransition = ChangeBounds().apply {
             duration = 400
@@ -40,10 +47,6 @@ class HistoryFragment : Fragment(R.layout.fragment_history),
         sharedElementReturnTransition = ChangeBounds().apply {
             duration = 200
         }
-
-        setUpRecyclerView()
-        setListeners()
-        observeState()
     }
 
     private fun setUpRecyclerView() {

@@ -32,6 +32,13 @@ class BookmarksFragment : Fragment(R.layout.fragment_bookmarks),
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentBookmarksBinding.bind(view)
 
+        setupTransitions()
+        setupRecyclerView()
+        observeState()
+        setListeners()
+    }
+
+    private fun setupTransitions() {
         // Customize the transitions
         sharedElementEnterTransition = ChangeBounds().apply {
             duration = 400
@@ -39,10 +46,6 @@ class BookmarksFragment : Fragment(R.layout.fragment_bookmarks),
         sharedElementReturnTransition = ChangeBounds().apply {
             duration = 200
         }
-
-        setupRecyclerView()
-        observeState()
-        setListeners()
     }
 
     private fun setListeners() {
