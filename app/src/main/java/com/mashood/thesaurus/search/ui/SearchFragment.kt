@@ -413,6 +413,7 @@ class SearchFragment : Fragment(R.layout.fragment_search),
             cardHistory.visibility = View.GONE
             viewModel.searchKeyword(history.word)
             recyclerHistory.smoothScrollToPosition(0)
+            clearAndHideSuggestions()
         }
     }
 
