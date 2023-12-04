@@ -318,6 +318,7 @@
                 android:layout_marginVertical="@dimen/half_common_margin"
                 android:layout_marginStart="@dimen/common_margin"
                 android:textColor="@color/yellow_primary"
+                android:textIsSelectable="true"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
