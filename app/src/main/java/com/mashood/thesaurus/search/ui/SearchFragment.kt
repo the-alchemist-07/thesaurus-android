@@ -247,6 +247,10 @@ class SearchFragment : Fragment(R.layout.fragment_search),
                     }
                 }
             }
+
+            btnShare.setOnClickListener {
+                shareResults()
+            }
         }
     }
 
@@ -404,6 +408,16 @@ class SearchFragment : Fragment(R.layout.fragment_search),
     private fun clearAndHideSuggestions() = binding.apply {
         suggestionAdapter.submitList(emptyList())
         cardSuggestion.visibility = View.GONE
+    }
+
+    private fun shareResults() {
+        searchResultData?.let { searchResult ->
+            val sendIntent = Intent()
+            sendIntent.action = Intent.ACTION_SEND
+            sendIntent.putExtra(Intent.EXTRA_TEXT, searchResult.toString())
+            sendIntent.type = "text/plain"
+            startActivity(sendIntent)
+        }
     }
 
     override fun onHistoryWordClicked(history: History) {
