@@ -4,36 +4,39 @@ import android.os.Parcelable
 import androidx.annotation.Keep
 import com.mashood.thesaurus.app.common.Constants.STORE_LINK
 import kotlinx.parcelize.Parcelize
-import kotlinx.parcelize.RawValue
 
 @Keep
 @Parcelize
 data class SearchResponse(
-    val meanings: @RawValue List<MeaningModel>,
-    val phonetics: @RawValue List<PhoneticModel>,
+    val meanings: List<MeaningModel>,
+    val phonetics: List<PhoneticModel>,
     val sourceUrls: List<String>,
     val word: String
 ) : Parcelable {
 
+    @Parcelize
     data class MeaningModel(
         val antonyms: List<String>,
         val definitions: List<DefinitionModel>,
         val partOfSpeech: String,
         val synonyms: List<String>
-    ) {
+    ) : Parcelable {
+        @Parcelize
         data class DefinitionModel(
             val antonyms: List<String>,
             val definition: String,
             val example: String,
             val synonyms: List<String>
-        )
+        ) : Parcelable
     }
 
+    @Parcelize
     data class PhoneticModel(
         val audio: String,
         val sourceUrl: String,
         val text: String
-    )
+    ) : Parcelable
+
 
     fun toNormalText(): String {
         val wordDetails = StringBuilder()

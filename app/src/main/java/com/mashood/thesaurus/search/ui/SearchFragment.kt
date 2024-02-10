@@ -115,22 +115,27 @@ class SearchFragment : Fragment(R.layout.fragment_search),
                     if (historyAdapter.itemCount > 0)
                         recyclerHistory.smoothScrollToPosition(0)
                 }
+
                 override fun onItemRangeRemoved(positionStart: Int, itemCount: Int) {
                     if (historyAdapter.itemCount > 0)
                         recyclerHistory.smoothScrollToPosition(0)
                 }
+
                 override fun onItemRangeMoved(fromPosition: Int, toPosition: Int, itemCount: Int) {
                     if (historyAdapter.itemCount > 0)
                         recyclerHistory.smoothScrollToPosition(0)
                 }
+
                 override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
                     if (historyAdapter.itemCount > 0)
                         recyclerHistory.smoothScrollToPosition(0)
                 }
+
                 override fun onItemRangeChanged(positionStart: Int, itemCount: Int) {
                     if (historyAdapter.itemCount > 0)
                         recyclerHistory.smoothScrollToPosition(0)
                 }
+
                 override fun onItemRangeChanged(positionStart: Int, itemCount: Int, payload: Any?) {
                     if (historyAdapter.itemCount > 0)
                         recyclerHistory.smoothScrollToPosition(0)
@@ -194,7 +199,8 @@ class SearchFragment : Fragment(R.layout.fragment_search),
                     val filteredList = allWordsList?.filter { word ->
                         word.startsWith(text.toString())
                     }?.take(10) ?: emptyList()
-                    tvSuggestionCount.text = getString(R.string.items_count_placeholder, filteredList.count())
+                    tvSuggestionCount.text =
+                        getString(R.string.items_count_placeholder, filteredList.count())
                     suggestionAdapter.submitList(filteredList)
                     if (filteredList.isEmpty())
                         cardSuggestion.visibility = View.GONE
@@ -249,7 +255,7 @@ class SearchFragment : Fragment(R.layout.fragment_search),
             }
 
             btnShare.setOnClickListener {
-                shareResults()
+                showFormatTypeSelector()
             }
         }
     }
@@ -410,14 +416,18 @@ class SearchFragment : Fragment(R.layout.fragment_search),
         cardSuggestion.visibility = View.GONE
     }
 
-    private fun shareResults() {
-        searchResultData?.let { searchResult ->
-            val sendIntent = Intent()
-            sendIntent.action = Intent.ACTION_SEND
-            sendIntent.putExtra(Intent.EXTRA_TEXT, searchResult.toWhatsappFormattedText())
-            sendIntent.type = "text/plain"
-            startActivity(sendIntent)
-        }
+    private fun showFormatTypeSelector() {
+        if (searchResultData != null) {
+            val bottomSheet = ShareFormatBottomSheet()
+            val bundle = Bundle()
+            bundle.putParcelable("wordData", searchResultData)
+            bottomSheet.arguments = bundle
+            bottomSheet.show(requireActivity().supportFragmentManager, ShareFormatBottomSheet.TAG)
+        } else Snackbar.make(
+            binding.root,
+            "Failed to load the word data. Try reloading the page.",
+            Snackbar.LENGTH_LONG
+        ).show()
     }
 
     override fun onHistoryWordClicked(history: History) {
