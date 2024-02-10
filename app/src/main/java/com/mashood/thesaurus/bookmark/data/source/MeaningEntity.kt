@@ -11,9 +11,9 @@ data class MeaningEntity(
 ) {
     @JsonClass(generateAdapter = true)
     data class DefinitionEntity(
-        val antonyms: List<Any>,
+        val antonyms: List<String>,
         val definition: String,
         val example: String,
-        val synonyms: List<Any>
+        val synonyms: List<String>
     )
 }

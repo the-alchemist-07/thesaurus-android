@@ -414,7 +414,7 @@ class SearchFragment : Fragment(R.layout.fragment_search),
         searchResultData?.let { searchResult ->
             val sendIntent = Intent()
             sendIntent.action = Intent.ACTION_SEND
-            sendIntent.putExtra(Intent.EXTRA_TEXT, searchResult.toString())
+            sendIntent.putExtra(Intent.EXTRA_TEXT, searchResult.toWhatsappFormattedText())
             sendIntent.type = "text/plain"
             startActivity(sendIntent)
         }
