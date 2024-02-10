@@ -54,6 +54,6 @@ class HomeMenuBottomSheet : BottomSheetDialogFragment() {
     }
 
     companion object {
-        const val TAG = "MainBottomSheet"
+        const val TAG = "HomeMenuBottomSheet"
     }
 }
