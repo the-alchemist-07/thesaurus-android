@@ -318,6 +318,7 @@
                 android:layout_marginVertical="@dimen/half_common_margin"
                 android:layout_marginStart="@dimen/common_margin"
                 android:textColor="@color/yellow_primary"
+                android:textIsSelectable="true"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -328,13 +329,32 @@
                 android:id="@+id/btnBookmark"
                 android:layout_width="38dp"
                 android:layout_height="38dp"
-                android:layout_margin="@dimen/common_margin"
+                android:layout_marginTop="@dimen/common_margin"
+                android:layout_marginEnd="@dimen/common_margin"
                 android:background="@drawable/dr_selectable_background"
+                app:layout_constraintBottom_toTopOf="@id/btnShare"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:lottie_autoPlay="false"
                 app:lottie_fileName="bookmark.json"
                 app:lottie_loop="false" />
+
+            <ImageView
+                android:id="@+id/btnShare"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/common_margin"
+                android:layout_marginBottom="@dimen/common_margin"
+                android:background="@drawable/dr_selectable_background"
+                android:clickable="true"
+                android:focusable="true"
+                android:padding="@dimen/half_common_margin"
+                android:src="@drawable/ic_share_24"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btnBookmark"
+                app:tint="@color/white_text"
+                tools:ignore="ContentDescription" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
