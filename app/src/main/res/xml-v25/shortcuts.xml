@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--<paths />-->
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/baseline_delete_forever_24"
+        android:shortcutId="random_constellation"
+        android:shortcutLongLabel="@string/uninstall"
+        android:shortcutShortLabel="@string/uninstall">
+        <!-- Each one of these intents needs an android:action, even if you don't
+             do anything with it. Otherwise you're in for a crash! -->
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetClass="com.mashood.thesaurus.main.ui.MainActivity"
+            android:targetPackage="com.mashood.thesaurus.main.ui"/>
+        <intent
+            android:action="RANDOM"
+            android:targetClass="com.mashood.thesaurus.shortcuts.ui.UninstallShortcutActivity"
+            android:targetPackage="com.mashood.thesaurus.shortcuts.ui"/>
+    </shortcut>
+
+</shortcuts>
