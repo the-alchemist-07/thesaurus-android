@@ -10,7 +10,7 @@
         <intent
             android:action="android.intent.action.SEARCH"
             android:targetClass="com.mashood.thesaurus.main.ui.MainActivity"
-            android:targetPackage="com.mashood.thesaurus" />
+            android:targetPackage="com.mashood.thesaurus.debug" />
     </shortcut>
 
     <shortcut
@@ -22,11 +22,11 @@
         <intent
             android:action="android.intent.action.VIEW"
             android:targetClass="com.mashood.thesaurus.main.ui.MainActivity"
-            android:targetPackage="com.mashood.thesaurus" />
+            android:targetPackage="com.mashood.thesaurus.debug" />
         <intent
             android:action="android.intent.action.VIEW"
             android:targetClass="com.mashood.thesaurus.shortcuts.ui.UninstallActivity"
-            android:targetPackage="com.mashood.thesaurus" />
+            android:targetPackage="com.mashood.thesaurus.debug" />
     </shortcut>
 
 </shortcuts>

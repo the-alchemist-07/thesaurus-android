@@ -21,4 +21,7 @@ object Constants {
     // Error messages
     const val EMPTY_BOOKMARK = "No bookmarks found!"
     const val EMPTY_HISTORY = "No history found!"
+
+    // Firebase realtime database reference paths
+    const val PATH_UNINSTALL_FEEDBACK = "uninstall_feedbacks"
 }
