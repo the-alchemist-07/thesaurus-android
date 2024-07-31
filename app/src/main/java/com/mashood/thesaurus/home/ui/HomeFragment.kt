@@ -16,20 +16,20 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentHomeBinding.bind(view)
 
+        checkShortcutIntentAction()
         setListeners()
+    }
+
+    private fun checkShortcutIntentAction() {
+        if ("android.intent.action.SEARCH" == requireActivity().intent.action) {
+            navigateToSearchScreen()
+        }
     }
 
     private fun setListeners() {
         binding.apply {
             cardSearch.setOnClickListener {
-                val direction = HomeFragmentDirections.actionHomeFragmentToSearchFragment(
-                    wordData = null,
-                    word = null
-                )
-                val extras = FragmentNavigatorExtras(
-                    binding.cardSearch to binding.cardSearch.transitionName
-                )
-                findNavController().navigate(direction, extras)
+                navigateToSearchScreen()
             }
 
             btnMoreOptions.setOnClickListener {
@@ -39,4 +39,14 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
     }
 
+    private fun navigateToSearchScreen() {
+        val direction = HomeFragmentDirections.actionHomeFragmentToSearchFragment(
+            wordData = null,
+            word = null
+        )
+        val extras = FragmentNavigatorExtras(
+            binding.cardSearch to binding.cardSearch.transitionName
+        )
+        findNavController().navigate(direction, extras)
+    }
 }

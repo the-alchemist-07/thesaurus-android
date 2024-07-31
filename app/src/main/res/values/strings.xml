@@ -20,4 +20,14 @@
     <string name="about">About</string>
     <string name="app_info_description">This app is built on top of the <a href="https://dictionaryapi.dev/">free dictionary API</a>. The source code of this app is also available at <a href="https://github.com/the-alchemist-07/thesaurus-android">Github</a>.</string>
     <string name="dev_info_description">App made with ❤ by Mohammed Mashood</string>
+    <string name="uninstall">Uninstall</string>
+    <string name="uninstall_title">We\'re Sad to See You Go! 😢</string>
+    <string name="uninstall_message">Hello, dear word explorer! 📚✨ \nWe’re truly sorry to see you leave. Before you embark on your next adventure, would you mind sharing a little note with us? Your thoughts are the stars that guide our journey to improvement! 🌟✨</string>
+    <string name="uninstall_option_title">What led you to sail away? 🌊🚢</string>
+    <string name="uninstall_option1">The words didn\'t sing for me. 🎵</string>
+    <string name="uninstall_option2">Found a new dictionary muse. 🏅</string>
+    <string name="uninstall_option3">Technical hiccups along the way. 🔧</string>
+    <string name="uninstall_option4">Didn\'t need a dictionary companion often. 📉</string>
+    <string name="uninstall_option5">Other whispers of wisdom? ✨ (Please share)</string>
+    <string name="uninstall_reason_hint">Your input will help us weave a better experience for the future explorers. Thank you for helping us write a better story! 💖📖</string>
 </resources>
