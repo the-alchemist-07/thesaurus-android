@@ -13,4 +13,4 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "Thesaurus"
-include ':app'
+include(":app")
