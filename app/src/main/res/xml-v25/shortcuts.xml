@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/img_shortcut_search"
+        android:shortcutId="shortcut_search"
+        android:shortcutLongLabel="@string/search_hint"
+        android:shortcutShortLabel="@string/search">
+        <intent
+            android:action="android.intent.action.SEARCH"
+            android:targetClass="com.mashood.thesaurus.main.ui.MainActivity"
+            android:targetPackage="com.mashood.thesaurus" />
+    </shortcut>
+
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/img_shortcut_delete"
+        android:shortcutId="shortcut_uninstall"
+        android:shortcutLongLabel="@string/uninstall"
+        android:shortcutShortLabel="@string/uninstall">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetClass="com.mashood.thesaurus.main.ui.MainActivity"
+            android:targetPackage="com.mashood.thesaurus" />
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetClass="com.mashood.thesaurus.shortcuts.ui.UninstallActivity"
+            android:targetPackage="com.mashood.thesaurus" />
+    </shortcut>
+
+</shortcuts>

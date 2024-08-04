@@ -59,7 +59,8 @@ class MainActivity : AppCompatActivity() {
         val appUpdateInfoTask = appUpdateManager?.appUpdateInfo
         appUpdateInfoTask?.addOnSuccessListener { appUpdateInfo ->
             if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
-                && appUpdateInfo.isUpdateTypeAllowed(FLEXIBLE)) {
+                && appUpdateInfo.isUpdateTypeAllowed(FLEXIBLE)
+            ) {
                 // Register a listener for updates and request the update
                 appUpdateManager?.registerListener(listener)
                 appUpdateManager?.startUpdateFlowForResult(
@@ -72,11 +73,12 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private val listener: InstallStateUpdatedListener = InstallStateUpdatedListener { installState ->
-        if (installState.installStatus() == InstallStatus.DOWNLOADED) {
-            showSnackBarForUpdateCompletion()
+    private val listener: InstallStateUpdatedListener =
+        InstallStateUpdatedListener { installState ->
+            if (installState.installStatus() == InstallStatus.DOWNLOADED) {
+                showSnackBarForUpdateCompletion()
+            }
         }
-    }
 
     private fun showSnackBarForUpdateCompletion() {
         Snackbar.make(
