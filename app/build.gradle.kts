@@ -18,8 +18,8 @@ android {
         applicationId = "com.mashood.thesaurus"
         minSdk = 21
         targetSdk = 34
-        versionCode = 10
-        versionName = "2.2"
+        versionCode = 11
+        versionName = "2.3.0"
 
         room {
             schemaDirectory("$projectDir/schemas")
