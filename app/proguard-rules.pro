@@ -19,3 +19,19 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+
+
+# KEEP ALL THE NAMES
+#-keep class * { *; }
+#-keep,allowshrinking class * { *; }
+-keep,allowoptimization,allowshrinking class * { *; }
+
+-keepclassmembers class *
+#-keepclassmembers,allowoptimization,allowshrinking class *
+
+-if interface * { @retrofit2.http.* public *** *(...); }
+-keep,allowoptimization,allowshrinking class <3>
+
+-keepattributes Signature
+-keep class kotlin.coroutines.Continuation
