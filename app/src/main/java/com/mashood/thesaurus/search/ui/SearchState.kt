@@ -8,6 +8,6 @@ sealed class SearchState {
     data class Error(val message: String): SearchState()
     data class CheckBookmarked(val isBookmarked: Boolean): SearchState()
     data class HistoryList(val historyList: List<History>): SearchState()
-    object Loading: SearchState()
-    object Idle: SearchState()
+    data object Loading: SearchState()
+    data object Idle: SearchState()
 }
