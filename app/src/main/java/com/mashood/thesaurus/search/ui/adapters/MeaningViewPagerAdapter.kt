@@ -16,6 +16,6 @@ class MeaningViewPagerAdapter(
     }
 
     override fun createFragment(position: Int): Fragment {
-        return ResultMeaningsFragment(meaningsList[position])
+        return ResultMeaningsFragment.newInstance(meaningsList[position])
     }
 }
