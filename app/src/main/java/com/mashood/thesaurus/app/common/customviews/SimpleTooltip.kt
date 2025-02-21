@@ -22,14 +22,20 @@ class SimpleTooltip(
 
         // Setting the values for the PopupWindow
         contentView = binding.root
-        width = getDp(context, (context.getScreenWidth() / 2.42f))
+//        width = getDp(context, (context.getScreenWidth() / 2.42f))
+        width = getDp(context, (context.getScreenWidth() / 2f))
 
         // Set the message to the textView, and listener to dismiss on click
         binding.tvDescription.text = message
-        binding.root.setOnClickListener { listener.onTooltipClicked() }
+        binding.root.setOnClickListener {
+            listener.onTooltipClicked()
+            dismiss()
+        }
 
         // Set a custom drawable as the background of the popup
         setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.bg_tooltip))
+
+        elevation = 20F
     }
 
     private fun getDp(context: Context, value: Float): Int {

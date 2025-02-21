@@ -2,7 +2,7 @@ package com.mashood.thesaurus.history.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mashood.thesaurus.app.common.Resource
+import com.mashood.thesaurus.app.common.states.Resource
 import com.mashood.thesaurus.history.domain.model.History
 import com.mashood.thesaurus.history.domain.repository.HistoryRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
