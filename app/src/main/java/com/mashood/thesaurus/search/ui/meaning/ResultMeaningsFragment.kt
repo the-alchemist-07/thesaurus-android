@@ -100,7 +100,6 @@ class ResultMeaningsFragment : Fragment(R.layout.fragment_result_meanings),
     }
 
     override fun onSynonymAntonymClicked(word: String, clickedView: View) {
-        Log.d("TEST111", "Selected word: $word")
         // We will show a small tooltip here for the confirmation from the user to search that word
         SimpleTooltip(
             requireContext(),
