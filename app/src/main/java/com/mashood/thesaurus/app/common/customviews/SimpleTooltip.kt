@@ -22,7 +22,6 @@ class SimpleTooltip(
 
         // Setting the values for the PopupWindow
         contentView = binding.root
-//        width = getDp(context, (context.getScreenWidth() / 2.42f))
         width = getDp(context, (context.getScreenWidth() / 2f))
 
         // Set the message to the textView, and listener to dismiss on click

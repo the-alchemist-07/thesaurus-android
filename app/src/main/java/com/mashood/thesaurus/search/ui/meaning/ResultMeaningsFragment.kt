@@ -14,7 +14,6 @@ import com.mashood.thesaurus.search.ui.adapters.DefinitionsAdapter
 import com.mashood.thesaurus.search.ui.adapters.SynonymAntonymAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
-//@AndroidEntryPoint
 class ResultMeaningsFragment : Fragment(R.layout.fragment_result_meanings),
     SynonymAntonymAdapter.OnClickListener {
 
