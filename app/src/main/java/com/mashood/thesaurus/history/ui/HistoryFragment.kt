@@ -12,7 +12,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.transition.ChangeBounds
 import com.google.android.material.snackbar.Snackbar
 import com.mashood.thesaurus.R
-import com.mashood.thesaurus.app.common.Constants.EMPTY_HISTORY
+import com.mashood.thesaurus.app.common.constants.Constants.EMPTY_HISTORY
 import com.mashood.thesaurus.databinding.FragmentHistoryBinding
 import com.mashood.thesaurus.history.domain.model.History
 import com.mashood.thesaurus.history.ui.adapters.HistoryAdapter

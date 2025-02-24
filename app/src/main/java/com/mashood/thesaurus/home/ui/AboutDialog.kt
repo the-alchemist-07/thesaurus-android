@@ -14,7 +14,7 @@ import android.view.Window
 import android.view.WindowManager
 import androidx.fragment.app.DialogFragment
 import com.mashood.thesaurus.BuildConfig
-import com.mashood.thesaurus.app.common.Constants
+import com.mashood.thesaurus.app.common.constants.Constants
 import com.mashood.thesaurus.databinding.DialogAboutBinding
 
 class AboutDialog : DialogFragment() {

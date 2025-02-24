@@ -1,4 +1,4 @@
-package com.mashood.thesaurus.app.common
+package com.mashood.thesaurus.app.common.utils
 
 import android.content.Context
 import com.squareup.moshi.JsonAdapter

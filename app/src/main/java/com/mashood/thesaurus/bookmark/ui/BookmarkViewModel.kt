@@ -2,7 +2,7 @@ package com.mashood.thesaurus.bookmark.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mashood.thesaurus.app.common.Resource
+import com.mashood.thesaurus.app.common.states.Resource
 import com.mashood.thesaurus.bookmark.domain.repository.BookmarkRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

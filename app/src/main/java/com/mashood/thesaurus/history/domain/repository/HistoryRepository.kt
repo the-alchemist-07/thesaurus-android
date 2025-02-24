@@ -1,6 +1,6 @@
 package com.mashood.thesaurus.history.domain.repository
 
-import com.mashood.thesaurus.app.common.Resource
+import com.mashood.thesaurus.app.common.states.Resource
 import com.mashood.thesaurus.history.domain.model.History
 import kotlinx.coroutines.flow.Flow
 

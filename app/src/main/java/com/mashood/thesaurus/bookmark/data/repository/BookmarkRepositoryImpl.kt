@@ -1,7 +1,7 @@
 package com.mashood.thesaurus.bookmark.data.repository
 
-import com.mashood.thesaurus.app.common.Constants.EMPTY_BOOKMARK
-import com.mashood.thesaurus.app.common.Resource
+import com.mashood.thesaurus.app.common.constants.Constants.EMPTY_BOOKMARK
+import com.mashood.thesaurus.app.common.states.Resource
 import com.mashood.thesaurus.bookmark.data.mapper.toSearchResponse
 import com.mashood.thesaurus.bookmark.data.source.BookmarkDao
 import com.mashood.thesaurus.bookmark.domain.repository.BookmarkRepository

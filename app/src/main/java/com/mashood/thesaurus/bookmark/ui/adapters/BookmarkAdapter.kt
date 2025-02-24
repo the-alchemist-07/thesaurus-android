@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.mashood.thesaurus.app.common.capitalizeFirstLetter
+import com.mashood.thesaurus.app.common.utils.capitalizeFirstLetter
 import com.mashood.thesaurus.databinding.ItemBookmarkBinding
 import com.mashood.thesaurus.search.domain.model.SearchResponse
 

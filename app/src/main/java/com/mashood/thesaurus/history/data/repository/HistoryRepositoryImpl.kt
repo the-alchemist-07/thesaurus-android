@@ -1,15 +1,17 @@
 package com.mashood.thesaurus.history.data.repository
 
-import com.mashood.thesaurus.app.common.Constants.EMPTY_HISTORY
-import com.mashood.thesaurus.app.common.Resource
+import com.mashood.thesaurus.app.common.constants.Constants.EMPTY_HISTORY
+import com.mashood.thesaurus.app.common.states.Resource
 import com.mashood.thesaurus.history.data.mapper.toHistory
 import com.mashood.thesaurus.history.data.mapper.toHistoryEntity
 import com.mashood.thesaurus.history.data.source.HistoryDao
 import com.mashood.thesaurus.history.domain.model.History
 import com.mashood.thesaurus.history.domain.repository.HistoryRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class HistoryRepositoryImpl @Inject constructor(

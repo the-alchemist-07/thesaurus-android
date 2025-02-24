@@ -1,5 +1,6 @@
-package com.mashood.thesaurus.app.common
+package com.mashood.thesaurus.app.common.utils
 
+import android.content.Context
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -20,3 +21,10 @@ val currentDateTime: String
         val formatter = SimpleDateFormat("dd MMM yyyy - HH:mm:ss", Locale.US)
         return formatter.format(time)
     }
+
+/**
+ * Extension function to calculate the screen width
+ */
+fun Context.getScreenWidth(): Float = resources.displayMetrics.run {
+    widthPixels / density
+}

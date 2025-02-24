@@ -1,4 +1,4 @@
-package com.mashood.thesaurus.app.common
+package com.mashood.thesaurus.app.common.constants
 
 object Constants {
 

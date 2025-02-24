@@ -1,22 +1,26 @@
 package com.mashood.thesaurus.search.ui.meaning
 
+import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import com.mashood.thesaurus.R
+import com.mashood.thesaurus.app.common.customviews.SimpleTooltip
 import com.mashood.thesaurus.databinding.FragmentResultMeaningsBinding
 import com.mashood.thesaurus.search.domain.model.SearchResponse
 import com.mashood.thesaurus.search.ui.adapters.DefinitionsAdapter
 import com.mashood.thesaurus.search.ui.adapters.SynonymAntonymAdapter
 
-class ResultMeaningsFragment : Fragment(R.layout.fragment_result_meanings) {
+class ResultMeaningsFragment : Fragment(R.layout.fragment_result_meanings),
+    SynonymAntonymAdapter.OnClickListener {
 
     private lateinit var binding: FragmentResultMeaningsBinding
     private val definitionsAdapter: DefinitionsAdapter by lazy { DefinitionsAdapter() }
-    private val synonymsAdapter: SynonymAntonymAdapter by lazy { SynonymAntonymAdapter() }
-    private val antonymsAdapter: SynonymAntonymAdapter by lazy { SynonymAntonymAdapter() }
+    private val synonymsAdapter: SynonymAntonymAdapter by lazy { SynonymAntonymAdapter(this) }
+    private val antonymsAdapter: SynonymAntonymAdapter by lazy { SynonymAntonymAdapter(this) }
     private var wordMeaning: SearchResponse.MeaningModel? = null
+    private var listener: SearchWordListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +41,14 @@ class ResultMeaningsFragment : Fragment(R.layout.fragment_result_meanings) {
 
         initRecyclerViews()
         initView()
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        // If parent fragment (SearchFragment) has implemented SearchWordListener, we will
+        // initialize the listener object from our parent fragment.
+        if (parentFragment is SearchWordListener)
+            listener = parentFragment as SearchWordListener
     }
 
     private fun initRecyclerViews() {
@@ -73,6 +85,29 @@ class ResultMeaningsFragment : Fragment(R.layout.fragment_result_meanings) {
                 }
             }
         }
+    }
+
+    interface SearchWordListener {
+        /**
+         * Callback from ResultMeaningsFragment to the parent fragment (SearchFragment) on clicking
+         * the tooltip (which is shown on clicking a synonym or antonym). The synonym or antonym
+         * which is shown in the tooltip will be passed in the parameter 'word'.
+         */
+        fun onSearchTooltipClicked(word: String)
+    }
+
+    override fun onSynonymAntonymClicked(word: String, clickedView: View) {
+        // We will show a small tooltip here for the confirmation from the user to search that word
+        SimpleTooltip(
+            requireContext(),
+            "Search '$word'",
+            clickedView,
+            object : SimpleTooltip.OnClickListener {
+                override fun onTooltipClicked() {
+                    listener?.onSearchTooltipClicked(word)
+                }
+            }
+        )
     }
 
     companion object {
