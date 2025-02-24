@@ -1,6 +1,7 @@
 package com.mashood.thesaurus.search.ui.meaning
 
 import android.content.Context
+import android.content.res.Resources
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -103,16 +104,39 @@ class ResultMeaningsFragment : Fragment(R.layout.fragment_result_meanings),
         SimpleTooltip(
             requireContext(),
             "Search '$word'",
+            clickedView,
             object : SimpleTooltip.OnClickListener {
                 override fun onTooltipClicked() {
                     listener?.onSearchTooltipClicked(word)
                 }
             }
-        ).apply {
+        )/*.apply {
             isOutsideTouchable = true
             isTouchable = true
-            showAsDropDown(clickedView, -10, 10)
-        }
+//            showAsDropDown(clickedView, -10, 10)
+
+
+            // Get screen height
+            val screenHeight = Resources.getSystem().displayMetrics.heightPixels
+
+            // Get anchor view's location on screen
+            val location = IntArray(2)
+            anchor.getLocationOnScreen(location)
+            val anchorY = location[1]
+
+            // Measure popup height
+            popupView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
+            val popupHeight = popupView.measuredHeight
+
+            // Check if there is enough space below
+            if (screenHeight - (anchorY + anchor.height) >= popupHeight) {
+                // Show below (default)
+                popupWindow.showAsDropDown(anchor, 0, 0)
+            } else {
+                // Show above the anchor view
+                popupWindow.showAtLocation(anchor, Gravity.NO_GRAVITY, location[0], anchorY - popupHeight)
+            }
+        }*/
     }
 
     companion object {

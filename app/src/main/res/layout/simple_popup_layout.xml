@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:text="description"
+        android:paddingHorizontal="@dimen/quarter_common_margin"
         android:textColor="@color/dark_text"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
