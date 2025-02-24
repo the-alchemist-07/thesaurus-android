@@ -1,10 +1,8 @@
 package com.mashood.thesaurus.search.ui.meaning
 
 import android.content.Context
-import android.content.res.Resources
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import com.mashood.thesaurus.R
@@ -13,7 +11,6 @@ import com.mashood.thesaurus.databinding.FragmentResultMeaningsBinding
 import com.mashood.thesaurus.search.domain.model.SearchResponse
 import com.mashood.thesaurus.search.ui.adapters.DefinitionsAdapter
 import com.mashood.thesaurus.search.ui.adapters.SynonymAntonymAdapter
-import dagger.hilt.android.AndroidEntryPoint
 
 class ResultMeaningsFragment : Fragment(R.layout.fragment_result_meanings),
     SynonymAntonymAdapter.OnClickListener {
@@ -110,33 +107,7 @@ class ResultMeaningsFragment : Fragment(R.layout.fragment_result_meanings),
                     listener?.onSearchTooltipClicked(word)
                 }
             }
-        )/*.apply {
-            isOutsideTouchable = true
-            isTouchable = true
-//            showAsDropDown(clickedView, -10, 10)
-
-
-            // Get screen height
-            val screenHeight = Resources.getSystem().displayMetrics.heightPixels
-
-            // Get anchor view's location on screen
-            val location = IntArray(2)
-            anchor.getLocationOnScreen(location)
-            val anchorY = location[1]
-
-            // Measure popup height
-            popupView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
-            val popupHeight = popupView.measuredHeight
-
-            // Check if there is enough space below
-            if (screenHeight - (anchorY + anchor.height) >= popupHeight) {
-                // Show below (default)
-                popupWindow.showAsDropDown(anchor, 0, 0)
-            } else {
-                // Show above the anchor view
-                popupWindow.showAtLocation(anchor, Gravity.NO_GRAVITY, location[0], anchorY - popupHeight)
-            }
-        }*/
+        )
     }
 
     companion object {
