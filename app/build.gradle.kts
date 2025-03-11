@@ -114,12 +114,18 @@ dependencies {
     // In-app updates
     implementation(libs.app.update)
 
+    // In-app reviews
+    implementation(libs.app.review)
+
     // Firebase
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.crashlytics)
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.messaging)
     implementation(libs.firebase.database)
+
+    // Datastore
+    implementation(libs.datastore.preferences)
 
 //    implementation 'androidx.legacy:legacy-support-v4:1.0.0'  // TODO: Add this
 //    implementation "androidx.fragment:fragment-ktx:1.5.5"  // TODO: Add this
