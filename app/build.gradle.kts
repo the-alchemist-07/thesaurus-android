@@ -126,7 +126,4 @@ dependencies {
 
     // Datastore
     implementation(libs.datastore.preferences)
-
-//    implementation 'androidx.legacy:legacy-support-v4:1.0.0'  // TODO: Add this
-//    implementation "androidx.fragment:fragment-ktx:1.5.5"  // TODO: Add this
 }
