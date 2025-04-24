@@ -2,7 +2,7 @@ package com.mashood.thesaurus.search.domain.model
 
 import android.os.Parcelable
 import androidx.annotation.Keep
-import com.mashood.thesaurus.app.common.Constants.STORE_LINK
+import com.mashood.thesaurus.app.common.constants.Constants.STORE_LINK
 import kotlinx.parcelize.Parcelize
 
 @Keep

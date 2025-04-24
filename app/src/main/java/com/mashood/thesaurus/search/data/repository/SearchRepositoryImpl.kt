@@ -1,9 +1,9 @@
 package com.mashood.thesaurus.search.data.repository
 
-import com.mashood.thesaurus.app.common.Constants.GENERIC_ERROR_MESSAGE
-import com.mashood.thesaurus.app.common.Constants.NO_INTERNET_ERROR_MESSAGE
-import com.mashood.thesaurus.app.common.Constants.SERVER_ERROR
-import com.mashood.thesaurus.app.common.Resource
+import com.mashood.thesaurus.app.common.constants.Constants.GENERIC_ERROR_MESSAGE
+import com.mashood.thesaurus.app.common.constants.Constants.NO_INTERNET_ERROR_MESSAGE
+import com.mashood.thesaurus.app.common.constants.Constants.SERVER_ERROR
+import com.mashood.thesaurus.app.common.states.Resource
 import com.mashood.thesaurus.search.data.service.SearchService
 import com.mashood.thesaurus.search.domain.model.SearchResponse
 import com.mashood.thesaurus.search.domain.repository.SearchRepository
@@ -43,8 +43,6 @@ class SearchRepositoryImpl @Inject constructor(
                 emit(Resource.Error(NO_INTERNET_ERROR_MESSAGE))
             }
     }
-
-
 
     companion object {
         const val NO_RESULT = "No search result found!"

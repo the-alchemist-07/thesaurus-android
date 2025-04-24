@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mashood.thesaurus.BuildConfig
 import com.mashood.thesaurus.R
-import com.mashood.thesaurus.app.common.currentDateTime
+import com.mashood.thesaurus.app.common.utils.currentDateTime
 import com.mashood.thesaurus.shortcuts.domain.model.UninstallFeedbackModel
 import com.mashood.thesaurus.shortcuts.domain.repository.UninstallRepository
 import dagger.hilt.android.lifecycle.HiltViewModel

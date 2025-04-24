@@ -7,15 +7,15 @@ import com.mashood.thesaurus.search.domain.model.SearchResponse
 import com.mashood.thesaurus.search.ui.meaning.ResultMeaningsFragment
 
 class MeaningViewPagerAdapter(
-    fragmentActivity: FragmentActivity,
+    fragment: Fragment,
     private val meaningsList: List<SearchResponse.MeaningModel>
-) : FragmentStateAdapter(fragmentActivity) {
+) : FragmentStateAdapter(fragment) {
 
     override fun getItemCount(): Int {
         return meaningsList.size
     }
 
     override fun createFragment(position: Int): Fragment {
-        return ResultMeaningsFragment(meaningsList[position])
+        return ResultMeaningsFragment.newInstance(meaningsList[position])
     }
 }

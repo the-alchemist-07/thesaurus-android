@@ -3,7 +3,7 @@ package com.mashood.thesaurus.search.ui
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mashood.thesaurus.app.common.Resource
+import com.mashood.thesaurus.app.common.states.Resource
 import com.mashood.thesaurus.bookmark.data.mapper.toBookmarkEntity
 import com.mashood.thesaurus.bookmark.data.source.BookmarkDao
 import com.mashood.thesaurus.history.domain.model.History
@@ -16,6 +16,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -37,9 +38,9 @@ class SearchViewModel @Inject constructor(
     private val word = savedStateHandle.get<String>("word")
     fun getWord() = word
 
-    init {
+    /*init {
         getHistoriesList()
-    }
+    }*/
 
     fun checkKeyword(keyword: String?) = viewModelScope.launch {
         when {
@@ -48,7 +49,7 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    fun searchKeyword(keyword: String) = viewModelScope.launch {
+    fun searchKeyword(keyword: String) = viewModelScope.launch(Dispatchers.IO) {
         searchRepository.searchKeyword(keyword).collect { state ->
             when (state) {
                 is Resource.Loading -> _searchState.emit(SearchState.Loading)
@@ -64,7 +65,7 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    private fun getHistoriesList() = viewModelScope.launch {
+    fun getHistoriesList() = viewModelScope.launch(Dispatchers.IO) {
         historyRepository.getHistoriesList().collect { state ->
             when (state) {
                 is Resource.Success -> _searchState.emit(
@@ -78,20 +79,20 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    fun addToBookmarks(data: SearchResponse) = viewModelScope.launch {
+    fun addToBookmarks(data: SearchResponse) = viewModelScope.launch(Dispatchers.IO) {
         bookmarkDao.insertBookmark(data.toBookmarkEntity())
     }
 
-    fun removeFromBookmarks(data: SearchResponse) = viewModelScope.launch {
+    fun removeFromBookmarks(data: SearchResponse) = viewModelScope.launch(Dispatchers.IO) {
         bookmarkDao.deleteBookmark(data.toBookmarkEntity())
     }
 
-    private fun isWordBookmarked(word: String) = CoroutineScope(Dispatchers.IO).launch {
+    private fun isWordBookmarked(word: String) = viewModelScope.launch(Dispatchers.IO) {
         val count = bookmarkDao.checkBookmarked(word)
         _searchState.emit(SearchState.CheckBookmarked(count != 0))
     }
 
-    private fun addWordToHistory(word: String) = viewModelScope.launch {
+    private fun addWordToHistory(word: String) = viewModelScope.launch(Dispatchers.IO) {
         historyRepository.addHistory(
             History(word)
         )

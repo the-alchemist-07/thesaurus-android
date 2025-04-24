@@ -11,6 +11,7 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
@@ -26,14 +27,15 @@ import androidx.transition.ChangeBounds
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
 import com.mashood.thesaurus.R
-import com.mashood.thesaurus.app.common.Constants.EMPTY_HISTORY
-import com.mashood.thesaurus.app.common.WordSuggestionsHelper
+import com.mashood.thesaurus.app.common.constants.Constants.EMPTY_HISTORY
+import com.mashood.thesaurus.app.common.utils.WordSuggestionsHelper
 import com.mashood.thesaurus.databinding.FragmentSearchBinding
 import com.mashood.thesaurus.history.domain.model.History
 import com.mashood.thesaurus.history.ui.adapters.HistoryAdapter
 import com.mashood.thesaurus.search.domain.model.SearchResponse
 import com.mashood.thesaurus.search.ui.adapters.MeaningViewPagerAdapter
 import com.mashood.thesaurus.search.ui.adapters.SuggestionAdapter
+import com.mashood.thesaurus.search.ui.meaning.ResultMeaningsFragment.SearchWordListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.io.IOException
@@ -41,7 +43,9 @@ import java.util.Locale
 
 @AndroidEntryPoint
 class SearchFragment : Fragment(R.layout.fragment_search),
-    HistoryAdapter.OnItemClickListener, SuggestionAdapter.OnItemClickListener {
+    HistoryAdapter.OnItemClickListener,
+    SuggestionAdapter.OnItemClickListener,
+    SearchWordListener {
 
     private lateinit var binding: FragmentSearchBinding
     private val viewModel by viewModels<SearchViewModel>()
@@ -56,6 +60,7 @@ class SearchFragment : Fragment(R.layout.fragment_search),
     private var isBookmarked: Boolean = false
     private var allWordsList: List<String>? = null
     private var historyList: List<History> = emptyList()
+    private var showSuggestions = true
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -67,6 +72,9 @@ class SearchFragment : Fragment(R.layout.fragment_search),
         registerVoiceListener()
         setListeners()
         observeState()
+
+        // Fetch the history list from localDB
+        viewModel.getHistoriesList()
     }
 
     private fun setupTransitions() {
@@ -87,21 +95,35 @@ class SearchFragment : Fragment(R.layout.fragment_search),
             // Get word passed from bookmarks list
             val wordData = viewModel.getWordData()  // Data from bookmarks page, full word data
             val word = viewModel.getWord()          // Data from history page, just the word only
+
             if (wordData != null) {
-                etSearch.setText(wordData.word)
-                handleSearchSuccess(wordData)
-                bookmarkWord()
-                btnClear.visibility = View.VISIBLE
-                btnVoice.visibility = View.GONE
+                setupWordData(wordData)
             } else if (word != null) {
-                etSearch.setText(word)
-                btnClear.visibility = View.VISIBLE
-                btnVoice.visibility = View.GONE
-                viewModel.searchKeyword(word)
+                searchForWord(word)
             } else {
                 etSearch.requestFocus()
                 showKeyboard()
             }
+        }
+    }
+
+    private fun setupWordData(wordData: SearchResponse) {
+        with(binding) {
+            etSearch.setText(wordData.word)
+            handleSearchSuccess(wordData)
+            bookmarkWord()
+            btnClear.visibility = View.VISIBLE
+            btnVoice.visibility = View.GONE
+        }
+    }
+
+    private fun searchForWord(word: String) {
+        showSuggestions = false
+        with(binding) {
+            etSearch.setText(word)
+            btnClear.visibility = View.VISIBLE
+            btnVoice.visibility = View.GONE
+            viewModel.searchKeyword(word)
         }
     }
 
@@ -162,7 +184,7 @@ class SearchFragment : Fragment(R.layout.fragment_search),
         with(binding) {
             btnClear.setOnClickListener {
                 if (progressBar.isVisible) {
-                    Snackbar.make(root, "Loading in progress!", Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(root, "Please wait, loading in progress!", Snackbar.LENGTH_SHORT).show()
                 } else {
                     unBookmarkWord()
                     etSearch.setText("")
@@ -196,17 +218,19 @@ class SearchFragment : Fragment(R.layout.fragment_search),
                     btnVoice.visibility = View.GONE
 
                     // Filter the words list by entered text, for showing suggestions
-                    val filteredList = allWordsList?.filter { word ->
-                        word.startsWith(text.toString())
-                    }?.take(10) ?: emptyList()
-                    tvSuggestionCount.text =
-                        getString(R.string.items_count_placeholder, filteredList.count())
-                    suggestionAdapter.submitList(filteredList)
-                    if (filteredList.isEmpty())
-                        cardSuggestion.visibility = View.GONE
-                    else cardSuggestion.visibility = View.VISIBLE
+                    if (showSuggestions) {
+                        val filteredList = allWordsList?.filter { word ->
+                            word.startsWith(text.toString())
+                        }?.take(10) ?: emptyList()
+                        tvSuggestionCount.text =
+                            getString(R.string.items_count_placeholder, filteredList.count())
+                        suggestionAdapter.submitList(filteredList)
+                        if (filteredList.isEmpty())
+                            cardSuggestion.visibility = View.GONE
+                        else cardSuggestion.visibility = View.VISIBLE
 
-                    cardHistory.visibility = View.GONE
+                        cardHistory.visibility = View.GONE
+                    }
                 }
                 clearResultUi()
                 binding.lytError.visibility = View.GONE
@@ -309,6 +333,8 @@ class SearchFragment : Fragment(R.layout.fragment_search),
 
     private fun handleSearchSuccess(searchResponse: SearchResponse) {
         showLoading(false)
+        showSuggestions = true
+
         searchResultData = searchResponse
 
         // Set data to UI
@@ -339,7 +365,7 @@ class SearchFragment : Fragment(R.layout.fragment_search),
         if (meaningsList.isNotEmpty()) {
             binding.apply {
                 // Adding the contents to viewpager
-                val adapter = MeaningViewPagerAdapter(requireActivity(), meaningsList)
+                val adapter = MeaningViewPagerAdapter(this@SearchFragment, meaningsList)
                 viewPager.adapter = adapter
 
                 // Adding the tabs, with tab's name as each part of speech got in the result
@@ -446,5 +472,10 @@ class SearchFragment : Fragment(R.layout.fragment_search),
         viewModel.checkKeyword(selectedWord)
         clearAndHideSuggestions()
         hideKeyboard()
+    }
+
+    override fun onSearchTooltipClicked(word: String) {
+        // Search the synonym or antonym here...
+        searchForWord(word)
     }
 }
