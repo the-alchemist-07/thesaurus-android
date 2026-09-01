@@ -13,6 +13,7 @@ import androidx.transition.ChangeBounds
 import com.google.android.material.snackbar.Snackbar
 import com.mashood.thesaurus.R
 import com.mashood.thesaurus.app.common.constants.Constants.EMPTY_HISTORY
+import com.mashood.thesaurus.app.common.utils.applySystemBarInsets
 import com.mashood.thesaurus.databinding.FragmentHistoryBinding
 import com.mashood.thesaurus.history.domain.model.History
 import com.mashood.thesaurus.history.ui.adapters.HistoryAdapter
@@ -32,6 +33,7 @@ class HistoryFragment : Fragment(R.layout.fragment_history),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentHistoryBinding.bind(view)
+        binding.root.applySystemBarInsets(includeIme = true)
 
         setupTransitions()
         setUpRecyclerView()

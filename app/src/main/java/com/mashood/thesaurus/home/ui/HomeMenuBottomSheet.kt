@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
+import com.mashood.thesaurus.app.common.utils.applySystemBarInsets
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.mashood.thesaurus.databinding.HomeBottomSheetContentBinding
 
@@ -19,6 +20,7 @@ class HomeMenuBottomSheet : BottomSheetDialogFragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = HomeBottomSheetContentBinding.inflate(inflater, container, false)
+        binding.root.applySystemBarInsets(includeTop = false, includeIme = true)
 
         setListeners()
         return binding.root

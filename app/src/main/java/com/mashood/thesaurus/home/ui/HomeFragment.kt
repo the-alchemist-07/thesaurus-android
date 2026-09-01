@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import com.mashood.thesaurus.R
+import com.mashood.thesaurus.app.common.utils.applyBottomInsetMargin
 import com.mashood.thesaurus.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment(R.layout.fragment_home) {
@@ -15,6 +16,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentHomeBinding.bind(view)
+        binding.btnMoreOptions.applyBottomInsetMargin()
 
         checkShortcutIntentAction()
         setListeners()

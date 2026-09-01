@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.mashood.thesaurus.app.common.utils.applySystemBarInsets
 import com.mashood.thesaurus.databinding.BottomSheetShareFormatBinding
 import com.mashood.thesaurus.search.domain.model.SearchResponse
 
@@ -20,6 +21,7 @@ class ShareFormatBottomSheet : BottomSheetDialogFragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = BottomSheetShareFormatBinding.inflate(inflater, container, false)
+        binding.root.applySystemBarInsets(includeTop = false, includeIme = true)
 
         setListeners()
         return binding.root

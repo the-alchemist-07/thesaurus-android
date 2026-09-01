@@ -5,6 +5,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
 import android.view.View
+import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
@@ -14,6 +15,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.snackbar.Snackbar
 import com.mashood.thesaurus.BuildConfig
 import com.mashood.thesaurus.R
+import com.mashood.thesaurus.app.common.utils.applySystemBarInsets
 import com.mashood.thesaurus.databinding.ActivityUninstallBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -26,9 +28,11 @@ class UninstallActivity : AppCompatActivity() {
     private val viewModel: UninstallViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
         binding = ActivityUninstallBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        binding.main.applySystemBarInsets(includeIme = true)
 
         setListeners()
         observeState()
