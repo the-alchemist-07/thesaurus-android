@@ -8,6 +8,7 @@ import com.mashood.thesaurus.search.data.service.SearchService
 import com.mashood.thesaurus.search.domain.model.SearchResponse
 import com.mashood.thesaurus.search.domain.repository.SearchRepository
 import com.skydoves.sandwich.StatusCode
+import com.skydoves.sandwich.retrofit.statusCode
 import com.skydoves.sandwich.suspendOnError
 import com.skydoves.sandwich.suspendOnFailure
 import com.skydoves.sandwich.suspendOnSuccess

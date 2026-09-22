@@ -3,7 +3,7 @@ package com.mashood.thesaurus.app.di
 import com.mashood.thesaurus.BuildConfig
 import com.mashood.thesaurus.app.common.constants.Constants.BASE_URL
 import com.mashood.thesaurus.search.data.service.SearchService
-import com.skydoves.sandwich.adapters.ApiResponseCallAdapterFactory
+import com.skydoves.sandwich.retrofit.adapters.ApiResponseCallAdapterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
